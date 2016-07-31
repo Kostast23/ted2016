@@ -1,8 +1,12 @@
 package gr.uoa.di.api;
 
+import gr.uoa.di.dao.CategoryEntity;
+import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.LoginDto;
 import gr.uoa.di.dto.RegisterDto;
+import gr.uoa.di.repo.CategoryRepository;
+import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -70,6 +74,8 @@ public class UserService {
         String encPass = sha1(sha1(request.getPassword()) + user.getSalt());
         if (!encPass.equals(user.getPassword())) {
             throw new LoginException();
+        } else if (!user.getValidated()) {
+            throw new NotValidatedException();
         }
 
         Calendar cal = Calendar.getInstance();
@@ -89,9 +95,29 @@ public class UserService {
         return Collections.singletonMap("jwt", jws);
     }
 
+
+    @Autowired
+    ItemRepository repo2;
+    @Autowired
+    CategoryRepository repo3;
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public String test() {
-        return "okay";
+        ItemEntity a = new ItemEntity();
+        CategoryEntity c = new CategoryEntity();
+        c.setName("helo");
+        a.setName("werld!!");
+        a.setOwner(userRepo.findOneByUsername("admin"));
+        a.setCategories(Collections.singletonList(c));
+        repo3.save(c);
+        repo2.save(a);
+        return "ok!";
+    }
+
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    public class NotValidatedException extends AuthenticationException {
+        public NotValidatedException() {
+            super("User has not yet been validated, plase try again later");
+        }
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)

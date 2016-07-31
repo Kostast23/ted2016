@@ -20,10 +20,10 @@ public class ItemEntity {
     private Double lat;
     private Double lon;
     private String country;
-    private Date start;
-    private Date end;
+    private Date startDate;
+    private Date endDate;
     private List<ItemPicturesEntity> pictures;
-    private BidEntity user;
+    private UserEntity owner;
     private List<BidEntity> bids;
     private List<CategoryEntity> categories;
 
@@ -130,23 +130,23 @@ public class ItemEntity {
     }
 
     @Basic
-    @Column(name = "start")
-    public Date getStart() {
-        return start;
+    @Column(name = "startdate")
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Basic
-    @Column(name = "end")
-    public Date getEnd() {
-        return end;
+    @Column(name = "enddate")
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override
@@ -166,8 +166,8 @@ public class ItemEntity {
         if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
         if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
         if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (start != null ? !start.equals(that.start) : that.start != null) return false;
-        if (end != null ? !end.equals(that.end) : that.end != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
 
         return true;
     }
@@ -184,8 +184,8 @@ public class ItemEntity {
         result = 31 * result + (lat != null ? lat.hashCode() : 0);
         result = 31 * result + (lon != null ? lon.hashCode() : 0);
         result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (start != null ? start.hashCode() : 0);
-        result = 31 * result + (end != null ? end.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         return result;
     }
 
@@ -199,13 +199,13 @@ public class ItemEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public BidEntity getUser() {
-        return user;
+    @JoinColumn(name = "owner", referencedColumnName = "id", nullable = false)
+    public UserEntity getOwner() {
+        return owner;
     }
 
-    public void setUser(BidEntity user) {
-        this.user = user;
+    public void setOwner(UserEntity user) {
+        this.owner = user;
     }
 
     @OneToMany(mappedBy = "item")

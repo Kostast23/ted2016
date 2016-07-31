@@ -12,7 +12,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'js/partials/index.html',
             controller: 'UserController'
         })
-        .state('store', {
+        .state('main', {
+            abstract: true,
+            templateUrl: 'js/partials/main.html',
+            controller: function($window) {
+                delete $window.sessionStorage.jwt;
+            }
+        })
+        .state('main.store', {
             url: '/store',
             templateUrl: 'js/partials/store.html',
             controller: 'StoreController'

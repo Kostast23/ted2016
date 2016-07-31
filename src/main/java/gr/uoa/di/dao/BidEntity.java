@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "bid", schema = "public", catalog = "ted")
@@ -13,9 +12,8 @@ public class BidEntity {
     private int id;
     private Date time;
     private Integer amount;
-    private List<ItemEntity> items;
     private ItemEntity item;
-    private UserEntity user;
+    private UserEntity owner;
 
     @Id
     @Generated(GenerationTime.INSERT)
@@ -71,15 +69,6 @@ public class BidEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "user")
-    public List<ItemEntity> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemEntity> items) {
-        this.items = items;
-    }
-
     @ManyToOne
     @JoinColumn(name = "item", referencedColumnName = "id", nullable = false)
     public ItemEntity getItem() {
@@ -91,12 +80,12 @@ public class BidEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
-    public UserEntity getUser() {
-        return user;
+    @JoinColumn(name = "owner", referencedColumnName = "id", nullable = false)
+    public UserEntity getOwner() {
+        return owner;
     }
 
-    public void setUser(UserEntity user) {
-        this.user = user;
+    public void setOwner(UserEntity user) {
+        this.owner = user;
     }
 }

@@ -29,6 +29,7 @@ public class UserEntity {
     private List<MessageEntity> sentMessages;
     private List<MessageEntity> receivedMessages;
     private List<BidEntity> bids;
+    private List<ItemEntity> items;
 
     @Id
     @Generated(GenerationTime.INSERT)
@@ -270,12 +271,21 @@ public class UserEntity {
         this.receivedMessages = receivedMessages;
     }
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     public List<BidEntity> getBids() {
         return bids;
     }
 
     public void setBids(List<BidEntity> bids) {
         this.bids = bids;
+    }
+
+    @OneToMany(mappedBy = "owner")
+    public List<ItemEntity> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemEntity> items) {
+        this.items = items;
     }
 }

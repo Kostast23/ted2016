@@ -29,7 +29,6 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class).authorizeRequests()
                 .antMatchers("/api/user/**").authenticated()
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .antMatchers("/api/test").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();
     }
 }
