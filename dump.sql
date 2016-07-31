@@ -44,7 +44,7 @@ CREATE TABLE "user" (
     email text,
     phone text,
     afm text,
-    location text,
+    country text,
     lat double precision,
     lon double precision,
     country text,
@@ -68,7 +68,7 @@ CREATE TABLE item (
     buyprice integer,
     currentbid integer,
     firstbid integer,
-    location text,
+    country text,
     lat double precision,
     lon double precision,
     country text,
@@ -353,7 +353,7 @@ SELECT pg_catalog.setval('table_name_id_seq', 1, false);
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-INSERT INTO "user" VALUES (0, 'admin', 'e3ac012321d0c481cfcef761ac195f028be01b0e', '229e2ddd369d93b6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO "user" VALUES (0, 'admin', 'e3ac012321d0c481cfcef761ac195f028be01b0e', '229e2ddd369d93b6', true, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 
 --

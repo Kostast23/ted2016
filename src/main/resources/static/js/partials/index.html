@@ -1,0 +1,84 @@
+<h1>Index</h1>
+<hr/>
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Login</h3>
+        <form name="loginForm" ng-submit="doLogin()">
+            <div class="form-group">
+                <label for="lusername">Username</label>
+                <input type="text" class="form-control" id="lusername" ng-model="login.username" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <label for="lpassword">Password</label>
+                <input type="password" class="form-control" id="lpassword" ng-model="login.password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <div class="alert alert-danger" ng-show="loginError">
+                <strong>Error!</strong> {{ loginError }}
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-6">
+        <h3>Register</h3>
+        <form name="regForm" ng-submit="doRegister(regForm)">
+            <div class="form-group">
+                <label for="rusername">Username</label>
+                <input type="text" class="form-control" id="rusername" ng-model="register.username" placeholder="Username" required>
+            </div>
+            <div class="form-group" ng-class="{'has-error': pwNoMatch}">
+                <label for="rpassword">Password</label>
+                <input type="password" class="form-control" id="rpassword" ng-model="register.password" placeholder="Password" required>
+            </div>
+            <div class="form-group" ng-class="{'has-error': pwNoMatch}">
+                <label for="rpassword2">Repeat password</label>
+                <input type="password" class="form-control" id="rpassword2" ng-model="register.password2" placeholder="Password" required>
+            </div>
+            <div class="alert alert-danger" ng-show="pwNoMatch">
+                <strong>Error!</strong> The passwords do not match.
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" ng-model="register.name" placeholder="Name" required>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname</label>
+                <input type="text" class="form-control" id="surname" ng-model="register.surname" placeholder="Surname" required>
+            </div>
+            <div class="form-group">
+                <label for="email">email</label>
+                <input type="email" class="form-control" id="email" ng-model="register.email" placeholder="email" required>
+            </div>
+            <div class="form-group">
+                <label for="telephone">telephone</label>
+                <input type="text" class="form-control" id="telephone" ng-model="register.telephone" placeholder="telephone" required>
+            </div>
+            <div class="form-group">
+                <label for="address">address</label>
+                <input type="text" class="form-control" id="address" ng-model="register.address" placeholder="address" required>
+            </div>
+            <div class="form-group">
+                <label for="country">country</label>
+                <input type="text" class="form-control" id="country" ng-model="register.country" placeholder="country" required>
+            </div>
+            <div class="form-group">
+                <label for="latitude">latitude</label>
+                <input type="number" class="form-control" id="latitude" ng-model="register.latitude" placeholder="latitude">
+            </div>
+            <div class="form-group">
+                <label for="longitude">longitude</label>
+                <input type="number" class="form-control" id="longitude" ng-model="register.longitude" placeholder="longitude">
+            </div>
+            <div class="form-group">
+                <label for="afm">afm</label>
+                <input type="text" class="form-control" id="afm" ng-model="register.afm" placeholder="afm" required>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <div class="alert alert-success" ng-show="registerSuccess">
+                Your registration was successful! The administrator should approve your account shortly.
+            </div>
+            <div class="alert alert-danger" ng-show="registerError">
+                <strong>Error!</strong> {{ registerError }}
+            </div>
+        </form>
+    </div>
+</div>

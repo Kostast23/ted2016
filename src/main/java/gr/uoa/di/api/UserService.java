@@ -31,7 +31,13 @@ public class UserService {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public void register(@RequestBody RegisterDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (userRepo.findOneByUsername(request.getUsername()) != null) {
+        if (!request.getPassword().equals(request.getPassword2())) {
+            throw new PasswordMatchingException();
+        } else if (request.getPassword().length() < 8) {
+            throw new PasswordLengthException();
+        } else if (!request.getEmail().contains("@")) {
+            throw new EmailException();
+        } else if (userRepo.findOneByUsername(request.getUsername()) != null) {
             throw new UserAlreadyExistsException();
         }
         UserEntity dto = new UserEntity();
@@ -40,6 +46,15 @@ public class UserService {
         String encPass = sha1(sha1(request.getPassword()) + salt);
         dto.setPassword(encPass);
         dto.setSalt(salt);
+        dto.setName(request.getName());
+        dto.setSurname(request.getSurname());
+        dto.setEmail(request.getEmail());
+        dto.setPhone(request.getTelephone());
+        dto.setLocation(request.getAddress());
+        dto.setCountry(request.getCountry());
+        dto.setLat(request.getLatitude());
+        dto.setLon(request.getLongitude());
+        dto.setAfm(request.getAfm());
         userRepo.save(dto);
     }
 
@@ -86,6 +101,26 @@ public class UserService {
         }
     }
 
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public class EmailException extends AuthenticationException {
+        public EmailException() {
+            super("Invalid email");
+        }
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public class PasswordMatchingException extends AuthenticationException {
+        public PasswordMatchingException() {
+            super("Passwords don't match");
+        }
+    }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public class PasswordLengthException extends AuthenticationException {
+        public PasswordLengthException() {
+            super("Password is too short");
+        }
+    }
 
     @ResponseStatus(code = HttpStatus.CONFLICT)
     public class UserAlreadyExistsException extends RuntimeException {

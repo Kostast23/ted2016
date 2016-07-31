@@ -23,9 +23,9 @@ public class UserEntity {
     private Double lat;
     private Double lon;
     private String country;
-    private Integer buyerrating;
-    private Integer sellerrating;
-    private Boolean validated;
+    private Integer buyerrating = 0;
+    private Integer sellerrating = 0;
+    private Boolean validated = false;
     private List<MessageEntity> sentMessages;
     private List<MessageEntity> receivedMessages;
     private List<BidEntity> bids;
