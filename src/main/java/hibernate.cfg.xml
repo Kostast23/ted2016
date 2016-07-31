@@ -6,7 +6,12 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/ted</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <mapping class="gr.uoa.di.dao.UserDao"/>
+        <mapping class="gr.uoa.di.dao.BidEntity"/>
+        <mapping class="gr.uoa.di.dao.CategoryEntity"/>
+        <mapping class="gr.uoa.di.dao.ItemEntity"/>
+        <mapping class="gr.uoa.di.dao.ItemPicturesEntity"/>
+        <mapping class="gr.uoa.di.dao.MessageEntity"/>
+        <mapping class="gr.uoa.di.dao.UserEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>
