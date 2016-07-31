@@ -27,6 +27,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        Authentication token = new AuthToken();
         String auth = request.getHeader("Authorization");
 
         if (auth != null && auth.startsWith(BEARER)) {
@@ -37,13 +38,12 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                     .parseClaimsJws(jwt);
             Claims claimsBody = claims.getBody();
 
-            if (claimsBody.getExpiration().after(new Date())) {
-                System.out.println(claimsBody.get("user", String.class));
+            if (claimsBody.getExpiration().after(new Date()) && claimsBody.containsKey("user")) {
+                boolean isAdmin = claimsBody.containsKey("admin") && claimsBody.get("admin", Boolean.class);
+                token = new AuthToken(claimsBody.get("user", String.class), isAdmin);
             }
         }
 
-        // Create our Authentication and let Spring know about it
-        Authentication token = new AuthToken(1, 1);
         SecurityContextHolder.getContext().setAuthentication(token);
 
         filterChain.doFilter(request, response);

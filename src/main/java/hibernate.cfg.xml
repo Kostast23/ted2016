@@ -6,7 +6,7 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/ted</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <mapping class="gr.uoa.di.dto.UserDto"/>
+        <mapping class="gr.uoa.di.dao.UserDao"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

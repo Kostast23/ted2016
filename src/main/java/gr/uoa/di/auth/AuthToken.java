@@ -1,9 +1,31 @@
 package gr.uoa.di.auth;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-public class AuthToken extends UsernamePasswordAuthenticationToken {
-    public AuthToken(Object principal, Object credentials) {
-        super(principal, credentials);
+import java.util.Collections;
+
+public class AuthToken extends AbstractAuthenticationToken {
+    private final Object principal;
+
+    public AuthToken() {
+        super(null);
+        principal = null;
+        setAuthenticated(false);
+    }
+
+    public AuthToken(Object principal, boolean isAdmin) {
+        super(isAdmin ? Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN")) : null);
+        this.principal = principal;
+    }
+
+    @Override
+    public Object getCredentials() {
+        return null;
+    }
+
+    @Override
+    public Object getPrincipal() {
+        return principal;
     }
 }
