@@ -1,22 +1,31 @@
 package gr.uoa.di.dto;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+
 import javax.persistence.*;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "ted")
 public class UserDto {
-    private int id;
+    private Integer id;
     private String password;
     private String salt;
     private String username;
 
     @Id
-    @Column(name = "id")
-    public int getId() {
+    @Generated(GenerationTime.INSERT)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", columnDefinition = "serial")
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -72,5 +81,14 @@ public class UserDto {
         result = 31 * result + (salt != null ? salt.hashCode() : 0);
         result = 31 * result + (username != null ? username.hashCode() : 0);
         return result;
+    }
+
+    public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+        crypt.reset();
+        crypt.update(text.getBytes("UTF-8"));
+
+        return new BigInteger(1, crypt.digest()).toString(16);
     }
 }
