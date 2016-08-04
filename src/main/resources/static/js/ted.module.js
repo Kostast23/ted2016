@@ -1,11 +1,22 @@
 var app = angular.module('tedApp', ['ui.router']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-    //
-    // For any unmatched url, redirect to /state1
+app.factory('httpAuthInterceptor', function ($window) {
+    return {
+        request: function (config) {
+            var jwt = $window.localStorage.jwt;
+            if (jwt) {
+                config.headers['Authorization'] = 'Bearer ' + jwt;
+            }
+
+            return config;
+        }
+    };
+});
+
+app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
+    $httpProvider.interceptors.push('httpAuthInterceptor');
     $urlRouterProvider.otherwise("/index");
-    //
-    // Now set up the states
+
     $stateProvider
         .state('index', {
             url: '/index',
@@ -15,13 +26,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('main', {
             abstract: true,
             templateUrl: 'js/partials/main.html',
-            controller: function($window) {
-                delete $window.sessionStorage.jwt;
+            controller: function($scope, $window) {
+                $scope.admin = $window.localStorage.admin;
+                $scope.doLogout = function() {
+                    delete $window.localStorage.jwt;
+                }
             }
         })
         .state('main.store', {
             url: '/store',
             templateUrl: 'js/partials/store.html',
             controller: 'StoreController'
+        })
+        .state('main.admin', {
+            url: '/admin',
+            templateUrl: 'js/partials/admin.html',
+            controller: 'AdminController'
         });
 });

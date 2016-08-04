@@ -1,5 +1,6 @@
 package gr.uoa.di.dao;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -253,6 +254,7 @@ public class UserEntity {
         return result;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "from")
     public List<MessageEntity> getSentMessages() {
         return sentMessages;
@@ -262,6 +264,7 @@ public class UserEntity {
         this.sentMessages = sentMessages;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "to")
     public List<MessageEntity> getReceivedMessages() {
         return receivedMessages;
@@ -271,6 +274,7 @@ public class UserEntity {
         this.receivedMessages = receivedMessages;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     public List<BidEntity> getBids() {
         return bids;
@@ -280,6 +284,7 @@ public class UserEntity {
         this.bids = bids;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner")
     public List<ItemEntity> getItems() {
         return items;

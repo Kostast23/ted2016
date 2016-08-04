@@ -1,12 +1,8 @@
 package gr.uoa.di.api;
 
-import gr.uoa.di.dao.CategoryEntity;
-import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.LoginDto;
 import gr.uoa.di.dto.RegisterDto;
-import gr.uoa.di.repo.CategoryRepository;
-import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -81,10 +77,9 @@ public class UserService {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.MONTH, 1);
 
-        Map<String, Object> claims = new HashMap(Collections.singletonMap("user", request.getUsername()));
-        if (user.getAdmin() != null && user.getAdmin()) {
-            claims.put("admin", true);
-        }
+        Map<String, Object> claims = new HashMap();
+        claims.put("user", request.getUsername());
+        claims.put("admin", user.getAdmin() != null && user.getAdmin());
 
         String jws = Jwts.builder()
                 .setClaims(claims)
@@ -93,24 +88,6 @@ public class UserService {
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
         return Collections.singletonMap("jwt", jws);
-    }
-
-
-    @Autowired
-    ItemRepository repo2;
-    @Autowired
-    CategoryRepository repo3;
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String test() {
-        ItemEntity a = new ItemEntity();
-        CategoryEntity c = new CategoryEntity();
-        c.setName("helo");
-        a.setName("werld!!");
-        a.setOwner(userRepo.findOneByUsername("admin"));
-        a.setCategories(Collections.singletonList(c));
-        repo3.save(c);
-        repo2.save(a);
-        return "ok!";
     }
 
     @ResponseStatus(code = HttpStatus.FORBIDDEN)

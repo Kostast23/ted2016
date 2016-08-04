@@ -1,4 +1,7 @@
 logged in grats~~
-<div class="pull-right"><a ui-sref="index" ng-click="doLogout()">Log out</a></div>
+<div class="pull-right">
+    <div ng-show="admin"><a ui-sref="main.admin">Administrator panel</a></div>
+    <div><a ui-sref="index" ng-click="doLogout()">Log out</a></div>
+</div>
 <hr />
 <div ui-view></div>

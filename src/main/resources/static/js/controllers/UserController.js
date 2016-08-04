@@ -1,10 +1,6 @@
 app.controller('UserController', function($scope, $http, $window, $state) {
-    var jwt = $window.sessionStorage.jwt;
-    if (jwt) {
-        $http.defaults.headers.common.Authorization = 'Bearer ' + jwt;
-    $state.go('main.store');
-    } else {
-        $http.defaults.headers.common.Authorization = null;
+    if ($window.localStorage.jwt) {
+        $state.go('main.store');
     }
 
     $scope.doLogin = function() {
@@ -12,7 +8,9 @@ app.controller('UserController', function($scope, $http, $window, $state) {
             console.log('Login success!');
             $scope.loginError = undefined;
             var jwt = resp.data.jwt;
-            $window.sessionStorage.jwt = jwt;
+            var jwtObj = JSON.parse(atob(jwt.split('.')[1]));
+            $window.localStorage.jwt = jwt;
+            $window.localStorage.admin = jwtObj.admin;
             $http.defaults.headers.common.Authorization = 'Bearer ' + jwt;
             $state.go('main.store');
         }, function (err) {
