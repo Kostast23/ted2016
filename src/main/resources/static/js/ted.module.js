@@ -1,18 +1,5 @@
 var app = angular.module('tedApp', ['ui.router']);
 
-app.factory('httpAuthInterceptor', function ($window) {
-    return {
-        request: function (config) {
-            var jwt = $window.localStorage.jwt;
-            if (jwt) {
-                config.headers['Authorization'] = 'Bearer ' + jwt;
-            }
-
-            return config;
-        }
-    };
-});
-
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
     $urlRouterProvider.otherwise("/index");
@@ -26,12 +13,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main', {
             abstract: true,
             templateUrl: 'js/partials/main.html',
-            controller: function($scope, $window) {
-                $scope.admin = $window.localStorage.admin;
-                $scope.doLogout = function() {
-                    delete $window.localStorage.jwt;
-                }
-            }
+            controller: 'MainController'
         })
         .state('main.store', {
             url: '/store',
@@ -44,3 +26,11 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             controller: 'AdminController'
         });
 });
+
+app.run(['$window', 'AuthService', function($window, AuthService) {
+    // keep user logged in after page refresh
+    var jwt = $window.localStorage.getItem('jwt');
+    if (jwt) {
+        AuthService.setUser(jwt);
+    }
+}]);

@@ -3,13 +3,12 @@ package gr.uoa.di.api;
 import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
+import gr.uoa.di.exception.user.UserNotFoundException;
 import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
@@ -29,15 +28,33 @@ public class AdminService {
     @Value("${secret_key}")
     private String secretKey;
 
-    @RequestMapping(value = "/awaitingValidation", method = RequestMethod.GET)
-    public List<UserEntity> awaitingValidation() {
+    @RequestMapping(value = "/not_validated", method = RequestMethod.GET)
+    public List<UserEntity> notValidated() {
         return userRepo.findByValidatedFalse();
     }
 
-
-    @RequestMapping(value = "/validateUser/{userId}", method = RequestMethod.GET)
-    public void validateUser(@PathVariable long userId) {
+    @RequestMapping(value = "/not_validated/{userId}", method = RequestMethod.GET)
+    public UserEntity notValidatedUser(@PathVariable int userId) {
         UserEntity user = userRepo.findOneById(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
+
+    @RequestMapping(value = "/validated", method = RequestMethod.GET)
+    public List<UserEntity> validated() {
+        return userRepo.findByValidatedTrue();
+    }
+
+    @RequestMapping(value = "/validate/{userId}", method = RequestMethod.GET)
+    public void validateUser(@PathVariable int userId) {
+        UserEntity user = userRepo.findOneById(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        } else if (user.getValidated()) {
+
+        }
         user.setValidated(true);
         userRepo.save(user);
     }
@@ -58,48 +75,6 @@ public class AdminService {
         repo3.save(c);
         repo2.save(a);
         return "ok!";
-    }
-
-    @ResponseStatus(code = HttpStatus.FORBIDDEN)
-    public class NotValidatedException extends AuthenticationException {
-        public NotValidatedException() {
-            super("User has not yet been validated, plase try again later");
-        }
-    }
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public class LoginException extends AuthenticationException {
-        public LoginException() {
-            super("Invalid credentials");
-        }
-    }
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public class EmailException extends AuthenticationException {
-        public EmailException() {
-            super("Invalid email");
-        }
-    }
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public class PasswordMatchingException extends AuthenticationException {
-        public PasswordMatchingException() {
-            super("Passwords don't match");
-        }
-    }
-
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public class PasswordLengthException extends AuthenticationException {
-        public PasswordLengthException() {
-            super("Password is too short");
-        }
-    }
-
-    @ResponseStatus(code = HttpStatus.CONFLICT)
-    public class UserAlreadyExistsException extends RuntimeException {
-        public UserAlreadyExistsException() {
-            super("User already exists");
-        }
     }
 
     public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
