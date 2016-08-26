@@ -1,13 +1,13 @@
 var app = angular.module('tedApp', ['ui.router']);
 
-app.factory('httpAuthInterceptor', function ($window) {
+app.factory('httpAuthInterceptor', function ($injector) {
     return {
         request: function (config) {
-            var jwt = $window.localStorage.jwt;
+        	var AuthService = $injector.get('AuthService');
+            var jwt = AuthService.user.jwt;
             if (jwt) {
                 config.headers['Authorization'] = 'Bearer ' + jwt;
             }
-
             return config;
         }
     };
@@ -26,12 +26,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main', {
             abstract: true,
             templateUrl: 'js/partials/main.html',
-            controller: function($scope, $window) {
-                $scope.admin = $window.localStorage.admin;
-                $scope.doLogout = function() {
-                    delete $window.localStorage.jwt;
-                }
-            }
+            controller: 'MainController'
         })
         .state('main.store', {
             url: '/store',
