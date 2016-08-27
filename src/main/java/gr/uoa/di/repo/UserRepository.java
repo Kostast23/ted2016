@@ -9,6 +9,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     UserEntity findOneById(int userId);
     UserEntity findOneByUsername(String username);
 
+    List<UserEntity> findAll();
     List<UserEntity> findByValidatedFalse();
-    List<UserEntity> findByValidatedTrue();
 }

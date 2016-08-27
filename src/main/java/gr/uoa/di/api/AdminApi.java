@@ -19,13 +19,18 @@ public class AdminApi {
     @Value("${secret_key}")
     private String secretKey;
 
-    @RequestMapping(value = "/not_validated", method = RequestMethod.GET)
-    public List<UserEntity> notValidated() {
+    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    public List<UserEntity> getUsers() {
+        return userRepo.findAll();
+    }
+
+    @RequestMapping(value = "/users/not_validated", method = RequestMethod.GET)
+    public List<UserEntity> getNotValidatedUsers() {
         return userRepo.findByValidatedFalse();
     }
 
-    @RequestMapping(value = "/not_validated/{userId}", method = RequestMethod.GET)
-    public UserEntity notValidatedUser(@PathVariable int userId) {
+    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
+    public UserEntity getUser(@PathVariable int userId) {
         UserEntity user = userRepo.findOneById(userId);
         if (user == null) {
             throw new UserNotFoundException();
@@ -33,12 +38,7 @@ public class AdminApi {
         return user;
     }
 
-    @RequestMapping(value = "/validated", method = RequestMethod.GET)
-    public List<UserEntity> validated() {
-        return userRepo.findByValidatedTrue();
-    }
-
-    @RequestMapping(value = "/validate/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{userId}/validate", method = RequestMethod.GET)
     public void validateUser(@PathVariable int userId) {
         UserEntity user = userRepo.findOneById(userId);
         if (user == null) {
