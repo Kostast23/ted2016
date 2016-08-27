@@ -4,6 +4,7 @@ import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.user.UserLoginDto;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.exception.user.*;
+import gr.uoa.di.mapper.UserMapper;
 import gr.uoa.di.repo.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -28,36 +29,29 @@ public class UserService {
     @Autowired
     private UserRepository userRepo;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Value("${secret_key}")
     private String secretKey;
 
-    public void register(UserRegisterDto request)
+    public void register(UserRegisterDto dto)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        if (!request.getPassword().equals(request.getPassword2())) {
+        if (!dto.getPassword().equals(dto.getPassword2())) {
             throw new UserService.PasswordMatchingException();
-        } else if (request.getPassword().length() < 8) {
+        } else if (dto.getPassword().length() < 8) {
             throw new UserService.PasswordLengthException();
-        } else if (!request.getEmail().contains("@")) {
+        } else if (!dto.getEmail().contains("@")) {
             throw new UserService.EmailException();
-        } else if (userRepo.findOneByUsername(request.getUsername()) != null) {
+        } else if (userRepo.findOneByUsername(dto.getUsername()) != null) {
             throw new UserAlreadyExistsException();
         }
-        UserEntity dto = new UserEntity();
-        dto.setUsername(request.getUsername());
+        UserEntity user = userMapper.mapUserRegisterDtoToUserEntity(dto);
         String salt = Long.toHexString(new Random().nextLong());
-        String encPass = sha1(sha1(request.getPassword()) + salt);
-        dto.setPassword(encPass);
-        dto.setSalt(salt);
-        dto.setName(request.getName());
-        dto.setSurname(request.getSurname());
-        dto.setEmail(request.getEmail());
-        dto.setPhone(request.getTelephone());
-        dto.setLocation(request.getAddress());
-        dto.setCountry(request.getCountry());
-        dto.setLat(request.getLatitude());
-        dto.setLon(request.getLongitude());
-        dto.setAfm(request.getAfm());
-        userRepo.save(dto);
+        String encPass = sha1(sha1(dto.getPassword()) + salt);
+        user.setPassword(encPass);
+        user.setSalt(salt);
+        userRepo.save(user);
     }
 
     public Map<String, String> login(UserLoginDto request)
@@ -69,7 +63,6 @@ public class UserService {
         } else if (!user.getValidated()) {
             throw new UserNotValidatedException();
         }
-
         return Collections.singletonMap("jwt", createJwt(user));
     }
 
