@@ -1,7 +1,7 @@
 package gr.uoa.di.api;
 
-import gr.uoa.di.dto.LoginDto;
-import gr.uoa.di.dto.RegisterDto;
+import gr.uoa.di.dto.user.UserLoginDto;
+import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,14 +22,14 @@ public class UserApi {
     private String secretKey;
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(@RequestBody RegisterDto request)
+    public void register(@RequestBody UserRegisterDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         userService.register(request);
     }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Map<String, String> login(@RequestBody LoginDto request)
+    public Map<String, String> login(@RequestBody UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         return userService.login(request);
     }

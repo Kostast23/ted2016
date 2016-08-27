@@ -1,8 +1,8 @@
 package gr.uoa.di.service;
 
 import gr.uoa.di.dao.UserEntity;
-import gr.uoa.di.dto.LoginDto;
-import gr.uoa.di.dto.RegisterDto;
+import gr.uoa.di.dto.user.UserLoginDto;
+import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.exception.user.*;
 import gr.uoa.di.repo.UserRepository;
 import io.jsonwebtoken.Jwts;
@@ -31,7 +31,7 @@ public class UserService {
     @Value("${secret_key}")
     private String secretKey;
 
-    public void register(RegisterDto request)
+    public void register(UserRegisterDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if (!request.getPassword().equals(request.getPassword2())) {
             throw new UserService.PasswordMatchingException();
@@ -60,7 +60,7 @@ public class UserService {
         userRepo.save(dto);
     }
 
-    public Map<String, String> login(LoginDto request)
+    public Map<String, String> login(UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UserEntity user = getUser(request.getUsername());
         String encPass = sha1(sha1(request.getPassword()) + user.getSalt());
