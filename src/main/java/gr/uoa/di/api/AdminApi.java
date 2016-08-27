@@ -1,26 +1,17 @@
 package gr.uoa.di.api;
 
-import gr.uoa.di.dao.CategoryEntity;
-import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.exception.user.UserNotFoundException;
-import gr.uoa.di.repo.CategoryRepository;
-import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/admin")
-public class AdminService {
+public class AdminApi {
 
     @Autowired
     private UserRepository userRepo;
@@ -57,32 +48,5 @@ public class AdminService {
         }
         user.setValidated(true);
         userRepo.save(user);
-    }
-
-
-    @Autowired
-    ItemRepository repo2;
-    @Autowired
-    CategoryRepository repo3;
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
-    public String test() {
-        ItemEntity a = new ItemEntity();
-        CategoryEntity c = new CategoryEntity();
-        c.setName("helo");
-        a.setName("werld!!");
-        a.setOwner(userRepo.findOneByUsername("admin"));
-        a.setCategories(Collections.singletonList(c));
-        repo3.save(c);
-        repo2.save(a);
-        return "ok!";
-    }
-
-    public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
-        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-        crypt.reset();
-        crypt.update(text.getBytes("UTF-8"));
-
-        return new BigInteger(1, crypt.digest()).toString(16);
     }
 }
