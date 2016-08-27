@@ -1,8 +1,7 @@
 package gr.uoa.di.api;
 
 import gr.uoa.di.dao.UserEntity;
-import gr.uoa.di.exception.user.UserNotFoundException;
-import gr.uoa.di.repo.UserRepository;
+import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -14,39 +13,28 @@ import java.util.List;
 public class AdminApi {
 
     @Autowired
-    private UserRepository userRepo;
+    private UserService userService;
 
     @Value("${secret_key}")
     private String secretKey;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public List<UserEntity> getUsers() {
-        return userRepo.findAll();
+        return userService.getUsers();
     }
 
     @RequestMapping(value = "/users/not_validated", method = RequestMethod.GET)
     public List<UserEntity> getNotValidatedUsers() {
-        return userRepo.findByValidatedFalse();
+        return userService.getNotValidatedUsers();
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
     public UserEntity getUser(@PathVariable int userId) {
-        UserEntity user = userRepo.findOneById(userId);
-        if (user == null) {
-            throw new UserNotFoundException();
-        }
-        return user;
+        return userService.getUser(userId);
     }
 
     @RequestMapping(value = "/users/{userId}/validate", method = RequestMethod.GET)
     public void validateUser(@PathVariable int userId) {
-        UserEntity user = userRepo.findOneById(userId);
-        if (user == null) {
-            throw new UserNotFoundException();
-        } else if (user.getValidated()) {
-
-        }
-        user.setValidated(true);
-        userRepo.save(user);
+        userService.validateUser(userId);
     }
 }

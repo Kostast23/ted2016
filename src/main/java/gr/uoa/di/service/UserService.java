@@ -62,11 +62,7 @@ public class UserService {
 
     public Map<String, String> login(LoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        UserEntity user = userRepo.findOneByUsername(request.getUsername());
-        if (user == null) {
-            throw new UserLoginException();
-        }
-
+        UserEntity user = getUser(request.getUsername());
         String encPass = sha1(sha1(request.getPassword()) + user.getSalt());
         if (!encPass.equals(user.getPassword())) {
             throw new UserLoginException();
@@ -75,6 +71,39 @@ public class UserService {
         }
 
         return Collections.singletonMap("jwt", createJwt(user));
+    }
+
+    public List<UserEntity> getUsers() {
+        return userRepo.findAll();
+    }
+
+    public List<UserEntity> getNotValidatedUsers() {
+        return userRepo.findByValidatedFalse();
+    }
+
+    public void validateUser(int userId) {
+        UserEntity user = getUser(userId);
+        if (user.getValidated()) {
+            throw new UserAlreadyValidatedException();
+        }
+        user.setValidated(true);
+        userRepo.save(user);
+    }
+
+    public UserEntity getUser(int userId) {
+        UserEntity user = userRepo.findOneById(userId);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
+    }
+
+    public UserEntity getUser(String username) {
+        UserEntity user = userRepo.findOneByUsername(username);
+        if (user == null) {
+            throw new UserNotFoundException();
+        }
+        return user;
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)

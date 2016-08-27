@@ -1,14 +1,10 @@
 package gr.uoa.di.exception;
 
-import gr.uoa.di.exception.user.UserLoginException;
-import gr.uoa.di.exception.user.UserNotValidatedException;
-import gr.uoa.di.exception.user.UserAlreadyExistsException;
+import gr.uoa.di.exception.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import gr.uoa.di.exception.user.UserNotFoundException;
 
 @ControllerAdvice
 public class ExceptionControllerAdvice {
@@ -31,7 +27,7 @@ public class ExceptionControllerAdvice {
                 (createErrorResponse(HttpStatus.FORBIDDEN, ex), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
+    @ExceptionHandler({ UserAlreadyExistsException.class, UserAlreadyValidatedException.class })
     public ResponseEntity<ErrorResponse> conflict(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.CONFLICT, ex), HttpStatus.CONFLICT);
