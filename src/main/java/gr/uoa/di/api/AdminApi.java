@@ -1,6 +1,6 @@
 package gr.uoa.di.api;
 
-import gr.uoa.di.dao.UserEntity;
+import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,17 +19,17 @@ public class AdminApi {
     private String secretKey;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<UserEntity> getUsers() {
+    public List<UserResponseDto> getUsers() {
         return userService.getUsers();
     }
 
     @RequestMapping(value = "/users/not_validated", method = RequestMethod.GET)
-    public List<UserEntity> getNotValidatedUsers() {
+    public List<UserResponseDto> getNotValidatedUsers() {
         return userService.getNotValidatedUsers();
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-    public UserEntity getUser(@PathVariable int userId) {
+    public UserResponseDto getUser(@PathVariable int userId) {
         return userService.getUser(userId);
     }
 

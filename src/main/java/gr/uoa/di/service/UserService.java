@@ -3,6 +3,7 @@ package gr.uoa.di.service;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.user.UserLoginDto;
 import gr.uoa.di.dto.user.UserRegisterDto;
+import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.exception.user.*;
 import gr.uoa.di.mapper.UserMapper;
 import gr.uoa.di.repo.UserRepository;
@@ -56,7 +57,7 @@ public class UserService {
 
     public Map<String, String> login(UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        UserEntity user = getUser(request.getUsername());
+        UserEntity user = getUserEntity(request.getUsername());
         String encPass = sha1(sha1(request.getPassword()) + user.getSalt());
         if (!encPass.equals(user.getPassword())) {
             throw new UserLoginException();
@@ -66,16 +67,20 @@ public class UserService {
         return Collections.singletonMap("jwt", createJwt(user));
     }
 
-    public List<UserEntity> getUsers() {
-        return userRepo.findAll();
+    public UserResponseDto getUser(int id) {
+        return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
     }
 
-    public List<UserEntity> getNotValidatedUsers() {
-        return userRepo.findByValidatedFalse();
+    public List<UserResponseDto> getUsers() {
+        return userMapper.mapUserEntityListToUserResponseDtoList(userRepo.findAll());
+    }
+
+    public List<UserResponseDto> getNotValidatedUsers() {
+        return userMapper.mapUserEntityListToUserResponseDtoList(userRepo.findByValidatedFalse());
     }
 
     public void validateUser(int userId) {
-        UserEntity user = getUser(userId);
+        UserEntity user = getUserEntity(userId);
         if (user.getValidated()) {
             throw new UserAlreadyValidatedException();
         }
@@ -83,7 +88,7 @@ public class UserService {
         userRepo.save(user);
     }
 
-    public UserEntity getUser(int userId) {
+    private UserEntity getUserEntity(int userId) {
         UserEntity user = userRepo.findOneById(userId);
         if (user == null) {
             throw new UserNotFoundException();
@@ -91,7 +96,7 @@ public class UserService {
         return user;
     }
 
-    public UserEntity getUser(String username) {
+    private UserEntity getUserEntity(String username) {
         UserEntity user = userRepo.findOneByUsername(username);
         if (user == null) {
             throw new UserNotFoundException();

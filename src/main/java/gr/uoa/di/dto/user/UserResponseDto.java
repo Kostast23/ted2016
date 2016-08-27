@@ -1,9 +1,8 @@
 package gr.uoa.di.dto.user;
 
-public class UserRegisterDto {
+public class UserResponseDto {
+    private int id;
     private String username;
-    private String password;
-    private String password2;
     private String name;
     private String surname;
     private String email;
@@ -13,6 +12,16 @@ public class UserRegisterDto {
     private Double latitude;
     private Double longitude;
     private String afm;
+    private Integer buyerrating;
+    private Integer sellerrating;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -20,22 +29,6 @@ public class UserRegisterDto {
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPassword2() {
-        return password2;
-    }
-
-    public void setPassword2(String password2) {
-        this.password2 = password2;
     }
 
     public String getName() {
@@ -110,4 +103,19 @@ public class UserRegisterDto {
         this.afm = afm;
     }
 
+    public Integer getBuyerrating() {
+        return buyerrating;
+    }
+
+    public void setBuyerrating(Integer buyerrating) {
+        this.buyerrating = buyerrating;
+    }
+
+    public Integer getSellerrating() {
+        return sellerrating;
+    }
+
+    public void setSellerrating(Integer sellerrating) {
+        this.sellerrating = sellerrating;
+    }
 }
