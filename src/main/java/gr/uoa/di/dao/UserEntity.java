@@ -14,7 +14,6 @@ public class UserEntity {
     private String username;
     private String password;
     private String salt;
-    private Boolean admin;
     private String name;
     private String surname;
     private String email;
@@ -26,6 +25,7 @@ public class UserEntity {
     private String country;
     private Integer buyerrating = 0;
     private Integer sellerrating = 0;
+    private Boolean admin = false;
     private Boolean validated = false;
     private List<MessageEntity> sentMessages;
     private List<MessageEntity> receivedMessages;

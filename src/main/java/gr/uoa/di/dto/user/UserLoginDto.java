@@ -1,6 +1,6 @@
-package gr.uoa.di.dto;
+package gr.uoa.di.dto.user;
 
-public class LoginDto {
+public class UserLoginDto {
     private String username;
     private String password;
 
