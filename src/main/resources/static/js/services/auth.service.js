@@ -47,6 +47,7 @@ function AuthService($http, $window, $q) {
 	function setUser(jwt) {
         var jwtObj = JSON.parse(atob(jwt.split('.')[1]));
         service.user.jwt = jwt;
+		service.user.user = jwtObj.user;
         service.user.admin = jwtObj.admin;
     }
 }

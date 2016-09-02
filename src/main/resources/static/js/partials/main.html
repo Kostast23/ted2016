@@ -1,7 +1,10 @@
-logged in grats~~
-<div class="pull-right">
-    <div ng-show="admin"><a ui-sref="main.admin">Administrator panel</a></div>
-    <div><a ui-sref="index" ng-click="doLogout()">Log out</a></div>
+<div class="row">
+    <div class="col-sm-6">Welcome, <b>{{ username || 'guest' }}</b>!</div>
+    <div class="col-sm-6 text-right">
+        <div ng-show="admin"><a ui-sref="main.store">Home</a></div>
+        <div ng-show="admin"><a ui-sref="main.admin">Administrator panel</a></div>
+        <div><a ui-sref="index" ng-click="doLogout()">{{ username ? 'Log out' : 'Log in' }}</a></div>
+    </div>
 </div>
 <hr />
 <div ui-view></div>
