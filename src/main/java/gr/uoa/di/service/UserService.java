@@ -88,6 +88,11 @@ public class UserService {
         userRepo.save(user);
     }
 
+    public void deleteUser(int userId) {
+        UserEntity user = getUserEntity(userId);
+        userRepo.delete(user);
+    }
+
     private UserEntity getUserEntity(int userId) {
         UserEntity user = userRepo.findOneById(userId);
         if (user == null) {

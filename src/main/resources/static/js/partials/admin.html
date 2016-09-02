@@ -1,3 +1,11 @@
 <div ng-repeat="user in awaitingUsers">
-    {{ user.name }}
+    <div class="row">
+        <div class="col-sm-8">{{ user.surname }} {{ user.name }} {{ user.email }}</div>
+        <div class="col-sm-4">
+            <button ng-click="acceptUser(user.id)" class="btn btn-success">Accept</button>
+            <button ng-click="deleteUser(user.id)" class="btn btn-danger">Delete</button>
+        </div>
+    </div>
 </div>
+
+<input type="file" ngf-select ng-model="uplFile" /><button ng-show="uplFile" ng-click="doUpload(uplFile)" class="btn-success">Upload</button>

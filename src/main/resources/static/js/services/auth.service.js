@@ -49,4 +49,4 @@ function AuthService($http, $window, $q) {
         service.user.jwt = jwt;
         service.user.admin = jwtObj.admin;
     }
-};
+}
