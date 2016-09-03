@@ -1,7 +1,7 @@
 package gr.uoa.di.repo;
 
 import gr.uoa.di.dao.ItemEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
+public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, Long> {
 }

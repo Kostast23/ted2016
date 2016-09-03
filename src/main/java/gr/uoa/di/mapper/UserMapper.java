@@ -3,10 +3,8 @@ package gr.uoa.di.mapper;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -43,8 +41,7 @@ public class UserMapper {
         return dto;
     }
 
-    public List<UserResponseDto> mapUserEntityListToUserResponseDtoList(List<UserEntity> users) {
-        if (users == null) return null;
-        return users.stream().map(user -> mapUserEntityToUserResponseDto(user)).collect(Collectors.toList());
+    public Page<UserResponseDto> mapUserEntityPageToUserResponseDtoPage(Page<UserEntity> userPage) {
+        return userPage.map(this::mapUserEntityToUserResponseDto);
     }
 }

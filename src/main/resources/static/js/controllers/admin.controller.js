@@ -1,6 +1,6 @@
 app.controller('AdminController', function($scope, $http, $state, Upload) {
     $http.get('/api/admin/users/not_validated').then(function (response) {
-        $scope.awaitingUsers = response.data;
+        $scope.awaitingUsers = response.data.content;
     });
 
     var removeFromList = function(id) {
