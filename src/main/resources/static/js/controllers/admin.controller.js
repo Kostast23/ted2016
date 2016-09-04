@@ -1,7 +1,21 @@
 app.controller('AdminController', function($scope, $http, $state, Upload) {
-    $http.get('/api/admin/users/not_validated').then(function (response) {
-        $scope.awaitingUsers = response.data.content;
-    });
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = 10;
+    $scope.awaitingUsers = [];
+
+    var getData = function() {
+        $http.get('/api/admin/users/not_validated', {
+            params: {
+                page: $scope.currentPage-1,
+                size: $scope.itemsPerPage
+            }
+        }).then(function (response) {
+            $scope.awaitingUsers = response.data.content;
+            $scope.totalItems = response.data.totalElements;
+        });
+    };
+
+    getData();
 
     var removeFromList = function(id) {
         $scope.awaitingUsers = $scope.awaitingUsers.filter(function(user) {
@@ -10,13 +24,15 @@ app.controller('AdminController', function($scope, $http, $state, Upload) {
     };
 
     $scope.acceptUser = function(id) {
-        $http.get('/api/admin/users/' + id + '/validate');
-        removeFromList(id);
+        $http.get('/api/admin/users/' + id + '/validate').then(function() {
+            getData();
+        });
     };
 
     $scope.deleteUser = function(id) {
-        $http.delete('/api/admin/users/' + id);
-        removeFromList(id);
+        $http.delete('/api/admin/users/' + id).then(function() {
+            getData();
+        });
     };
 
     $scope.doUpload = function(file) {
@@ -31,5 +47,9 @@ app.controller('AdminController', function($scope, $http, $state, Upload) {
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
         });
+    };
+
+    $scope.pageChanged = function() {
+        getData();
     };
 });
