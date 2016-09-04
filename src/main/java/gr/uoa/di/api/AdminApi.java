@@ -5,6 +5,8 @@ import gr.uoa.di.service.AdminService;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,13 +25,13 @@ public class AdminApi {
     private String secretKey;
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public List<UserResponseDto> getUsers() {
-        return userService.getUsers();
+    public Page<UserResponseDto> getUsers(Pageable pageable) {
+        return userService.getUsers(pageable);
     }
 
     @RequestMapping(value = "/users/not_validated", method = RequestMethod.GET)
-    public List<UserResponseDto> getNotValidatedUsers() {
-        return userService.getNotValidatedUsers();
+    public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {
+        return userService.getNotValidatedUsers(pageable);
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)

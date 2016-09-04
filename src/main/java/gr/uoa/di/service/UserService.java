@@ -11,6 +11,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
@@ -69,12 +71,12 @@ public class UserService {
         return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
     }
 
-    public List<UserResponseDto> getUsers() {
-        return userMapper.mapUserEntityListToUserResponseDtoList(userRepo.findAll());
+    public Page<UserResponseDto> getUsers(Pageable pageable) {
+        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findAll(pageable));
     }
 
-    public List<UserResponseDto> getNotValidatedUsers() {
-        return userMapper.mapUserEntityListToUserResponseDtoList(userRepo.findByValidatedFalse());
+    public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {
+        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findByValidatedFalse(pageable));
     }
 
     public void validateUser(int userId) {

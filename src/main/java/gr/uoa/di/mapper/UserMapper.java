@@ -5,6 +5,7 @@ import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.jax.BidderJAX;
 import gr.uoa.di.jax.SellerJAX;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -71,8 +72,7 @@ public class UserMapper {
         return dto;
     }
 
-    public List<UserResponseDto> mapUserEntityListToUserResponseDtoList(List<UserEntity> users) {
-        if (users == null) return null;
-        return users.stream().map(user -> mapUserEntityToUserResponseDto(user)).collect(Collectors.toList());
+    public Page<UserResponseDto> mapUserEntityPageToUserResponseDtoPage(Page<UserEntity> userPage) {
+        return userPage.map(this::mapUserEntityToUserResponseDto);
     }
 }
