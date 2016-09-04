@@ -407,14 +407,6 @@ ALTER TABLE ONLY item
 
 
 --
--- Name: items_categories_pkey; Type: CONSTRAINT; Schema: public; Owner: ted; Tablespace: 
---
-
-ALTER TABLE ONLY items_categories
-    ADD CONSTRAINT items_categories_pkey PRIMARY KEY (category);
-
-
---
 -- Name: table_name_pkey; Type: CONSTRAINT; Schema: public; Owner: ted; Tablespace: 
 --
 

@@ -1,6 +1,7 @@
 package gr.uoa.di.api;
 
 import gr.uoa.di.dto.user.UserResponseDto;
+import gr.uoa.di.service.AdminService;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,8 @@ public class AdminApi {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AdminService adminService;
 
     @Value("${secret_key}")
     private String secretKey;
@@ -46,6 +49,6 @@ public class AdminApi {
 
     @RequestMapping(value = "/uploadBackup", method = RequestMethod.POST)
     public void uploadBackup(@RequestParam("file") MultipartFile uploadFile) {
-        System.out.println(uploadFile.getName());
+        adminService.restoreFile(uploadFile);
     }
 }

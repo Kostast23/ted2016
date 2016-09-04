@@ -3,9 +3,12 @@ package gr.uoa.di.mapper;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
+import gr.uoa.di.jax.BidderJAX;
+import gr.uoa.di.jax.SellerJAX;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -22,6 +25,31 @@ public class UserMapper {
         user.setLat(dto.getLatitude());
         user.setLon(dto.getLongitude());
         user.setAfm(dto.getAfm());
+        return user;
+    }
+
+    public UserEntity mapBidderJAXToUserEntity(BidderJAX bidder) {
+        UserEntity user = new UserEntity();
+        user.setUsername(bidder.getUserID());
+        Optional.ofNullable(bidder.getRating()).ifPresent(rating ->
+                user.setBuyerrating(Integer.valueOf(rating)));
+        user.setCountry(bidder.getCountry());
+        Optional.ofNullable(bidder.getLocation()).ifPresent(location -> {
+            Optional.ofNullable(location.getvalue()).ifPresent(value ->
+                    user.setLocation(value));
+            Optional.ofNullable(location.getLatitude()).ifPresent(lat ->
+                    user.setLat(Double.valueOf(lat)));
+            Optional.ofNullable(location.getLongitude()).ifPresent(lon ->
+                    user.setLat(Double.valueOf(lon)));
+        });
+        return user;
+    }
+
+    public UserEntity mapSellerJAXToUserEntity(SellerJAX seller) {
+        UserEntity user = new UserEntity();
+        user.setUsername(seller.getUserID());
+        Optional.ofNullable(seller.getRating()).ifPresent(rating ->
+                user.setBuyerrating(Integer.valueOf(rating)));
         return user;
     }
 

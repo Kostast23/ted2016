@@ -4,7 +4,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -217,7 +217,7 @@ public class ItemEntity {
         this.bids = bids;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "items_categories", catalog = "ted", schema = "public", joinColumns = @JoinColumn(name = "item", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "category", referencedColumnName = "id", nullable = false))
     public List<CategoryEntity> getCategories() {
         return categories;

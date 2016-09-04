@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
@@ -49,7 +47,7 @@ public class UserService {
         }
         UserEntity user = userMapper.mapUserRegisterDtoToUserEntity(dto);
         String salt = Long.toHexString(new Random().nextLong());
-        String encPass = sha1(sha1(dto.getPassword()) + salt);
+        String encPass = Utils.sha1(Utils.sha1(dto.getPassword()) + salt);
         user.setPassword(encPass);
         user.setSalt(salt);
         userRepo.save(user);
@@ -58,7 +56,7 @@ public class UserService {
     public Map<String, String> login(UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         UserEntity user = getUserEntity(request.getUsername());
-        String encPass = sha1(sha1(request.getPassword()) + user.getSalt());
+        String encPass = Utils.sha1(Utils.sha1(request.getPassword()) + user.getSalt());
         if (!encPass.equals(user.getPassword())) {
             throw new UserLoginException();
         } else if (!user.getValidated()) {
@@ -146,11 +144,4 @@ public class UserService {
                 .compact();
     }
 
-    private static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-        crypt.reset();
-        crypt.update(text.getBytes("UTF-8"));
-
-        return new BigInteger(1, crypt.digest()).toString(16);
-    }
 }
