@@ -6,9 +6,15 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryMapper {
-    public CategoryEntity mapItemJAXToItemEntity(CategoryJAX category) {
+    public CategoryEntity mapCategoryJAXToCategoryEntity(CategoryJAX category) {
         CategoryEntity categoryEnt = new CategoryEntity();
         categoryEnt.setName(category.getvalue());
         return categoryEnt;
+    }
+
+    public CategoryJAX mapCategoryEntityToCategoryJAX(CategoryEntity categoryEntity) {
+        CategoryJAX category = new CategoryJAX();
+        category.setvalue(categoryEntity.getName());
+        return category;
     }
 }

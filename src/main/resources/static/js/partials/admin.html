@@ -48,5 +48,8 @@
             <div class="col-sm-2" style="vertical-align: center;">{{ uplFile.name || 'No file selected' }}</div>
             <button ng-show="uplFile" ng-click="doUpload(uplFile)" class="btn btn-success col-sm-2">Upload</button>
         </div>
+        <div class="row">
+            <button class="btn btn-primary" ng-click="downloadDump()">Download database dump</button>
+        </div>
     </div>
 </div>

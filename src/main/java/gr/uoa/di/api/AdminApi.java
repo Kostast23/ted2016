@@ -10,8 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/admin")
 public class AdminApi {
@@ -52,5 +50,10 @@ public class AdminApi {
     @RequestMapping(value = "/uploadBackup", method = RequestMethod.POST)
     public void uploadBackup(@RequestParam("file") MultipartFile uploadFile) {
         adminService.restoreFile(uploadFile);
+    }
+
+    @RequestMapping(value = "/dumpDatabase", method = RequestMethod.GET)
+    public void dumpDatabase() {
+        adminService.createXMLDump();
     }
 }

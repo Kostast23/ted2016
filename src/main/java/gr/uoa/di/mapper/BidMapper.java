@@ -21,4 +21,12 @@ public class BidMapper {
         bidEnt.setTime(Utils.parseXMLDate(bid.getTime()));
         return bidEnt;
     }
+
+    public BidJAX mapBidEntityToBidJAX(BidEntity bidEntity) {
+        BidJAX bid = new BidJAX();
+        bid.setAmount(Utils.toUSDollars(bidEntity.getAmount()));
+        bid.setTime(Utils.toXMLDate(bidEntity.getTime()));
+        bid.setBidder(userMapper.mapUserEntityToBidderJAX(bidEntity.getOwner()));
+        return bid;
+    }
 }

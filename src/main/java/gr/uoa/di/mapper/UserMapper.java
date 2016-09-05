@@ -4,13 +4,12 @@ import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.jax.BidderJAX;
+import gr.uoa.di.jax.LocationJAX;
 import gr.uoa.di.jax.SellerJAX;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
@@ -32,16 +31,16 @@ public class UserMapper {
     public UserEntity mapBidderJAXToUserEntity(BidderJAX bidder) {
         UserEntity user = new UserEntity();
         user.setUsername(bidder.getUserID());
-        Optional.ofNullable(bidder.getRating()).ifPresent(rating ->
-                user.setBuyerrating(Integer.valueOf(rating)));
+        if (bidder.getRating() != null)
+                user.setBuyerrating(Integer.valueOf(bidder.getRating()));
         user.setCountry(bidder.getCountry());
         Optional.ofNullable(bidder.getLocation()).ifPresent(location -> {
-            Optional.ofNullable(location.getvalue()).ifPresent(value ->
-                    user.setLocation(value));
-            Optional.ofNullable(location.getLatitude()).ifPresent(lat ->
-                    user.setLat(Double.valueOf(lat)));
-            Optional.ofNullable(location.getLongitude()).ifPresent(lon ->
-                    user.setLat(Double.valueOf(lon)));
+            if (location.getvalue() != null)
+                    user.setLocation(location.getvalue());
+            if (location.getLatitude() != null)
+                    user.setLat(Double.valueOf(location.getLatitude()));
+            if (location.getLongitude() != null)
+                user.setLon(Double.valueOf(location.getLongitude()));
         });
         return user;
     }
@@ -49,8 +48,8 @@ public class UserMapper {
     public UserEntity mapSellerJAXToUserEntity(SellerJAX seller) {
         UserEntity user = new UserEntity();
         user.setUsername(seller.getUserID());
-        Optional.ofNullable(seller.getRating()).ifPresent(rating ->
-                user.setBuyerrating(Integer.valueOf(rating)));
+        if (seller.getRating() != null)
+            user.setSellerrating(Integer.valueOf(seller.getRating()));
         return user;
     }
 
@@ -74,5 +73,27 @@ public class UserMapper {
 
     public Page<UserResponseDto> mapUserEntityPageToUserResponseDtoPage(Page<UserEntity> userPage) {
         return userPage.map(this::mapUserEntityToUserResponseDto);
+    }
+
+    public SellerJAX mapUserEntityToSellerJAX(UserEntity owner) {
+        SellerJAX seller = new SellerJAX();
+        seller.setUserID(owner.getUsername());
+        if (owner.getSellerrating() != null)
+            seller.setRating(String.valueOf(owner.getSellerrating()));
+        return seller;
+    }
+
+    public BidderJAX mapUserEntityToBidderJAX(UserEntity owner) {
+        BidderJAX bidder = new BidderJAX();
+        bidder.setUserID(owner.getUsername());
+        if (owner.getBuyerrating() != null)
+            bidder.setRating(String.valueOf(owner.getBuyerrating()));
+        bidder.setCountry(owner.getCountry());
+        LocationJAX loc = new LocationJAX();
+        loc.setvalue(owner.getLocation());
+        loc.setLatitude(String.valueOf(owner.getLat()));
+        loc.setLongitude(String.valueOf(owner.getLon()));
+        bidder.setLocation(loc);
+        return bidder;
     }
 }

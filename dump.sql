@@ -58,7 +58,7 @@ ALTER TABLE public.item OWNER TO ted;
 
 CREATE TABLE bid (
     id integer NOT NULL,
-    item item NOT NULL,
+    item integer NOT NULL,
     "time" date,
     amount integer,
     owner integer NOT NULL

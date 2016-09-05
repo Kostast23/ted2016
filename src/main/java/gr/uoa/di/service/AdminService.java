@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -83,5 +85,22 @@ public class AdminService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public byte[] createXMLDump() {
+        try {
+            ItemsJAX items = new ItemsJAX();
+            items.getItem().addAll(itemRepository.findAll().stream().map(itemMapper::mapItemEntityToItemJAX).collect(Collectors.toList()));
+            JAXBContext jaxbContext = JAXBContext.newInstance(ItemsJAX.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            jaxbMarshaller.marshal(items, bos);
+            return bos.toByteArray();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

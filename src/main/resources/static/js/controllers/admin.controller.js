@@ -49,6 +49,10 @@ app.controller('AdminController', function($scope, $http, $state, Upload) {
         });
     };
 
+    $scope.downloadDump = function() {
+        $http.get('/api/admin/dumpDatabase');
+    };
+
     $scope.pageChanged = function() {
         getData();
     };
