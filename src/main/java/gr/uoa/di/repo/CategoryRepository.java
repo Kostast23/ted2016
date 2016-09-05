@@ -1,8 +1,12 @@
 package gr.uoa.di.repo;
 
 import gr.uoa.di.dao.CategoryEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
+import java.util.List;
+
+public interface CategoryRepository extends PagingAndSortingRepository<CategoryEntity, Long> {
+    CategoryEntity findOneById(int id);
     CategoryEntity findOneByName(String name);
+    List<CategoryEntity> findAll();
 }

@@ -1,0 +1,45 @@
+package gr.uoa.di.api;
+
+import gr.uoa.di.dao.CategoryEntity;
+import gr.uoa.di.dto.category.CategoryInfoResponseDto;
+import gr.uoa.di.dto.category.CategoryResponseDto;
+import gr.uoa.di.mapper.CategoryMapper;
+import gr.uoa.di.mapper.ItemMapper;
+import gr.uoa.di.repo.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping("/api/categories")
+public class CategoryApi {
+    @Autowired
+    CategoryRepository categoryRepository;
+
+    @Autowired
+    CategoryMapper categoryMapper;
+    @Autowired
+    ItemMapper itemMapper;
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public List<CategoryResponseDto> getCategories() {
+       return categoryRepository.findAll().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList());
+    }
+
+    @RequestMapping(value = "/{categoryId}")
+    public CategoryInfoResponseDto getItemList(@PathVariable int categoryId) {
+        CategoryInfoResponseDto categoryInfoResponseDto = new CategoryInfoResponseDto();
+        CategoryEntity category = categoryRepository.findOneById(categoryId);
+        if (category == null)
+            return null;
+        categoryInfoResponseDto.setName(category.getName());
+        categoryInfoResponseDto.setCount(category.getItems().size());
+        categoryInfoResponseDto.setItems(category.getItems().stream().map(itemMapper::mapItemEntityToItemListResponseDto).collect(Collectors.toList()));
+        return categoryInfoResponseDto;
+    }
+}

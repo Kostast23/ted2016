@@ -1,6 +1,10 @@
 package gr.uoa.di.mapper;
 
 import gr.uoa.di.dao.ItemEntity;
+import gr.uoa.di.dao.ItemPicturesEntity;
+import gr.uoa.di.dto.item.ItemListResponseDto;
+import gr.uoa.di.dto.item.ItemResponseDto;
+import gr.uoa.di.dto.item.PictureDto;
 import gr.uoa.di.jax.BidsJAX;
 import gr.uoa.di.jax.ItemJAX;
 import gr.uoa.di.jax.LocationJAX;
@@ -72,5 +76,46 @@ public class ItemMapper {
         item.setDescription(itemEnt.getDescription());
         item.setSeller(userMapper.mapUserEntityToSellerJAX(itemEnt.getOwner()));
         return item;
+    }
+
+    public ItemListResponseDto mapItemEntityToItemListResponseDto(ItemEntity itemEntity) {
+        ItemListResponseDto item = new ItemListResponseDto();
+        item.setId(itemEntity.getId());
+        item.setName(itemEntity.getName());
+        item.setCurrentbid(itemEntity.getCurrentbid());
+        item.setBuyprice(itemEntity.getBuyprice());
+        item.setLocation(itemEntity.getLocation());
+        item.setCountry(itemEntity.getCountry());
+        item.setEndDate(itemEntity.getEndDate());
+        if (!itemEntity.getPictures().isEmpty())
+            item.setPicture(mapItemPicturesEntityToPictureDto(itemEntity.getPictures().get(0)));
+        item.setSellerUsername(itemEntity.getOwner().getUsername());
+        return item;
+    }
+
+    public ItemResponseDto mapItemEntityToItemResponseDto(ItemEntity itemEntity) {
+        ItemResponseDto item = new ItemResponseDto();
+        item.setId(itemEntity.getId());
+        item.setName(itemEntity.getName());
+        item.setDescription(itemEntity.getDescription());
+        item.setBuyprice(itemEntity.getBuyprice());
+        item.setCurrentbid(itemEntity.getCurrentbid());
+        item.setLocation(itemEntity.getLocation());
+        item.setLat(itemEntity.getLat());
+        item.setLon(itemEntity.getLon());
+        item.setCountry(itemEntity.getCountry());
+        item.setStartDate(itemEntity.getStartDate());
+        item.setEndDate(itemEntity.getEndDate());
+        item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
+        item.setSellerUsername(itemEntity.getOwner().getUsername());
+        item.setCategories(itemEntity.getCategories().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList()));
+        return item;
+    }
+
+    public PictureDto mapItemPicturesEntityToPictureDto(ItemPicturesEntity itemPicturesEntity) {
+        PictureDto picture = new PictureDto();
+        picture.setName(itemPicturesEntity.getFilename());
+        picture.setContent(itemPicturesEntity.getImage());
+        return picture;
     }
 }

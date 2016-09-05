@@ -1,1 +1,11 @@
 <h1>Categories</h1>
+<ul>
+    <li ng-repeat="category in categories">
+        {{ category.name }}
+        <ul>
+            <li ng-repeat="result in category.results">
+                <a ui-sref="main.category({ categoryId: result.id, categoryName: result.name })">{{ result.name }}</a> {{ result.count }}
+            </li>
+        </ul>
+    </li>
+</ul>

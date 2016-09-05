@@ -20,6 +20,16 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: 'js/partials/store.html',
             controller: 'StoreController'
         })
+        .state('main.category', {
+            url: '/category/:categoryId/:categoryName',
+            templateUrl: 'js/partials/category.html',
+            controller: 'CategoryController'
+        })
+        .state('main.item', {
+            url: '/item/:itemId/:itemName',
+            templateUrl: 'js/partials/item.html',
+            controller: 'ItemController'
+        })
         .state('main.admin', {
             url: '/admin',
             templateUrl: 'js/partials/admin.html',

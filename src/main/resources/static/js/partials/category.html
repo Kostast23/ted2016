@@ -1,0 +1,6 @@
+Category: {{ category.name }} with {{ category.count }}
+<ul>
+    <li ng-repeat="item in category.items">
+        <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
+    </li>
+</ul>
