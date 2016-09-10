@@ -52,8 +52,9 @@ public class AdminApi {
         adminService.restoreFile(uploadFile);
     }
 
+    @ResponseBody
     @RequestMapping(value = "/dumpDatabase", method = RequestMethod.GET)
-    public void dumpDatabase() {
-        adminService.createXMLDump();
+    public byte[] dumpDatabase() {
+        return adminService.createXMLDump();
     }
 }

@@ -1,9 +1,11 @@
 package gr.uoa.di.service;
 
 import gr.uoa.di.dao.CategoryEntity;
+import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.jax.ItemsJAX;
 import gr.uoa.di.mapper.ItemMapper;
+import gr.uoa.di.repo.BidRepository;
 import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
@@ -18,6 +20,8 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
@@ -30,6 +34,8 @@ public class AdminService {
     ItemMapper itemMapper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BidRepository bidRepository;
     @Autowired
     ItemRepository itemRepository;
     @Autowired
@@ -67,18 +73,29 @@ public class AdminService {
                             }
                         }));
 
-                Optional.ofNullable(item.getCategories()).ifPresent(categories ->
-                        item.setCategories(categories.stream().map(category -> {
-                            CategoryEntity existingCategory = allCategories.get(category.getName());
-                            if (existingCategory == null) {
-                                categoryRepository.save(category);
-                                allCategories.put(category.getName(), category);
-                                return category;
-                            }
-                            return existingCategory;
-                        }).collect(Collectors.toList())));
+                List<CategoryEntity> categories = new LinkedList<CategoryEntity>();
+                CategoryEntity currentCategory = item.getCategory();
+                while (currentCategory != null) {
+                    categories.add(0, currentCategory);
+                    currentCategory = currentCategory.getParentCategory();
+                }
 
-                itemRepository.save(item);
+                categories.forEach(category -> {
+                    CategoryEntity existingCategory = allCategories.get(category.getName());
+                    if (existingCategory == null) {
+                        categoryRepository.save(category);
+                        allCategories.put(category.getName(), category);
+                    } else {
+                        category.setId(existingCategory.getId());
+                    }
+                });
+
+                ItemEntity savedItem = itemRepository.save(item);
+                if (item.getBids() != null)
+                    item.getBids().stream().forEach(bidEntity -> {
+                        bidEntity.setItem(savedItem);
+                        bidRepository.save(bidEntity);
+                    });
             });
         } catch (JAXBException e) {
             e.printStackTrace();

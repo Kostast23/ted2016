@@ -90,9 +90,12 @@ public class UserMapper {
             bidder.setRating(String.valueOf(owner.getBuyerrating()));
         bidder.setCountry(owner.getCountry());
         LocationJAX loc = new LocationJAX();
-        loc.setvalue(owner.getLocation());
-        loc.setLatitude(String.valueOf(owner.getLat()));
-        loc.setLongitude(String.valueOf(owner.getLon()));
+        if (owner.getLocation() != null)
+            loc.setvalue(owner.getLocation());
+        if (owner.getLat() != null)
+            loc.setLatitude(String.valueOf(owner.getLat()));
+        if (owner.getLon() != null)
+            loc.setLongitude(String.valueOf(owner.getLon()));
         bidder.setLocation(loc);
         return bidder;
     }

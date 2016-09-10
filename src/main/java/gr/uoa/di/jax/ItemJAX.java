@@ -44,7 +44,7 @@ public class ItemJAX {
     protected String firstBid;
     @XmlElement(name = "Number_of_Bids", required = true)
     protected String numberOfBids;
-    @XmlElement(name = "BidsJAX", required = true)
+    @XmlElement(name = "Bids", required = true)
     protected BidsJAX bids;
     @XmlElement(name = "Location", required = true)
     protected LocationJAX location;

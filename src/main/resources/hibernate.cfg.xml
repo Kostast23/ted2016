@@ -6,8 +6,6 @@
     <session-factory>
         <property name="connection.url">jdbc:postgresql://localhost:5432/ted</property>
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.username">ted</property>
-        <property name="connection.password">ted</property>
         <mapping class="gr.uoa.di.dao.BidEntity"/>
         <mapping class="gr.uoa.di.dao.CategoryEntity"/>
         <mapping class="gr.uoa.di.dao.ItemEntity"/>

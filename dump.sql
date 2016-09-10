@@ -30,38 +30,15 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: item; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
---
-
-CREATE TABLE item (
-    id integer NOT NULL,
-    name text,
-    description text,
-    buyprice integer,
-    currentbid integer,
-    firstbid integer,
-    location text,
-    lat double precision,
-    lon double precision,
-    country text,
-    startdate date,
-    enddate date,
-    owner integer NOT NULL
-);
-
-
-ALTER TABLE public.item OWNER TO ted;
-
---
 -- Name: bid; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
 --
 
 CREATE TABLE bid (
     id integer NOT NULL,
-    item integer NOT NULL,
-    "time" date,
+    "time" timestamp without time zone,
     amount integer,
-    owner integer NOT NULL
+    owner integer NOT NULL,
+    item integer NOT NULL
 );
 
 
@@ -94,7 +71,8 @@ ALTER SEQUENCE bid_id_seq OWNED BY bid.id;
 
 CREATE TABLE category (
     id integer NOT NULL,
-    name text
+    name text,
+    parent_category integer
 );
 
 
@@ -120,6 +98,30 @@ ALTER TABLE public.category_id_seq OWNER TO ted;
 
 ALTER SEQUENCE category_id_seq OWNED BY category.id;
 
+
+--
+-- Name: item; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
+--
+
+CREATE TABLE item (
+    id integer NOT NULL,
+    name text,
+    description text,
+    buyprice integer,
+    currentbid integer,
+    firstbid integer,
+    location text,
+    lat double precision,
+    lon double precision,
+    country text,
+    startdate timestamp without time zone,
+    enddate timestamp without time zone,
+    owner integer NOT NULL,
+    category integer DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE public.item OWNER TO ted;
 
 --
 -- Name: item_id_seq; Type: SEQUENCE; Schema: public; Owner: ted
@@ -154,18 +156,6 @@ CREATE TABLE item_pictures (
 
 
 ALTER TABLE public.item_pictures OWNER TO ted;
-
---
--- Name: items_categories; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
---
-
-CREATE TABLE items_categories (
-    item integer NOT NULL,
-    category integer NOT NULL
-);
-
-
-ALTER TABLE public.items_categories OWNER TO ted;
 
 --
 -- Name: message; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
@@ -302,45 +292,32 @@ SELECT pg_catalog.setval('bid_id_seq', 1, false);
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-INSERT INTO category VALUES (1, 'hey');
-INSERT INTO category VALUES (2, 'hey');
-INSERT INTO category VALUES (3, 'helo');
 
 
 --
 -- Name: category_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ted
 --
 
-SELECT pg_catalog.setval('category_id_seq', 3, true);
+SELECT pg_catalog.setval('category_id_seq', 1, false);
 
 
 --
 -- Data for Name: item; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-INSERT INTO item VALUES (5, 'itemmm', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
-INSERT INTO item VALUES (6, 'werld!!', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0);
 
 
 --
 -- Name: item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ted
 --
 
-SELECT pg_catalog.setval('item_id_seq', 6, true);
+SELECT pg_catalog.setval('item_id_seq', 1, false);
 
 
 --
 -- Data for Name: item_pictures; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-
-
---
--- Data for Name: items_categories; Type: TABLE DATA; Schema: public; Owner: ted
---
-
-INSERT INTO items_categories VALUES (5, 2);
-INSERT INTO items_categories VALUES (6, 3);
 
 
 --
@@ -360,18 +337,14 @@ SELECT pg_catalog.setval('table_name_id_seq', 1, false);
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-INSERT INTO "user" VALUES (21, 'a', 'f3f3740d75620c361bde90930e26ffd6c4518263', '7f923b26eebaae47', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO "user" VALUES (0, 'admin', 'e3ac012321d0c481cfcef761ac195f028be01b0e', '229e2ddd369d93b6', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, false);
-INSERT INTO "user" VALUES (22, 'user', '288ca4fcc489b8e68e064a213283a3da38835221', '79d55d1a6a0492fd', NULL, 'a', 'a', 'a@a.a', 'a', 'da', 'a', 123, 323, 'a', 0, 0, false);
-INSERT INTO "user" VALUES (23, 'user1', '377b57fab63ba6bb9b2623099c05cf5934e44582', '56054919c5e20fa0', NULL, 'a', 'a', 'a@a.a', 'a', 'da', 'a', 123, 323, 'a', 0, 0, false);
-INSERT INTO "user" VALUES (24, 'aa', '22626f50c662280e9eac3af528f57e0da379cac4', '4a4ea4ccbe8099df', NULL, 'a', 'a', 'aesmade@gmail.com', '+306948507664', 'sdaf', 'ευντου', 13, 13, 'Greece', 0, 0, false);
+INSERT INTO "user" VALUES (1, 'admin', '43f632723d2617d1e3eea574c56f7856a61d7d7a', '19639d60cb9d41d4', true, 'Nikolaos Filippakis', 'Filippakis', 'aesmade@gmail.com', '0775040931', '11', NULL, 11, 11, 'France', 0, 0, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ted
 --
 
-SELECT pg_catalog.setval('users_id_seq', 24, true);
+SELECT pg_catalog.setval('users_id_seq', 1, true);
 
 
 --
@@ -478,22 +451,6 @@ ALTER TABLE ONLY bid
 
 ALTER TABLE ONLY item_pictures
     ADD CONSTRAINT item_pictures_item_id_fk FOREIGN KEY (item) REFERENCES item(id);
-
-
---
--- Name: items_categories_category_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: ted
---
-
-ALTER TABLE ONLY items_categories
-    ADD CONSTRAINT items_categories_category_id_fk FOREIGN KEY (category) REFERENCES category(id);
-
-
---
--- Name: items_categories_item_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: ted
---
-
-ALTER TABLE ONLY items_categories
-    ADD CONSTRAINT items_categories_item_id_fk FOREIGN KEY (item) REFERENCES item(id);
 
 
 --

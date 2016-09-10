@@ -43,13 +43,16 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-sm-2"><label class="btn btn-default btn-file">
-            Browse files <input type="file" style="display: none;" ngf-select ng-model="uplFile">
+                Browse files <input type="file" style="display: none;" ngf-select ng-model="uplFile">
             </label></div>
             <div class="col-sm-2" style="vertical-align: center;">{{ uplFile.name || 'No file selected' }}</div>
             <button ng-show="uplFile" ng-click="doUpload(uplFile)" class="btn btn-success col-sm-2">Upload</button>
         </div>
+        <br />
         <div class="row">
-            <button class="btn btn-primary" ng-click="downloadDump()">Download database dump</button>
+            <div class="col-sm-2">
+                <button class="btn btn-primary" ng-click="downloadDump()">Download database dump</button>
+            </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 package gr.uoa.di.mapper;
 
+import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.ItemPicturesEntity;
 import gr.uoa.di.dto.item.ItemListResponseDto;
@@ -12,6 +13,8 @@ import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,8 +31,12 @@ public class ItemMapper {
         ItemEntity itemEnt = new ItemEntity();
         Optional.ofNullable(item.getItemID()).ifPresent(itemId -> itemEnt.setId(Integer.parseInt(itemId)));
         itemEnt.setName(item.getName());
-        if (item.getCategory() != null)
-            itemEnt.setCategories(item.getCategory().stream().map(categoryMapper::mapCategoryJAXToCategoryEntity).collect(Collectors.toList()));
+        if (item.getCategory() != null) {
+            itemEnt.setCategory(item.getCategory().stream().map(categoryMapper::mapCategoryJAXToCategoryEntity).reduce((cat1, cat2) -> {
+                cat2.setParentCategory(cat1);
+                return cat2;
+            }).get());
+        }
         itemEnt.setCurrentbid(Utils.parseUSDollars(item.getCurrently()));
         itemEnt.setBuyprice(Utils.parseUSDollars(item.getBuyPrice()));
         itemEnt.setFirstbid(Utils.parseUSDollars(item.getFirstBid()));
@@ -55,7 +62,13 @@ public class ItemMapper {
         ItemJAX item = new ItemJAX();
         item.setItemID(String.valueOf(itemEnt.getId()));
         item.setName(itemEnt.getName());
-        itemEnt.getCategories().forEach(categoryEntity -> item.getCategory().add(categoryMapper.mapCategoryEntityToCategoryJAX(categoryEntity)));
+        List<CategoryEntity> categories = new LinkedList<CategoryEntity>();
+        CategoryEntity cat = itemEnt.getCategory();
+        while (cat != null) {
+            categories.add(0, cat);
+            cat = cat.getParentCategory();
+        }
+        item.getCategory().addAll(categories.stream().map(categoryMapper::mapCategoryEntityToCategoryJAX).collect(Collectors.toList()));
         item.setCurrently(Utils.toUSDollars(itemEnt.getCurrentbid()));
         item.setBuyPrice(Utils.toUSDollars(itemEnt.getBuyprice()));
         item.setFirstBid(Utils.toUSDollars(itemEnt.getFirstbid()));
@@ -108,7 +121,7 @@ public class ItemMapper {
         item.setEndDate(itemEntity.getEndDate());
         item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
-        item.setCategories(itemEntity.getCategories().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList()));
+        item.setCategory(categoryMapper.mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory()));
         return item;
     }
 

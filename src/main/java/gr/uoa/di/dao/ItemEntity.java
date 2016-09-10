@@ -25,7 +25,7 @@ public class ItemEntity {
     private List<ItemPicturesEntity> pictures;
     private UserEntity owner;
     private List<BidEntity> bids;
-    private List<CategoryEntity> categories;
+    private CategoryEntity category;
 
     @Id
     @Generated(GenerationTime.INSERT)
@@ -217,13 +217,13 @@ public class ItemEntity {
         this.bids = bids;
     }
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "items_categories", catalog = "ted", schema = "public", joinColumns = @JoinColumn(name = "item", referencedColumnName = "id", nullable = false), inverseJoinColumns = @JoinColumn(name = "category", referencedColumnName = "id", nullable = false))
-    public List<CategoryEntity> getCategories() {
-        return categories;
+    @ManyToOne
+    @JoinColumn(name = "category", referencedColumnName = "id", nullable = false)
+    public CategoryEntity getCategory() {
+        return category;
     }
 
-    public void setCategories(List<CategoryEntity> categories) {
-        this.categories = categories;
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
     }
 }

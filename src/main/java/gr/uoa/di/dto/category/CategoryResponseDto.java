@@ -8,6 +8,7 @@ public class CategoryResponseDto {
     private int id;
     private String name;
     private long count;
+    private CategoryResponseDto parent;
     private List<ItemResponseDto> items;
 
     public int getId() {
@@ -32,6 +33,14 @@ public class CategoryResponseDto {
 
     public void setCount(long count) {
         this.count = count;
+    }
+
+    public CategoryResponseDto getParent() {
+        return parent;
+    }
+
+    public void setParent(CategoryResponseDto parent) {
+        this.parent = parent;
     }
 
     public List<ItemResponseDto> getItems() {

@@ -11,6 +11,8 @@ import java.util.List;
 public class CategoryEntity {
     private int id;
     private String name;
+    private CategoryEntity parentCategory;
+    private List<CategoryEntity> subcategories;
     private List<ItemEntity> items;
 
     @Id
@@ -55,7 +57,26 @@ public class CategoryEntity {
         return result;
     }
 
-    @ManyToMany(mappedBy = "categories")
+    @ManyToOne
+    @JoinColumn(name = "parent_category", referencedColumnName = "id")
+    public CategoryEntity getParentCategory() {
+        return parentCategory;
+    }
+
+    public void setParentCategory(CategoryEntity parentCategory) {
+        this.parentCategory = parentCategory;
+    }
+
+    @OneToMany(mappedBy = "parentCategory")
+    public List<CategoryEntity> getSubcategories() {
+        return subcategories;
+    }
+
+    public void setSubcategories(List<CategoryEntity> subcategories) {
+        this.subcategories = subcategories;
+    }
+
+    @OneToMany(mappedBy = "category")
     public List<ItemEntity> getItems() {
         return items;
     }
@@ -64,3 +85,4 @@ public class CategoryEntity {
         this.items = items;
     }
 }
+

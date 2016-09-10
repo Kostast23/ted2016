@@ -24,6 +24,8 @@ public class CategoryMapper {
         categoryResponseDto.setId(categoryEntity.getId());
         categoryResponseDto.setName(categoryEntity.getName());
         categoryResponseDto.setCount(categoryEntity.getItems().size());
+        if (categoryEntity.getParentCategory() != null)
+            categoryResponseDto.setParent(mapCategoryEntityToCategoryResponseDto(categoryEntity.getParentCategory()));
         return categoryResponseDto;
     }
 }

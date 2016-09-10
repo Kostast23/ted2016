@@ -19,7 +19,7 @@ public class ItemResponseDto {
     private Date endDate;
     private List<PictureDto> pictures;
     private String sellerUsername;
-    private List<CategoryResponseDto> categories;
+    private CategoryResponseDto category;
 
     public int getId() {
         return id;
@@ -125,11 +125,11 @@ public class ItemResponseDto {
         this.sellerUsername = sellerUsername;
     }
 
-    public List<CategoryResponseDto> getCategories() {
-        return categories;
+    public CategoryResponseDto getCategory() {
+        return category;
     }
 
-    public void setCategories(List<CategoryResponseDto> categories) {
-        this.categories = categories;
+    public void setCategory(CategoryResponseDto category) {
+        this.category = category;
     }
 }
