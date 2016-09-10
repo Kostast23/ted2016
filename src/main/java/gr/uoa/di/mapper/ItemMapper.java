@@ -121,7 +121,7 @@ public class ItemMapper {
         item.setEndDate(itemEntity.getEndDate());
         item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
-        item.setCategory(categoryMapper.mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory()));
+        item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false));
         return item;
     }
 

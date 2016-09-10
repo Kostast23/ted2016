@@ -1,7 +1,6 @@
 package gr.uoa.di.api;
 
 import gr.uoa.di.dao.CategoryEntity;
-import gr.uoa.di.dto.category.CategoryInfoResponseDto;
 import gr.uoa.di.dto.category.CategoryResponseDto;
 import gr.uoa.di.mapper.CategoryMapper;
 import gr.uoa.di.mapper.ItemMapper;
@@ -28,18 +27,14 @@ public class CategoryApi {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<CategoryResponseDto> getCategories() {
-       return categoryRepository.findAll().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList());
+       return categoryRepository.findByParentCategoryIsNull().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{categoryId}")
-    public CategoryInfoResponseDto getItemList(@PathVariable int categoryId) {
-        CategoryInfoResponseDto categoryInfoResponseDto = new CategoryInfoResponseDto();
+    public CategoryResponseDto getCategory(@PathVariable Integer categoryId) {
         CategoryEntity category = categoryRepository.findOneById(categoryId);
         if (category == null)
             return null;
-        categoryInfoResponseDto.setName(category.getName());
-        categoryInfoResponseDto.setCount(category.getItems().size());
-        categoryInfoResponseDto.setItems(category.getItems().stream().map(itemMapper::mapItemEntityToItemListResponseDto).collect(Collectors.toList()));
-        return categoryInfoResponseDto;
+        return categoryMapper.mapCategoryEntityToCategoryResponseDto(category);
     }
 }

@@ -9,4 +9,5 @@ public interface CategoryRepository extends PagingAndSortingRepository<CategoryE
     CategoryEntity findOneById(int id);
     CategoryEntity findOneByName(String name);
     List<CategoryEntity> findAll();
+    List<CategoryEntity> findByParentCategoryIsNull();
 }

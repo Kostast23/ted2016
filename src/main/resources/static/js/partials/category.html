@@ -1,6 +1,22 @@
 Category: {{ category.name }} with {{ category.count }}
-<ul>
-    <li ng-repeat="item in category.items">
-        <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
-    </li>
-</ul>
+<div ng-show="category.subcategories.length">
+    <h2>Subcategories</h2>
+    <ul>
+        <li ng-repeat="subcategory in category.subcategories">
+            <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{
+                subcategory.name
+                }}</a>
+            <span ng-show="subcategory.count">
+                {{ subcategory.count }}
+            </span>
+        </li>
+    </ul>
+</div>
+<div ng-show="category.items.length">
+    <h2>Items</h2>
+    <ul>
+        <li ng-repeat="item in category.items">
+            <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
+        </li>
+    </ul>
+</div>

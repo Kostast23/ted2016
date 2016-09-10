@@ -9,6 +9,7 @@ import gr.uoa.di.repo.BidRepository;
 import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,7 +50,7 @@ public class AdminService {
             ItemsJAX items = (ItemsJAX) jaxbUnmarshaller.unmarshal(uploadFile.getInputStream());
 
             Map<String, UserEntity> allUsers = userRepository.findAll().stream().collect(Collectors.toMap(UserEntity::getUsername, Function.identity()));
-            Map<String, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(CategoryEntity::getName, Function.identity()));
+            Map<Pair<String, CategoryEntity>, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(o -> new Pair<>(o.getName(), o.getParentCategory()), Function.identity()));
 
             items.getItem().stream().map(itemMapper::mapItemJAXToItemEntity).forEach(item -> {
                 UserEntity owner = allUsers.get(item.getOwner().getUsername());
@@ -81,10 +82,10 @@ public class AdminService {
                 }
 
                 categories.forEach(category -> {
-                    CategoryEntity existingCategory = allCategories.get(category.getName());
+                    CategoryEntity existingCategory = allCategories.get(new Pair(category.getName(), category.getParentCategory()));
                     if (existingCategory == null) {
                         categoryRepository.save(category);
-                        allCategories.put(category.getName(), category);
+                        allCategories.put(new Pair(category.getName(), category.getParentCategory()), category);
                     } else {
                         category.setId(existingCategory.getId());
                     }

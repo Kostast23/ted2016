@@ -10,6 +10,7 @@ public class CategoryResponseDto {
     private long count;
     private CategoryResponseDto parent;
     private List<ItemResponseDto> items;
+    private List<CategoryResponseDto> subcategories;
 
     public int getId() {
         return id;
@@ -49,5 +50,13 @@ public class CategoryResponseDto {
 
     public void setItems(List<ItemResponseDto> items) {
         this.items = items;
+    }
+
+    public List<CategoryResponseDto> getSubcategories() {
+        return subcategories;
+    }
+
+    public void setSubcategories(List<CategoryResponseDto> subcategories) {
+        this.subcategories = subcategories;
     }
 }
