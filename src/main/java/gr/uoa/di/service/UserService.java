@@ -93,7 +93,7 @@ public class UserService {
         userRepo.delete(user);
     }
 
-    private UserEntity getUserEntity(int userId) {
+    public UserEntity getUserEntity(int userId) {
         UserEntity user = userRepo.findOneById(userId);
         if (user == null) {
             throw new UserNotFoundException();
@@ -101,7 +101,7 @@ public class UserService {
         return user;
     }
 
-    private UserEntity getUserEntity(String username) {
+    public UserEntity getUserEntity(String username) {
         UserEntity user = userRepo.findOneByUsername(username);
         if (user == null) {
             throw new UserNotFoundException();

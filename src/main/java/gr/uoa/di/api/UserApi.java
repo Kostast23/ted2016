@@ -21,6 +21,11 @@ public class UserApi {
     @Value("${secret_key}")
     private String secretKey;
 
+    @RequestMapping(value = "/{username}")
+    public void getUser(@PathVariable String username) {
+        userService.getUserEntity(username);
+    }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public void register(@RequestBody UserRegisterDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {

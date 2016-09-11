@@ -1,4 +1,4 @@
-var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload']);
+var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload', 'leaflet-directive']);
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
@@ -29,6 +29,13 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/item/:itemId/:itemName',
             templateUrl: 'js/partials/item.html',
             controller: 'ItemController'
+        })
+        .state('main.user', {
+            url: '/user/:username',
+            templateUrl: 'js/partials/userprofile.html',
+            controller: function($scope, $http, $stateParams) {
+                $scope.user = $http.get('/api/user/' + $stateParams.username);
+            }
         })
         .state('main.admin', {
             url: '/admin',
