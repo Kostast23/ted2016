@@ -2,7 +2,7 @@ var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload',
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
-    $urlRouterProvider.otherwise("/index");
+    $urlRouterProvider.otherwise("/page_not_found");
 
     $stateProvider
         .state('index', {
@@ -43,6 +43,11 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/admin',
             templateUrl: 'partials/admin.html',
             controller: 'AdminController'
+        })
+        .state('page_not_found', {
+            url: '/page_not_found',
+            templateUrl: 'partials/page_not_found.html',
+            css: 'css/page_not_found.css'
         });
 });
 
