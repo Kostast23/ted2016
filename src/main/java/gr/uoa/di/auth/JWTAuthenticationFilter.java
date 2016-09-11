@@ -42,9 +42,9 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
                 boolean isAdmin = claimsBody.containsKey("admin") && claimsBody.get("admin", Boolean.class);
                 token = new AuthToken(claimsBody.get("user", String.class), isAdmin);
             }
-        }
 
-        SecurityContextHolder.getContext().setAuthentication(token);
+            SecurityContextHolder.getContext().setAuthentication(token);
+        }
 
         filterChain.doFilter(request, response);
     }
