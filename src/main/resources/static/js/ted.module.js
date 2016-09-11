@@ -1,4 +1,4 @@
-var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload']);
+var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload', 'ngMessages']);
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');

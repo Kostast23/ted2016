@@ -57,14 +57,18 @@ public class UserService {
 
     public Map<String, String> login(UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
-        UserEntity user = getUserEntity(request.getUsername());
-        String encPass = Utils.sha1(Utils.sha1(request.getPassword()) + user.getSalt());
-        if (!encPass.equals(user.getPassword())) {
+        try {
+            UserEntity user = getUserEntity(request.getUsername());
+            String encPass = Utils.sha1(Utils.sha1(request.getPassword()) + user.getSalt());
+            if (!encPass.equals(user.getPassword())) {
+                throw new UserLoginException();
+            } else if (!user.getValidated()) {
+                throw new UserNotValidatedException();
+            }
+            return Collections.singletonMap("jwt", createJwt(user));
+        } catch (UserNotFoundException ex) {
             throw new UserLoginException();
-        } else if (!user.getValidated()) {
-            throw new UserNotValidatedException();
         }
-        return Collections.singletonMap("jwt", createJwt(user));
     }
 
     public UserResponseDto getUser(int id) {
