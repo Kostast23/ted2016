@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 public class AuthProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        if (authentication.getPrincipal() == null) {
-            throw new AuthenticationServiceException("Not authenticated");
-        }
         return authentication;
     }
 
