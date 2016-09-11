@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+    <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
+    <li><span class="breadcrumb-item active">{{ category.name }}</span></li>
+</ol>
 Category: {{ category.name }} with {{ category.count }}
 <div ng-show="category.subcategories.length">
     <h2>Subcategories</h2>

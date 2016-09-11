@@ -1,1 +1,108 @@
-{{ item }}
+<ol class="breadcrumb">
+    <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a
+            ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
+</ol>
+
+<h3>{{ item.name }}</h3>
+<br/>
+<div class="row">
+    <div class="col-sm-5">
+        <table class="item-table table table-hover table-bordered table-condensed">
+            <tr>
+                <td>
+                    <p class="text-right">Seller</p>
+                </td>
+                <td>
+                    <p><a href="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Buying price</p>
+                </td>
+                <td>
+                    <p>{{ item.buyprice }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Current bid</p>
+                </td>
+                <td>
+                    <p>{{ item.currentbid }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Location</p>
+                </td>
+                <td>
+                    <p>{{ item.location }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Country</p>
+                </td>
+                <td>
+                    <p>{{ item.country }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Starting date</p>
+                </td>
+                <td>
+                    <p>{{ item.startDate | date : 'MMM dd, yyyy HH:mm:ss' }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Ending date</p>
+                </td>
+                <td>
+                    <p>{{ item.endDate | date : 'MMM dd, yyyy HH:mm:ss' }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Pictures</p>
+                </td>
+                <td>
+                    <p>{{ item.pictures }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <p class="text-right">Position</p>
+                </td>
+                <td>
+                    <leaflet id="map" markers="markers" height="250px" width="300px"></leaflet>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-sm-offset-2 col-sm-5">
+        <p>{{ endOffset }}</p>
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr>
+                <th>Current bids: {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
+                <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner }}</a>,
+                    <a data-toggle="tooltip" data-placement="right"
+                       title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="form-inline" ng-show="loggedIn">
+            <input type="number" ng-model="bidAmount" step="0.01" class="form-control" placeholder="Bid amount">
+            <button ng-click="submitBid(bidAmount)" class="btn btn-primary">Submit bid</button>
+        </div>
+    </div>
+</div>
+<br/>
+{{ item.description }}
