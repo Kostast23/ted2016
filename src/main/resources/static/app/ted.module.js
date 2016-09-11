@@ -7,32 +7,32 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('index', {
             url: '/index',
-            templateUrl: 'js/partials/index.html',
+            templateUrl: 'app/partials/index.html',
             controller: 'UserController'
         })
         .state('main', {
             abstract: true,
-            templateUrl: 'js/partials/main.html',
+            templateUrl: 'app/partials/main.html',
             controller: 'MainController'
         })
         .state('main.store', {
             url: '/store',
-            templateUrl: 'js/partials/store.html',
+            templateUrl: 'app/partials/store.html',
             controller: 'StoreController'
         })
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',
-            templateUrl: 'js/partials/category.html',
+            templateUrl: 'app/partials/category.html',
             controller: 'CategoryController'
         })
         .state('main.item', {
             url: '/item/:itemId/:itemName',
-            templateUrl: 'js/partials/item.html',
+            templateUrl: 'app/partials/item.html',
             controller: 'ItemController'
         })
         .state('main.admin', {
             url: '/admin',
-            templateUrl: 'js/partials/admin.html',
+            templateUrl: 'app/partials/admin.html',
             controller: 'AdminController'
         });
 });
