@@ -31,7 +31,7 @@
             </tr>
             </tbody>
         </table>
-        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" ng-show="needPagination()"></ul>
     </div>
 </div>
 
