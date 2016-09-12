@@ -17,6 +17,7 @@ public class ItemResponseDto {
     private String country;
     private Date startDate;
     private Date endDate;
+    private Boolean finished;
     private List<PictureDto> pictures;
     private String sellerUsername;
     private CategoryResponseDto category;
@@ -107,6 +108,14 @@ public class ItemResponseDto {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     public List<PictureDto> getPictures() {

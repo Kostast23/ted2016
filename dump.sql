@@ -116,6 +116,7 @@ CREATE TABLE item (
     country text,
     startdate timestamp without time zone,
     enddate timestamp without time zone,
+    finished boolean DEFAULT false,
     owner integer NOT NULL,
     category integer DEFAULT 1 NOT NULL
 );

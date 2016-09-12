@@ -16,12 +16,12 @@
                     <p><a href="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
                 </td>
             </tr>
-            <tr>
+            <tr ng-show="item.buyprice">
                 <td>
                     <p class="text-right">Buying price</p>
                 </td>
                 <td>
-                    <p>{{ item.buyprice }}</p>
+                    <p>{{ item.buyprice | currency }}</p>
                 </td>
             </tr>
             <tr>
@@ -29,7 +29,7 @@
                     <p class="text-right">Current bid</p>
                 </td>
                 <td>
-                    <p>{{ item.currentbid }}</p>
+                    <p>{{ item.currentbid | currency }}</p>
                 </td>
             </tr>
             <tr>
@@ -84,7 +84,7 @@
     </div>
     <div class="col-sm-offset-2 col-sm-5">
         <p>{{ endOffset }}</p>
-        <table class="table table-bordered table-striped table-hover">
+        <table class="table table-bordered table-hover">
             <thead>
             <tr>
                 <th>Current bids: {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</th>
@@ -98,10 +98,11 @@
             </tr>
             </tbody>
         </table>
-        <div class="form-inline" ng-show="loggedIn">
-            <input type="number" ng-model="bidAmount" step="0.01" class="form-control" placeholder="Bid amount">
+        <div class="form-inline" ng-show="loggedIn && !item.finished && currentUser != item.sellerUsername">
+            <input type="number" ng-model="bidAmount" step="1.00" class="form-control" placeholder="Bid amount">
             <button ng-click="submitBid(bidAmount)" class="btn btn-primary">Submit bid</button>
         </div>
+        <div class="bg-danger" style="padding: 5px;" ng-show="bidError">{{ bidError }}</div>
     </div>
 </div>
 <br/>
