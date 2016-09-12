@@ -1,0 +1,233 @@
+<div id="logo-bar">
+    <img id="logo"src="images/auction-hammer.png">
+</div>
+
+<div class="row">
+<div id="main">
+    <div id="intro-panel" class="col-sm-6">
+        <div id="intro-panel-heading">
+            <h2>Find the best actions<br/>from all around the world!</h2>
+        </div>
+        <div class="intro-panel-point">
+            <div class="v-align">
+                <img class="intro-panel-icon" src="images/browse.png">
+            </div>
+            <div class="v-align">
+                <p>Registered user or passerby you can browse thousands of auctions.</p>
+            </div>
+        </div>
+        <div  class="intro-panel-point">
+            <div class="v-align">
+                <img class="intro-panel-icon" src="images/buy.png">
+            </div>
+            <div class="v-align">
+                <p>Participate in thousands of auctions as a registered user.</p>
+            </div>
+        </div>
+        <div  class="intro-panel-point">
+            <div class="v-align">
+                <img class="intro-panel-icon" src="images/sell.png">
+            </div>
+            <div class="v-align">
+                <p>Become a registered and trusted seller in a huge market.</p>
+            </div>
+        </div>
+    </div>
+    <div id="forms-panel" class="col-sm-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills text-center">
+                    <li class="active col-sm-offset-3 col-sm-3"><a data-toggle="tab" href="#login">Login</a></li>
+                    <li class="col-sm-3"><a data-toggle="tab" href="#register">Sign Up</a></li>
+                </ul>
+            </div>
+            <div class="panel-body row">
+                <div class="tab-content col-sm-offset-1 col-sm-10">
+                    <div id="login" class="tab-pane fade in active">
+                        <form name="lform" ng-submit="lform.$valid && doLogin()" class="form-horizontal" novalidate>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(lform.lusername)}">
+                                <label class="col-sm-3 control-label" for="lusername">Username</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="lusername" name="lusername" placeholder="Username"
+                                            ng-model="login.username" required>
+                                    <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                                        <span ng-message="required">Please enter your username!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(lform.lpassword)}">
+                                <label class="col-sm-3 control-label" for="lpassword">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="lpassword" name="lpassword" placeholder="Password"
+                                            ng-model="login.password" required>
+                                    <div class="error-messages" ng-if="invalid(lform.lpassword)" ng-messages="lform.lpassword.$error">
+                                        <span ng-message="required">Please enter your password!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-danger" ng-show="loginError">
+                                <ul>
+                                    <li>{{ loginError }}</li>
+                                </ul>
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success" ng-disabled="lform.$invalid">Submit</button>
+                            </div>
+                            <hr/>
+                            <div class="text-right">
+                                <a ui-sref="main.store">Continue as a guest</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="register" class="tab-pane fade">
+                        <form name="rform" ng-submit="rform.$valid && doRegister(rform)" class="form-horizontal" novalidate>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.rusername)}">
+                                <label class="col-sm-3 control-label" for="rusername">Username</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="rusername" name="rusername" placeholder="Username"
+                                            ng-model="register.username" required>
+                                    <div class="error-messages" ng-if="invalid(rform.rusername)" ng-messages="rform.rusername.$error">
+                                        <span ng-message="required">Please enter your desired username!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.rpassword)}">
+                                <label class="col-sm-3 control-label" for="rpassword">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="rpassword" name="rpassword" placeholder="Password"
+                                            ng-model="register.password" required
+                                            minlength="8">
+                                    <div class="error-messages" ng-if="invalid(rform.rpassword)" ng-messages="rform.rpassword.$error">
+                                        <span ng-message="required">Please enter your password!</span>
+                                        <span ng-message="minlength">Password has to be at least 8 charactes long!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.rpassword2)}">
+                                <label class="col-sm-3 control-label" for="rpassword2">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="rpassword2" name="rpassword2" placeholder="Repeat Password"
+                                            ng-model="register.password2" required
+                                            minlength="8"
+                                            passwords-match pass1="register.password" pass2="register.password2">
+                                    <div class="error-messages" ng-if="invalid(rform.rpassword2)" ng-messages="rform.rpassword2.$error">
+                                        <span ng-message="required">Please repeat your password!</span>
+                                        <span ng-message="minlength">Password has to be at least 8 charactes long!</span>
+                                        <span ng-message="unique">Passwords have to match!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.name)}">
+                                <label class="col-sm-3 control-label" for="name">Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                            ng-model="register.name" required>
+                                    <div class="error-messages" ng-if="invalid(rform.name)" ng-messages="rform.name.$error">
+                                        <span ng-message="required">Please enter your name!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.surname)}">
+                                <label class="col-sm-3 control-label" for="surname">Surname</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="surname" name="surname" placeholder="Surname"
+                                            ng-model="register.surname" required>
+                                    <div class="error-messages" ng-if="invalid(rform.surname)" ng-messages="rform.surname.$error">
+                                        <span ng-message="required">Please enter your surname!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.email)}">
+                                <label class="col-sm-3 control-label" for="email">Email</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                            ng-model="register.email" required>
+                                    <div class="error-messages" ng-if="invalid(rform.email)" ng-messages="rform.email.$error">
+                                        <span ng-message="required">Please enter your email!</span>
+                                        <span ng-message="email">Not a valid email address!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.telephone)}">
+                                <label class="col-sm-3 control-label" for="telephone">Telephone</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone"
+                                            ng-model="register.telephone" required>
+                                    <div class="error-messages" ng-if="invalid(rform.telephone)" ng-messages="rform.telephone.$error">
+                                        <span ng-message="required">Please enter your telephone!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.address)}">
+                                <label class="col-sm-3 control-label" for="address">Address</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="address" name="address" placeholder="Address"
+                                            ng-model="register.address" required>
+                                    <div class="error-messages" ng-if="invalid(rform.address)" ng-messages="rform.address.$error">
+                                        <span ng-message="required">Please enter your address!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.country)}">
+                                <label class="col-sm-3 control-label" for="country">Country</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="country" name="country" placeholder="Country"
+                                            ng-model="register.country" required>
+                                    <div class="error-messages" ng-if="invalid(rform.country)" ng-messages="rform.country.$error">
+                                        <span ng-message="required">Please enter your country of residence!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.latitude)}">
+                                <label class="col-sm-3 control-label" for="latitude">Latitude</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="latitude" name="latitude" placeholder="Latitude"
+                                            ng-model="register.latitude" required
+                                            min="-90"
+                                            max="90">
+                                    <div class="error-messages" ng-if="invalid(rform.latitude)" ng-messages="rform.latitude.$error">
+                                        <span ng-message="required">Please enter your latitude in degrees!</span>
+                                        <span ng-message="min, max">Invalid latitude!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.longitude)}">
+                                <label class="col-sm-3 control-label" for="longitude">Longitude</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="longitude" name="longitude" placeholder="Longitude"
+                                            ng-model="register.longitude" required
+                                            min="-180"
+                                            max="180">
+                                    <div class="error-messages" ng-if="invalid(rform.longitude)" ng-messages="rform.longitude.$error">
+                                        <span ng-message="required">Please enter your longitude in degrees!</span>
+                                        <span ng-message="min, max">Invalid longitude!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.afm)}">
+                                <label class="col-sm-3 control-label" for="afm">AFM</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="afm" name="afm" placeholder="AFM"
+                                            ng-model="register.afm" required>
+                                    <div class="error-messages" ng-if="invalid(rform.afm)" ng-messages="rform.afm.$error">
+                                        <span ng-message="required">Please enter your AFM!</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="alert alert-danger" ng-show="registerError">
+                                <strong>Error!</strong> {{ registerError }}
+                            </div>
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-success" ng-disabled="rform.$invalid">Submit</button>
+                            </div>
+                            <div class="alert alert-success" ng-show="registerSuccess">
+                                Your registration was successful! The administrator should approve your account shortly.
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

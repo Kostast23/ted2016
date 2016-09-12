@@ -3,6 +3,10 @@ app.controller('UserController', function($scope, $http, $state, AuthService) {
         $state.go('main.store');
     }
 
+    $scope.invalid = function(field) {
+        return field.$touched && field.$invalid;
+    };
+
     $scope.doLogin = function() {
         AuthService.login($scope.login).then(function() {
         	$scope.loginError = null;

@@ -17,10 +17,8 @@ app.controller('AdminController', function ($scope, $http, $state, Upload) {
 
     getData();
 
-    var removeFromList = function (id) {
-        $scope.awaitingUsers = $scope.awaitingUsers.filter(function (user) {
-            return user.id != id;
-        });
+    $scope.needPagination = function () {
+        return $scope.awaitingUsers.length > $scope.itemsPerPage;
     };
 
     $scope.acceptUser = function (id) {
