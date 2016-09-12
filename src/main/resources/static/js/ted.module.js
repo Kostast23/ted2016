@@ -2,11 +2,11 @@ var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload',
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
-    $urlRouterProvider.otherwise("/page_not_found");
+    $urlRouterProvider.when('/login', '/').when('/register', '/').otherwise("/page_not_found");
 
     $stateProvider
         .state('index', {
-            url: '/index',
+            url: '/',
             templateUrl: 'partials/index.html',
             controller: 'UserController',
             css: 'css/index.css'
