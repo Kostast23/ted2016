@@ -45,10 +45,14 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
         });
     };
 
-    $scope.submitBid = function (amount) {
+    $scope.submitBid = function(amount) {
         var amountStr = Math.floor(amount * 100);
         $http.post('/api/bids/' + $stateParams.itemId, amountStr)
-            .then(updateBids, function (err) {
+            .then(function() {
+                $scope.bidError = null;
+                $scope.bidAmount = null;
+                updateBids();
+            }, function (err) {
                 $scope.bidError = err.data.message;
             });
     };

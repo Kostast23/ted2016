@@ -62,7 +62,7 @@ public class BidApi {
             if (item.getOwner().getId() == user.getId()) {
                 throw new BidOnOwnItemException();
             }
-            if (item.getCurrentbid() >= bidAmount) {
+            if (bidAmount <= 0 || item.getCurrentbid() >= bidAmount) {
                 throw new BidLessThanCurrentException();
             }
             BidEntity bidEnt = new BidEntity();

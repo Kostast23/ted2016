@@ -100,7 +100,7 @@
         </table>
         <div class="form-inline" ng-show="loggedIn && !item.finished && currentUser != item.sellerUsername">
             <input type="number" ng-model="bidAmount" step="1.00" class="form-control" placeholder="Bid amount">
-            <button ng-click="submitBid(bidAmount)" class="btn btn-primary">Submit bid</button>
+            <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary">Submit bid</button>
         </div>
         <div class="bg-danger" style="padding: 5px;" ng-show="bidError">{{ bidError }}</div>
     </div>
