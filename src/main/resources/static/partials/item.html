@@ -84,20 +84,25 @@
     </div>
     <div class="col-sm-offset-2 col-sm-5">
         <p>{{ endOffset }}</p>
-        <table class="table table-bordered table-hover">
-            <thead>
-            <tr>
-                <th>Current bids: {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
-                <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner }}</a>,
-                    <a data-toggle="tooltip" data-placement="right"
-                       title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
-            </tr>
-            </tbody>
-        </table>
+        <div style="position: relative">
+            <div class="bid-scroll">
+                <table class="table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>Current bids: {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
+                        <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner
+                            }}</a>,
+                            <a data-toggle="tooltip" data-placement="right"
+                               title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <div class="form-inline" ng-show="loggedIn && !item.finished && currentUser != item.sellerUsername">
             <input type="number" ng-model="bidAmount" step="1.00" class="form-control" placeholder="Bid amount">
             <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary">Submit bid</button>

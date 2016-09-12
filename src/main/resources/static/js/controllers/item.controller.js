@@ -33,10 +33,12 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
                 }
             }
 
+            var scroll = $('.bid-scroll');
             updateOffset();
 
             $timeout(function () {
                 $('[data-toggle="tooltip"]').tooltip();
+                scroll.animate({scrollTop: scroll.children().height()});
             }, 0);
 
             if ($scope.item.finished) {

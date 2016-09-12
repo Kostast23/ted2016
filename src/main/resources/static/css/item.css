@@ -6,4 +6,15 @@
   .item-table.table > tbody > tr > td:last-child {
     padding-left: 20px; }
 
+.bid-scroll {
+  height: 450px;
+  overflow: auto;
+  margin-top: 30px; }
+  .bid-scroll > table > thead > tr > th {
+    position: absolute;
+    top: -30px;
+    z-index: 2;
+    height: 30px;
+    border: 0; }
+
 /*# sourceMappingURL=item.css.map */
