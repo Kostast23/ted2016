@@ -9,7 +9,8 @@ import gr.uoa.di.repo.BidRepository;
 import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,7 +51,7 @@ public class AdminService {
             ItemsJAX items = (ItemsJAX) jaxbUnmarshaller.unmarshal(uploadFile.getInputStream());
 
             Map<String, UserEntity> allUsers = userRepository.findAll().stream().collect(Collectors.toMap(UserEntity::getUsername, Function.identity()));
-            Map<Pair<String, CategoryEntity>, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(o -> new Pair<>(o.getName(), o.getParentCategory()), Function.identity()));
+            Map<Pair<String, CategoryEntity>, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(o -> new ImmutablePair<>(o.getName(), o.getParentCategory()), Function.identity()));
 
             items.getItem().stream().map(itemMapper::mapItemJAXToItemEntity).forEach(item -> {
                 UserEntity owner = allUsers.get(item.getOwner().getUsername());
@@ -82,10 +83,10 @@ public class AdminService {
                 }
 
                 categories.forEach(category -> {
-                    CategoryEntity existingCategory = allCategories.get(new Pair(category.getName(), category.getParentCategory()));
+                    CategoryEntity existingCategory = allCategories.get(new ImmutablePair(category.getName(), category.getParentCategory()));
                     if (existingCategory == null) {
                         categoryRepository.save(category);
-                        allCategories.put(new Pair(category.getName(), category.getParentCategory()), category);
+                        allCategories.put(new ImmutablePair(category.getName(), category.getParentCategory()), category);
                     } else {
                         category.setId(existingCategory.getId());
                     }

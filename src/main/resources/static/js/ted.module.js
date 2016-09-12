@@ -23,7 +23,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',
-            templateUrl: 'catecory/category.html',
+            templateUrl: 'partials/category.html',
             controller: 'CategoryController'
         })
         .state('main.item', {
