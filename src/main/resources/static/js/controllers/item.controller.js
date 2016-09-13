@@ -1,4 +1,4 @@
-app.controller('ItemController', function ($scope, $http, $stateParams, $interval, $timeout, leafletData, AuthService) {
+app.controller('ItemController', function ($scope, $http, $stateParams, $interval, $timeout, $sce, leafletData, AuthService) {
     var bidsInterval;
 
     $scope.item = {name: $stateParams.itemName};
@@ -9,7 +9,8 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
         if (!$scope.item.finished) {
             $scope.item.finished = new Date() > $scope.item.realEndDate;
         }
-        $scope.endOffset = ($scope.item.finished ? "Auction ended " : "Auction ends ") + endMoment.fromNow();
+        $scope.end = ($scope.item.finished ? "Auction ended:" : "Auction ends:");
+        $scope.endOffset = endMoment.fromNow();
     };
 
     var updateBids = function () {
@@ -21,7 +22,7 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
                 return bid;
             });
 
-            if ($scope.bids) {
+            if ($scope.bids.length) {
                 var lastBid = $scope.bids.reduce(function (a, b) {
                     return a.amount > b.amount ? a : b;
                 });
@@ -47,16 +48,27 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
         });
     };
 
+    $scope.canBid = function() {
+        return $scope.loggedIn && !$scope.item.finished &&
+            $scope.currentUser != $scope.item.sellerUsername
+    };
+
+    var confirmBid = function() {
+        return confirm("Are you happy with this bid?");
+    };
+
     $scope.submitBid = function(amount) {
-        var amountStr = Math.floor(amount * 100);
-        $http.post('/api/bids/' + $stateParams.itemId, amountStr)
-            .then(function() {
-                $scope.bidError = null;
-                $scope.bidAmount = null;
-                updateBids();
-            }, function (err) {
-                $scope.bidError = err.data.message;
-            });
+        if (confirmBid()) {
+            var amountStr = Math.floor(amount * 100);
+            $http.post('/api/bids/' + $stateParams.itemId, amountStr)
+                .then(function() {
+                    $scope.bidError = null;
+                    $scope.bidAmount = null;
+                    updateBids();
+                }, function (err) {
+                    $scope.bidError = err.data.message;
+                });
+        }
     };
 
     $http.get('/api/items/' + $stateParams.itemId).then(function (response) {

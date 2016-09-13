@@ -3,112 +3,80 @@
             ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
 </ol>
 
-<h3>{{ item.name }}</h3>
-<br/>
 <div class="row">
     <div class="col-sm-5">
-        <table class="item-table table table-hover table-bordered table-condensed">
-            <tr>
-                <td>
-                    <p class="text-right">Seller</p>
-                </td>
-                <td>
-                    <p><a href="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
-                </td>
-            </tr>
-            <tr ng-show="item.buyprice">
-                <td>
-                    <p class="text-right">Buying price</p>
-                </td>
-                <td>
-                    <p>{{ item.buyprice | currency }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Current bid</p>
-                </td>
-                <td>
-                    <p>{{ item.currentbid | currency }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Location</p>
-                </td>
-                <td>
-                    <p>{{ item.location }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Country</p>
-                </td>
-                <td>
-                    <p>{{ item.country }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Starting date</p>
-                </td>
-                <td>
-                    <p>{{ item.startDate | date : 'MMM dd, yyyy HH:mm:ss' }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Ending date</p>
-                </td>
-                <td>
-                    <p>{{ item.endDate | date : 'MMM dd, yyyy HH:mm:ss' }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Pictures</p>
-                </td>
-                <td>
-                    <p>{{ item.pictures }}</p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Position</p>
-                </td>
-                <td>
-                    <leaflet id="map" markers="markers" height="250px" width="300px"></leaflet>
-                </td>
-            </tr>
-        </table>
     </div>
-    <div class="col-sm-offset-2 col-sm-5">
-        <p>{{ endOffset }}</p>
-        <div style="position: relative">
-            <div class="bid-scroll">
-                <table class="table table-bordered table-hover">
-                    <thead>
-                    <tr>
-                        <th>Current bids: {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
-                        <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner
-                            }}</a>,
-                            <a data-toggle="tooltip" data-placement="right"
-                               title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="col-sm-7 container">
+        <h3>{{ item.name }}</h3>
+        <hr/>
+        <div class="clearfix">
+            <p class="col-sm-3 text-right">Seller:</p>
+            <p class="col-sm-9"><a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
+        </div>
+        <div class="clearfix">
+            <p class="col-sm-3 text-right">Location:</p>
+            <p class="col-sm-9">
+                <a href="" uib-popover-template="'map-template.html'" popover-placement="bottom">{{ item.location }}, {{ item.country }}</a>
+            </p>
+            <script type="text/ng-template" id="map-template.html">
+                <div>
+                    <leaflet id="map" markers="markers" height="300px" width="400px"></leaflet>
+                </div>
+            </script>
+        </div>
+        <div class="clearfix">
+            <p class="col-sm-3 text-right" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ end }}</p>
+            <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset }}</p>
+        </div>
+        <div class="clearfix" ng-show="!canBid()">
+            <p class="col-sm-3 text-right">Current Bid:</p>
+            <p class="col-sm-9">{{ item.currentbid | currency }}</p>
+        </div>
+        <div class="clearfix" id="bid-panel" ng-show="canBid()">
+            <p class="col-sm-3 text-right">Current Bid:</p>
+            <p class="col-sm-9">{{ item.currentbid | currency }}</p>
+            <input type="number" ng-model="bidAmount" step="1.00" class="col-sm-offset-3 col-sm-3 bid-input" placeholder="Bid amount">
+            <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary bid-button">Place bid</button>
+            <div class="alert alert-danger" ng-show="bidError">
+                <ul>
+                    <li>{{ bidError }}</li>
+                </ul>
+            </div>
+            <div ng-if="item.buyprice">
+                <hr/>
+                <p class="col-sm-3 text-right">Buying Price:</p>
+                <p class="col-sm-3">{{ item.buyprice | currency }}</p>
+                <button ng-click="submitBid(item.buyprice)" class="btn btn-primary bid-button">Buy Now!</button>
             </div>
         </div>
-        <div class="form-inline" ng-show="loggedIn && !item.finished && currentUser != item.sellerUsername">
-            <input type="number" ng-model="bidAmount" step="1.00" class="form-control" placeholder="Bid amount">
-            <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary">Submit bid</button>
+        <div class="bid-history">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Bid History - {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="bid-scroll">
+                        <table class="table table-bordered table-hover">
+                            <tbody>
+                            <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
+                                <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner
+                                    }}</a>,
+                                    <a data-toggle="tooltip" data-placement="right"
+                                       title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="bg-danger" style="padding: 5px;" ng-show="bidError">{{ bidError }}</div>
     </div>
 </div>
-<br/>
-{{ item.description }}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Description</h3>
+    </div>
+    <div class="panel-body">
+        <p>{{ item.description }}</p>
+    </div>
+</div>
