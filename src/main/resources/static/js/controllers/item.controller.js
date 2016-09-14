@@ -1,8 +1,15 @@
-app.controller('ItemController', function ($scope, $http, $stateParams, $interval, $timeout, $sce, leafletData, AuthService) {
+app.controller('ItemController', function ($scope, $http, $stateParams, $interval, $timeout, $sce, $rootScope, leafletData, AuthService) {
     var bidsInterval;
 
     $scope.item = {name: $stateParams.itemName};
     $scope.loggedIn = !!AuthService.user.user;
+
+    $scope.$on('$stateChangeStart', function() {
+        if (bidsInterval) {
+            $interval.cancel(bidsInterval);
+            bidsInterval = null;
+        }
+    });
 
     var updateOffset = function () {
         var endMoment = moment($scope.item.realEndDate);
@@ -44,6 +51,7 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
 
             if ($scope.item.finished) {
                 $interval.cancel(bidsInterval);
+                bidsInterval = null;
             }
         });
     };
@@ -96,8 +104,10 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
                     }
                 }
             });
-            leafletData.getMap().then(function (map) {
-                map.setView([item.lat, item.lon], 5);
+            $scope.$on('leafletDirectiveMap.map.layeradd', function() {
+                leafletData.getMap().then(function (map) {
+                    map.setView([item.lat, item.lon], 5);
+                });
             });
         }
 
