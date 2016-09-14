@@ -1,5 +1,6 @@
 app.controller('AdminController', function ($scope, $http, $state, Upload) {
     $scope.currentPage = 1;
+    $scope.maxSize = 5;  // number for pagination size
     $scope.itemsPerPage = 10;
     $scope.awaitingUsers = [];
 
@@ -18,7 +19,7 @@ app.controller('AdminController', function ($scope, $http, $state, Upload) {
     getData();
 
     $scope.needPagination = function () {
-        return $scope.awaitingUsers.length > $scope.itemsPerPage;
+        return $scope.totalItems > $scope.itemsPerPage;
     };
 
     $scope.acceptUser = function (id) {
