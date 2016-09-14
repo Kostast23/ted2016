@@ -1,0 +1,93 @@
+<form class="form-horizontal" novalidate>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="name">Name</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                   ng-model="item.name" required>
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="description">Description</label>
+        <div class="col-sm-9">
+            <textarea cols="50" rows="5" class="form-control" id="description" name="description" placeholder="Description"
+                   ng-model="item.description"></textarea>
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="location">Location</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="location" name="location" placeholder="Location"
+                   ng-model="item.location">
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="country">Country</label>
+        <div class="col-sm-9">
+            <input type="text" class="form-control" id="country" name="country" placeholder="Country"
+                   ng-model="item.country">
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="firstbid">Starting price</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="firstbid" name="firstbid" placeholder="Starting price"
+                   ng-model="item.firstbid">
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="buyprice">Buying price</label>
+        <div class="col-sm-9">
+            <input type="number" class="form-control" id="buyprice" name="buyprice" placeholder="Buying price"
+                   ng-model="item.buyprice">
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="startDate">Starting date</label>
+        <div class="col-sm-9">
+            <input type="datetime-local" class="form-control" id="startDate" name="startDate" placeholder="Starting date"
+                   ng-model="item.startDate" ng-min="curDate | date:'yyyy-MM-ddTHH:mm:ss'" required>
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="endDate">Ending date</label>
+        <div class="col-sm-9">
+            <input type="datetime-local" class="form-control" id="endDate" name="endDate" placeholder="Ending date"
+                   ng-model="item.endDate" ng-min="item.startDate | date:'yyyy-MM-ddTHH:mm:ss'" required>
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="map">Position</label>
+        <div class="col-sm-9">
+            <leaflet class="form-control" id="map" name="position" markers="markers" height="300px" width="400px"></leaflet>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <div class="col-sm-offset-3 col-sm-9">
+            <button class="btn btn-primary" ng-click="submitItem()">Submit</button>
+        </div>
+    </div>
+</form>

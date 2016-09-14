@@ -28,6 +28,8 @@ public class Security extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class).authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/api/items").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.PUT, "/api/items/**").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/api/bids/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();

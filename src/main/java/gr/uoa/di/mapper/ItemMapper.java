@@ -3,11 +3,13 @@ package gr.uoa.di.mapper;
 import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.ItemPicturesEntity;
+import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.dto.item.PictureDto;
 import gr.uoa.di.jax.BidsJAX;
 import gr.uoa.di.jax.ItemJAX;
 import gr.uoa.di.jax.LocationJAX;
+import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,6 +28,8 @@ public class ItemMapper {
     CategoryMapper categoryMapper;
     @Autowired
     BidMapper bidMapper;
+    @Autowired
+    CategoryRepository categoryRepository;
 
     public ItemEntity mapItemJAXToItemEntity(ItemJAX item) {
         ItemEntity itemEnt = new ItemEntity();
@@ -117,5 +121,24 @@ public class ItemMapper {
         picture.setName(itemPicturesEntity.getFilename());
         picture.setContent(itemPicturesEntity.getImage());
         return picture;
+    }
+
+    public ItemEntity mapItemEditDtoToItemEntity(ItemEditDto item) {
+        ItemEntity itemEnt = new ItemEntity();
+        itemEnt.setName(item.getName());
+        itemEnt.setDescription(item.getDescription());
+        if (item.getCategory() != null)
+            itemEnt.setCategory(categoryRepository.findOneById(item.getCategory()));
+        itemEnt.setBuyprice(item.getBuyprice());
+        itemEnt.setFirstbid(item.getFirstbid());
+        itemEnt.setCurrentbid(item.getFirstbid());
+        itemEnt.setCountry(item.getCountry());
+        itemEnt.setLocation(item.getLocation());
+        itemEnt.setLat(item.getLat());
+        itemEnt.setLon(item.getLon());
+        itemEnt.setFinished(false);
+        itemEnt.setStartDate(item.getStartDate());
+        itemEnt.setEndDate(item.getEndDate());
+        return itemEnt;
     }
 }

@@ -39,6 +39,11 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
                 $scope.user = $http.get('/api/user/' + $stateParams.username);
             }
         })
+        .state('main.new_item', {
+            url: '/new_item',
+            templateUrl: 'partials/edit_item.html',
+            controller: 'EditItemController'
+        })
         .state('main.admin', {
             url: '/admin',
             templateUrl: 'partials/admin.html',
