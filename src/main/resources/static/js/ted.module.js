@@ -55,6 +55,12 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/admin.html',
             controller: 'AdminController'
         })
+        .state('main.admin_user', {
+            url: '/admin/users/:userId',
+            templateUrl: 'partials/admin_user.html',
+            controller: 'AdminUserController',
+            css: 'css/admin_user.css'
+        })
         .state('page_not_found', {
             url: '/page_not_found',
             templateUrl: 'partials/page_not_found.html',

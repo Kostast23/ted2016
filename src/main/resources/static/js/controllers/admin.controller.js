@@ -1,18 +1,13 @@
-app.controller('AdminController', function ($scope, $http, $state, Upload) {
+app.controller('AdminController', function ($scope, $http, $state, AdminService, Upload) {
     $scope.currentPage = 1;
     $scope.maxSize = 5;  // number for pagination size
     $scope.itemsPerPage = 10;
     $scope.awaitingUsers = [];
 
     var getData = function () {
-        $http.get('/api/admin/users/not_validated', {
-            params: {
-                page: $scope.currentPage - 1,
-                size: $scope.itemsPerPage
-            }
-        }).then(function (response) {
-            $scope.awaitingUsers = response.data.content;
-            $scope.totalItems = response.data.totalElements;
+        AdminService.getNotValidated($scope.currentPage, $scope.itemsPerPage).then(function (response) {
+            $scope.awaitingUsers = response.content;
+            $scope.totalItems = response.totalElements;
         });
     };
 
@@ -23,13 +18,13 @@ app.controller('AdminController', function ($scope, $http, $state, Upload) {
     };
 
     $scope.acceptUser = function (id) {
-        $http.get('/api/admin/users/' + id + '/validate').then(function () {
+        AdminService.validateUser(id).then(function () {
             getData();
         });
     };
 
     $scope.deleteUser = function (id) {
-        $http.delete('/api/admin/users/' + id).then(function () {
+        AdminService.deleteUser(id).then(function () {
             getData();
         });
     };
