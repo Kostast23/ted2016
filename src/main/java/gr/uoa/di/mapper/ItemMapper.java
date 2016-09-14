@@ -3,7 +3,6 @@ package gr.uoa.di.mapper;
 import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.ItemPicturesEntity;
-import gr.uoa.di.dto.item.ItemListResponseDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.dto.item.PictureDto;
 import gr.uoa.di.jax.BidsJAX;
@@ -13,6 +12,7 @@ import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +53,7 @@ public class ItemMapper {
         itemEnt.setCountry(item.getCountry());
         itemEnt.setStartDate(Utils.parseXMLDate(item.getStarted()));
         itemEnt.setEndDate(Utils.parseXMLDate(item.getEnds()));
+        itemEnt.setFinished(itemEnt.getEndDate().before(new Date()) || (itemEnt.getBuyprice() != null && itemEnt.getBuyprice() <= itemEnt.getCurrentbid()));
         itemEnt.setDescription(item.getDescription());
         itemEnt.setOwner(userMapper.mapSellerJAXToUserEntity(item.getSeller()));
         return itemEnt;
@@ -91,21 +92,6 @@ public class ItemMapper {
         return item;
     }
 
-    public ItemListResponseDto mapItemEntityToItemListResponseDto(ItemEntity itemEntity) {
-        ItemListResponseDto item = new ItemListResponseDto();
-        item.setId(itemEntity.getId());
-        item.setName(itemEntity.getName());
-        item.setCurrentbid(itemEntity.getCurrentbid());
-        item.setBuyprice(itemEntity.getBuyprice());
-        item.setLocation(itemEntity.getLocation());
-        item.setCountry(itemEntity.getCountry());
-        item.setEndDate(itemEntity.getEndDate());
-        if (!itemEntity.getPictures().isEmpty())
-            item.setPicture(mapItemPicturesEntityToPictureDto(itemEntity.getPictures().get(0)));
-        item.setSellerUsername(itemEntity.getOwner().getUsername());
-        return item;
-    }
-
     public ItemResponseDto mapItemEntityToItemResponseDto(ItemEntity itemEntity) {
         ItemResponseDto item = new ItemResponseDto();
         item.setId(itemEntity.getId());
@@ -119,6 +105,7 @@ public class ItemMapper {
         item.setCountry(itemEntity.getCountry());
         item.setStartDate(itemEntity.getStartDate());
         item.setEndDate(itemEntity.getEndDate());
+        item.setFinished(itemEntity.getFinished());
         item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
         item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false));

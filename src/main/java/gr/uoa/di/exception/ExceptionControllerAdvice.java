@@ -1,5 +1,8 @@
 package gr.uoa.di.exception;
 
+import gr.uoa.di.exception.bid.AuctionFinishedException;
+import gr.uoa.di.exception.bid.BidLessThanCurrentException;
+import gr.uoa.di.exception.bid.BidOnOwnItemException;
 import gr.uoa.di.exception.user.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +30,9 @@ public class ExceptionControllerAdvice {
                 (createErrorResponse(HttpStatus.FORBIDDEN, ex), HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler({ UserAlreadyExistsException.class, UserAlreadyValidatedException.class })
+    @ExceptionHandler({ UserAlreadyExistsException.class, UserAlreadyValidatedException.class,
+            AuctionFinishedException.class, BidLessThanCurrentException.class,
+            BidOnOwnItemException.class})
     public ResponseEntity<ErrorResponse> conflict(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.CONFLICT, ex), HttpStatus.CONFLICT);

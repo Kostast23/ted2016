@@ -1,9 +1,0 @@
-.item-table.table > tbody > tr > td {
-  border: 0; }
-  .item-table.table > tbody > tr > td:first-child {
-    padding-right: 20px;
-    border-right: 1px solid #ddd; }
-  .item-table.table > tbody > tr > td:last-child {
-    padding-left: 20px; }
-
-/*# sourceMappingURL=style.css.map */

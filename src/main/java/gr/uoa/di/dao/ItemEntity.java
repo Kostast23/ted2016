@@ -22,6 +22,7 @@ public class ItemEntity {
     private String country;
     private Date startDate;
     private Date endDate;
+    private Boolean finished;
     private List<ItemPicturesEntity> pictures;
     private UserEntity owner;
     private List<BidEntity> bids;
@@ -149,7 +150,18 @@ public class ItemEntity {
         this.endDate = endDate;
     }
 
-    @Override
+    @Basic
+    @Column(name = "finished")
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
+    }
+
+
+        @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

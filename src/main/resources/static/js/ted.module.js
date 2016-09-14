@@ -1,46 +1,53 @@
-var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload', 'leaflet-directive']);
+var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload', 'ngMessages', 'leaflet-directive', 'angularCSS']);
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
-    $urlRouterProvider.otherwise("/index");
+    $urlRouterProvider.when('/login', '/').when('/register', '/').otherwise("/page_not_found");
 
     $stateProvider
         .state('index', {
-            url: '/index',
-            templateUrl: 'js/partials/index.html',
-            controller: 'UserController'
+            url: '/',
+            templateUrl: 'partials/index.html',
+            controller: 'UserController',
+            css: 'css/index.css'
         })
         .state('main', {
             abstract: true,
-            templateUrl: 'js/partials/main.html',
+            templateUrl: 'partials/main.html',
             controller: 'MainController'
         })
         .state('main.store', {
             url: '/store',
-            templateUrl: 'js/partials/store.html',
+            templateUrl: 'partials/store.html',
             controller: 'StoreController'
         })
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',
-            templateUrl: 'js/partials/category.html',
+            templateUrl: 'partials/category.html',
             controller: 'CategoryController'
         })
         .state('main.item', {
             url: '/item/:itemId/:itemName',
-            templateUrl: 'js/partials/item.html',
-            controller: 'ItemController'
+            templateUrl: 'partials/item.html',
+            controller: 'ItemController',
+            css: 'css/item.css'
         })
         .state('main.user', {
             url: '/user/:username',
-            templateUrl: 'js/partials/userprofile.html',
+            templateUrl: 'partials/user_profile.html',
             controller: function($scope, $http, $stateParams) {
                 $scope.user = $http.get('/api/user/' + $stateParams.username);
             }
         })
         .state('main.admin', {
             url: '/admin',
-            templateUrl: 'js/partials/admin.html',
+            templateUrl: 'partials/admin.html',
             controller: 'AdminController'
+        })
+        .state('page_not_found', {
+            url: '/page_not_found',
+            templateUrl: 'partials/page_not_found.html',
+            css: 'css/page_not_found.css'
         });
 });
 
