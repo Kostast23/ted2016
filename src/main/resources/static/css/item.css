@@ -22,7 +22,7 @@ input.bid-input {
     padding: 0; }
 
 .bid-scroll {
-  height: 300px;
+  max-height: 300px;
   overflow: auto; }
   .bid-scroll > table {
     margin-bottom: 0;
