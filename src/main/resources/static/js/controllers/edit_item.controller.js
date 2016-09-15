@@ -22,6 +22,10 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         marker = null;
         $scope.markers = {};
     });
+    $scope.$on('leafletDirectiveMarker.map.dragend', function(_, event) {
+        marker.lat = event.leafletEvent.target._latlng.lat;
+        marker.lng = event.leafletEvent.target._latlng.lng;
+    });
     $scope.goBack = function () {
         $window.history.back();
     };
@@ -79,7 +83,12 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     if ($stateParams.itemId) {
         $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
             var item = response.data;
-            marker = {lat: item.lat, lng: item.lon};
+            marker = {
+                lat: item.lat,
+                lng: item.lon,
+                draggable: true,
+                focus:true
+            };
             $scope.markers = {marker: marker};
             $scope.item.name = item.name;
             $scope.item.description = item.description;
