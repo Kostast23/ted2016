@@ -2,6 +2,9 @@
     <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
     <li><span class="breadcrumb-item active">{{ category.name }}</span></li>
 </ol>
+<div ng-show="loggedIn"><a ui-sref="main.new_item({category: category.id})">
+    <button class="btn btn-success">Create new item</button>
+</a></div>
 Category: {{ category.name }} with {{ category.count }}
 <div ng-show="category.subcategories.length">
     <h2>Subcategories</h2>

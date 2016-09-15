@@ -58,6 +58,19 @@ public class ItemApi {
         }
     }
 
+    @RequestMapping(method = RequestMethod.DELETE, value = "/{itemId}")
+    public void deleteItem(@PathVariable int itemId) {
+        synchronized (BidApi.class) {
+            ItemEntity savedItem = itemRepository.findOneById(itemId);
+            if (!savedItem.getOwner().getUsername().equals(
+                    SecurityContextHolder.getContext().getAuthentication().getPrincipal()) ||
+                    !savedItem.getBids().isEmpty()) {
+                throw new ItemCannotBeEditedException();
+            }
+            itemRepository.delete(savedItem);
+        }
+    }
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public Integer newItem(@RequestBody ItemEditDto item) {
@@ -66,7 +79,7 @@ public class ItemApi {
             throw new ItemFieldsException();
         }
         Date curDate = new Date();
-        if (item.getStartDate().before(curDate) || item.getEndDate().before(item.getStartDate())) {
+        if (item.getEndDate().before(item.getStartDate())) {
             throw new ItemDateException();
         }
         ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);

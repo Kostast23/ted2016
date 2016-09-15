@@ -116,6 +116,6 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             $scope.item.endDate = new Date(item.endDate);
         });
     } else if ($stateParams.category) {
-        $scope.item.category = $stateParams.category;
+        $scope.item.category = $stateParams.category.toString();
     }
 });

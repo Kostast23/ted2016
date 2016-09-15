@@ -42,7 +42,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.new_item', {
             url: '/new_item',
             templateUrl: 'partials/edit_item.html',
-            controller: 'EditItemController'
+            controller: 'EditItemController',
+            params: { category: null }
         })
         .state('main.edit_item', {
             url: '/item/edit/:itemId/:itemName',

@@ -30,6 +30,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class).authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/items").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/api/items/**").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.DELETE, "/api/items/**").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/api/bids/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll();

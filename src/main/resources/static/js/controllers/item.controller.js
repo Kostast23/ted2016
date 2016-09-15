@@ -1,8 +1,9 @@
-app.controller('ItemController', function ($scope, $http, $stateParams, $interval, $timeout, $sce, $rootScope, leafletData, AuthService) {
+app.controller('ItemController', function ($scope, $http, $state, $stateParams, $interval, $timeout, $sce, $rootScope, leafletData, AuthService) {
     var bidsInterval;
 
     $scope.item = {name: $stateParams.itemName};
     $scope.loggedIn = !!AuthService.user.user;
+    $scope.currentUser = AuthService.user.user;
 
     $scope.$on('$stateChangeStart', function () {
         if (bidsInterval) {
@@ -76,6 +77,17 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
                 }, function (err) {
                     $scope.bidError = err.data.message;
                 });
+        }
+    };
+
+    $scope.deleteItem = function (itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            $http.delete('/api/items/' + itemId).then(function() {
+                $state.go('main.category', {
+                    categoryId: $scope.item.category.id,
+                    categoryName: $scope.item.category.name
+                });
+            });
         }
     };
 

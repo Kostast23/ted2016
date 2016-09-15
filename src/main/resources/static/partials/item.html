@@ -8,6 +8,10 @@
     </div>
     <div class="col-sm-7 container">
         <h3>{{ item.name }}</h3>
+        <div ng-show="currentUser == item.sellerUsername">
+            <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})"><button class="btn btn-primary">Edit</button></a>&nbsp;
+            <a ng-click="deleteItem(item.id)"><button class="btn btn-danger">Delete</button></a>
+        </div>
         <hr/>
         <div class="clearfix">
             <p class="col-sm-3 text-right">Seller:</p>
