@@ -44,6 +44,11 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             templateUrl: 'partials/edit_item.html',
             controller: 'EditItemController'
         })
+        .state('main.edit_item', {
+            url: '/item/edit/:itemId/:itemName',
+            templateUrl: 'partials/edit_item.html',
+            controller: 'EditItemController'
+        })
         .state('main.admin', {
             url: '/admin',
             templateUrl: 'partials/admin.html',

@@ -4,7 +4,7 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
     $scope.item = {name: $stateParams.itemName};
     $scope.loggedIn = !!AuthService.user.user;
 
-    $scope.$on('$stateChangeStart', function() {
+    $scope.$on('$stateChangeStart', function () {
         if (bidsInterval) {
             $interval.cancel(bidsInterval);
             bidsInterval = null;
@@ -56,20 +56,20 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
         });
     };
 
-    $scope.canBid = function() {
-        return $scope.loggedIn && !$scope.item.finished &&
+    $scope.canBid = function () {
+        return $scope.loggedIn && !$scope.item.finished && new Date() > new Date($scope.item.startDate) &&
             $scope.currentUser != $scope.item.sellerUsername
     };
 
-    var confirmBid = function() {
+    var confirmBid = function () {
         return confirm("Are you happy with this bid?");
     };
 
-    $scope.submitBid = function(amount) {
+    $scope.submitBid = function (amount) {
         if (confirmBid()) {
             var amountStr = Math.floor(amount * 100);
             $http.post('/api/bids/' + $stateParams.itemId, amountStr)
-                .then(function() {
+                .then(function () {
                     $scope.bidError = null;
                     $scope.bidAmount = null;
                     updateBids();
@@ -104,7 +104,7 @@ app.controller('ItemController', function ($scope, $http, $stateParams, $interva
                     }
                 }
             });
-            $scope.$on('leafletDirectiveMap.map.layeradd', function() {
+            $scope.$on('leafletDirectiveMap.map.layeradd', function () {
                 leafletData.getMap().then(function (map) {
                     map.setView([item.lat, item.lon], 5);
                 });

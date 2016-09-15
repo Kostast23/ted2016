@@ -5,6 +5,7 @@ import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.bid.BidResponseDto;
 import gr.uoa.di.exception.bid.AuctionFinishedException;
+import gr.uoa.di.exception.bid.AuctionNotStartedException;
 import gr.uoa.di.exception.bid.BidLessThanCurrentException;
 import gr.uoa.di.exception.bid.BidOnOwnItemException;
 import gr.uoa.di.mapper.BidMapper;
@@ -49,10 +50,14 @@ public class BidApi {
     @RequestMapping(value = "/{itemId}", method = RequestMethod.POST)
     public void makeBid(@PathVariable Integer itemId, @RequestBody String bid) {
         synchronized (BidApi.class) {
+            Date curDate = new Date();
             UserEntity user = userRepository.findOneByUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             ItemEntity item = itemRepository.findOneById(itemId);
             int bidAmount = Integer.parseInt(bid);
-            if (new Date().after(item.getEndDate())) {
+            if (curDate.before(item.getStartDate())) {
+                throw new AuctionNotStartedException();
+            }
+            if (curDate.after(item.getEndDate())) {
                 item.setFinished(true);
                 itemRepository.save(item);
             }
