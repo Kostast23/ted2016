@@ -1,4 +1,4 @@
-app.controller('ItemController', function ($scope, $http, $state, $stateParams, $interval, $timeout, $sce, $rootScope, leafletData, AuthService) {
+app.controller('ItemController', function ($scope, $http, $state, $stateParams, $interval, $timeout, leafletData, AuthService) {
     var bidsInterval;
 
     $scope.item = {name: $stateParams.itemName};
