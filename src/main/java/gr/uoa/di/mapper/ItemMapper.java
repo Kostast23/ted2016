@@ -112,7 +112,7 @@ public class ItemMapper {
         item.setFinished(itemEntity.getFinished());
         item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
-        item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false));
+        item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false, true));
         return item;
     }
 

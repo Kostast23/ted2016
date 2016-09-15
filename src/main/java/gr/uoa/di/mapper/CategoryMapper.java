@@ -26,19 +26,19 @@ public class CategoryMapper {
     }
 
     public CategoryResponseDto mapCategoryEntityToCategoryResponseDto(CategoryEntity categoryEntity) {
-        return _mapCategoryEntityToCategoryResponseDto(categoryEntity, true);
+        return _mapCategoryEntityToCategoryResponseDto(categoryEntity, true, true);
     }
 
-    public CategoryResponseDto _mapCategoryEntityToCategoryResponseDto(CategoryEntity categoryEntity, boolean getItems) {
+    public CategoryResponseDto _mapCategoryEntityToCategoryResponseDto(CategoryEntity categoryEntity, boolean getItems, boolean getParent) {
         CategoryResponseDto categoryResponseDto = new CategoryResponseDto();
         categoryResponseDto.setId(categoryEntity.getId());
         categoryResponseDto.setName(categoryEntity.getName());
         categoryResponseDto.setCount(categoryEntity.getItems().size());
-        if (categoryEntity.getParentCategory() != null)
-            categoryResponseDto.setParent(_mapCategoryEntityToCategoryResponseDto(categoryEntity.getParentCategory(), false));
+        if (getParent && categoryEntity.getParentCategory() != null)
+            categoryResponseDto.setParent(_mapCategoryEntityToCategoryResponseDto(categoryEntity.getParentCategory(), false, true));
         if (getItems) {
             categoryResponseDto.setItems(categoryEntity.getItems().stream().map(itemMapper::mapItemEntityToItemResponseDto).collect(Collectors.toList()));
-            categoryResponseDto.setSubcategories(categoryEntity.getSubcategories().stream().map(subcat -> _mapCategoryEntityToCategoryResponseDto(subcat, false)).collect(Collectors.toList()));
+            categoryResponseDto.setSubcategories(categoryEntity.getSubcategories().stream().map(subcat -> _mapCategoryEntityToCategoryResponseDto(subcat, false, true)).collect(Collectors.toList()));
         }
         return categoryResponseDto;
     }

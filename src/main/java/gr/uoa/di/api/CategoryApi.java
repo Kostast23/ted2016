@@ -25,6 +25,19 @@ public class CategoryApi {
     @Autowired
     ItemMapper itemMapper;
 
+    private CategoryResponseDto getCategoriesRecursive(CategoryEntity catEnt) {
+        CategoryResponseDto cat = categoryMapper._mapCategoryEntityToCategoryResponseDto(catEnt, false, false);
+        if (catEnt.getSubcategories() != null) {
+            cat.setSubcategories(catEnt.getSubcategories().stream().map(this::getCategoriesRecursive).collect(Collectors.toList()));
+        }
+        return cat;
+    }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public List<CategoryResponseDto> getAllCategories() {
+        return categoryRepository.findByParentCategoryIsNull().stream().map(this::getCategoriesRecursive).collect(Collectors.toList());
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<CategoryResponseDto> getCategories() {
        return categoryRepository.findByParentCategoryIsNull().stream().map(categoryMapper::mapCategoryEntityToCategoryResponseDto).collect(Collectors.toList());

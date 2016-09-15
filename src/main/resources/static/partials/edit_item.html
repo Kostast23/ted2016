@@ -20,6 +20,19 @@
         </div>
     </div>
     <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="category">Category</label>
+        <div class="col-sm-9">
+            <select class="form-control" id="category" name="category" ng-model="item.category">
+                <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
+                    <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                </optgroup>
+            </select>
+            <div class="error-messages" ng-if="invalid(lform.lusername)" ng-messages="lform.lusername.$error">
+                <span ng-message="required">Please enter your username!</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="location">Location</label>
         <div class="col-sm-9">
             <input type="text" class="form-control" id="location" name="location" placeholder="Location"

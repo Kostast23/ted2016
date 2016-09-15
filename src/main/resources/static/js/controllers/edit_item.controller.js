@@ -36,4 +36,23 @@ app.controller('EditItemController', function($scope, $http) {
         }
         $http.post('/api/items/', item);
     };
+    $http.get('/api/categories/all').then(function(response) {
+        var makeRecursiveCategories = function(depth, cat) {
+            var subcats = cat.subcategories ? [].concat.apply([],
+                cat.subcategories.map(
+                    makeRecursiveCategories.bind(this, depth + 1)
+                )
+            ) : [];
+            return [{
+                name: '-'.repeat(depth) + ' ' + cat.name,
+                id: cat.id
+            }].concat(subcats);
+        };
+        $scope.listCategories = response.data.map(function(category) {
+            var subcatsNested = category.subcategories.map(makeRecursiveCategories.bind(this, 0));
+            category.subcategories = [].concat.apply([], subcatsNested);
+            return category;
+        });
+        console.log($scope.listCategories);
+    });
 });
