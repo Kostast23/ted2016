@@ -9,6 +9,11 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         endDate: moment(curDate).add(1, 'months').toDate()
     };
     $scope.markers = {};
+
+    $scope.center = {
+        autoDiscover: true
+    };
+
     $scope.$on('leafletDirectiveMap.map.click', function (_, event) {
         marker = {
             lat: event.leafletEvent.latlng.lat,
@@ -18,17 +23,21 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         };
         $scope.markers = {marker: marker};
     });
+
     $scope.$on('leafletDirectiveMarker.map.click', function () {
         marker = null;
         $scope.markers = {};
     });
+
     $scope.$on('leafletDirectiveMarker.map.dragend', function(_, event) {
         marker.lat = event.leafletEvent.target._latlng.lat;
         marker.lng = event.leafletEvent.target._latlng.lng;
     });
+
     $scope.goBack = function () {
         $window.history.back();
     };
+
     $scope.submitItem = function () {
         var item = angular.copy($scope.item);
         if (item.startDate > item.endDate) {
@@ -36,8 +45,14 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             return;
         }
         if (marker) {
-            item.lat = marker.lat;
-            item.lon = marker.lng
+            item.lat = marker.lat % 360;
+            if (item.lat > 180) {
+                item.lat -= 360;
+            }
+            item.lon = marker.lng % 360;
+            if (item.lon > 180) {
+                item.lon -= 360;
+            }
         }
         if (item.buyprice) {
             item.buyprice *= 100;
@@ -60,6 +75,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             $scope.bidError = err.data.message;
         });
     };
+
     $http.get('/api/categories/all').then(function (response) {
         var makeRecursiveCategories = function (depth, cat) {
             var subcats = cat.subcategories ? [].concat.apply([],
@@ -77,7 +93,6 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             category.subcategories = [].concat.apply([], subcatsNested);
             return category;
         });
-        console.log($scope.listCategories);
     });
 
     if ($stateParams.itemId) {
@@ -100,5 +115,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             $scope.item.startDate = new Date(item.startDate);
             $scope.item.endDate = new Date(item.endDate);
         });
+    } else if ($stateParams.category) {
+        $scope.item.category = $stateParams.category;
     }
 });

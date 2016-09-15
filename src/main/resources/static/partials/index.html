@@ -178,32 +178,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.latitude)}">
-                                <label class="col-sm-3 control-label" for="latitude">Latitude</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" id="latitude" name="latitude" placeholder="Latitude"
-                                            ng-model="register.latitude" required
-                                            min="-90"
-                                            max="90">
-                                    <div class="error-messages" ng-if="invalid(rform.latitude)" ng-messages="rform.latitude.$error">
-                                        <span ng-message="required">Please enter your latitude in degrees!</span>
-                                        <span ng-message="min, max">Invalid latitude!</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.longitude)}">
-                                <label class="col-sm-3 control-label" for="longitude">Longitude</label>
-                                <div class="col-sm-9">
-                                    <input type="number" class="form-control" id="longitude" name="longitude" placeholder="Longitude"
-                                            ng-model="register.longitude" required
-                                            min="-180"
-                                            max="180">
-                                    <div class="error-messages" ng-if="invalid(rform.longitude)" ng-messages="rform.longitude.$error">
-                                        <span ng-message="required">Please enter your longitude in degrees!</span>
-                                        <span ng-message="min, max">Invalid longitude!</span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="form-group" has-feedback ng-class="{'has-error' : invalid(rform.afm)}">
                                 <label class="col-sm-3 control-label" for="afm">AFM</label>
                                 <div class="col-sm-9">
@@ -212,6 +186,12 @@
                                     <div class="error-messages" ng-if="invalid(rform.afm)" ng-messages="rform.afm.$error">
                                         <span ng-message="required">Please enter your AFM!</span>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="form-group" has-feedback>
+                                <label class="col-sm-3 control-label" for="map">Location</label>
+                                <div class="col-sm-9">
+                                    <leaflet id="map" lf-center="center" markers="markers" height="300px" width="300px"></leaflet>
                                 </div>
                             </div>
                             <div class="alert alert-danger" ng-show="registerError">
