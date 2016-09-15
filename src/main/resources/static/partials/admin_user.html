@@ -4,89 +4,92 @@
     <li class="breadcrumb-item">{{ user.username }}</li>
 </ol>
 
-<div class="row is-flex">
-    <div class="col-sm-6">
-        <table class="item-table table table-bordered table-condensed">
-            <tr>
-                <td class="col-sm-4">
-                    <p class="text-right">Id</p>
-                </td>
-                <td>
-                    <p>{{ user.id }}<span ng-if="ifEmpty(user.id)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Username</p>
-                </td>
-                <td>
-                    <p>{{ user.username }}<span ng-if="ifEmpty(user.username)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Name</p>
-                </td>
-                <td>
-                    <p>{{ user.name }}<span ng-if="ifEmpty(user.name)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Surname</p>
-                </td>
-                <td>
-                    <p>{{ user.surname }}<span ng-if="ifEmpty(user.surname)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">E-mail</p>
-                </td>
-                <td>
-                    <p>{{ user.email }}<span ng-if="ifEmpty(user.email)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Telephone</p>
-                </td>
-                <td>
-                    <p>{{ user.telephone }}<span ng-if="ifEmpty(user.telephone)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">AFM</p>
-                </td>
-                <td>
-                    <p>{{ user.afm }}<span ng-if="ifEmpty(user.afm)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Buyer Rating</p>
-                </td>
-                <td>
-                    <p>{{ user.buyerrating }}<span ng-if="ifEmpty(user.buyerrating)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Seller Rating</p>
-                </td>
-                <td>
-                    <p>{{ user.sellerrating }}<span ng-if="ifEmpty(user.sellerrating)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-        </table>
-        <div ng-if="!user.validated">
+<div ng-show="pageLoaded()">
+    <div class="row is-flex">
+        <div class="col-sm-6">
+            <table class="item-table table table-bordered table-condensed">
+                <tr>
+                    <td class="col-sm-4">
+                        <p class="text-right">Id</p>
+                    </td>
+                    <td>
+                        <p>{{ user.id }}<span ng-if="ifEmpty(user.id)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Username</p>
+                    </td>
+                    <td>
+                        <p>{{ user.username }}<span ng-if="ifEmpty(user.username)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Name</p>
+                    </td>
+                    <td>
+                        <p>{{ user.name }}<span ng-if="ifEmpty(user.name)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Surname</p>
+                    </td>
+                    <td>
+                        <p>{{ user.surname }}<span ng-if="ifEmpty(user.surname)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">E-mail</p>
+                    </td>
+                    <td>
+                        <p>{{ user.email }}<span ng-if="ifEmpty(user.email)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Telephone</p>
+                    </td>
+                    <td>
+                        <p>{{ user.telephone }}<span ng-if="ifEmpty(user.telephone)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">AFM</p>
+                    </td>
+                    <td>
+                        <p>{{ user.afm }}<span ng-if="ifEmpty(user.afm)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Buyer Rating</p>
+                    </td>
+                    <td>
+                        <p>{{ user.buyerrating }}<span ng-if="ifEmpty(user.buyerrating)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Seller Rating</p>
+                    </td>
+                    <td>
+                        <p>{{ user.sellerrating }}<span ng-if="ifEmpty(user.sellerrating)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+            </table>
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Accept User</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
+                        <div class="col-sm-10">
+                            <p>Accepting a user means you cannot delete them anymore!</p>
+                        </div>
                         <div class="col-sm-2">
                             <button class="btn btn-success" ng-click="acceptUser(user.id)">Accept</button>
                         </div>
@@ -109,44 +112,44 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <table class="item-table table table-bordered table-condensed">
-            <tr>
-                <td>
-                    <p class="text-right">Location</p>
-                </td>
-                <td>
-                    <p>{{ user.location }}<span ng-if="ifEmpty(user.location)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Country</p>
-                </td>
-                <td>
-                    <p>{{ user.country }}<span ng-if="ifEmpty(user.country)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Latitude</p>
-                </td>
-                <td>
-                    <p>{{ user.latitude }}<span ng-if="ifEmpty(user.latitude)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <p class="text-right">Longitude</p>
-                </td>
-                <td>
-                    <p>{{ user.longitude }}<span ng-if="ifEmpty(user.longitude)" class="red">Missing information</span></p>
-                </td>
-            </tr>
-        </table>
-        <div class="map-container">
-            <leaflet id="map" markers="markers" height="100%" width="100%" ng-if="!ifEmpty(user.latitude) && !ifEmpty(user.longitude)"></leaflet>
+        <div class="col-sm-6">
+            <table class="item-table table table-bordered table-condensed">
+                <tr>
+                    <td>
+                        <p class="text-right">Location</p>
+                    </td>
+                    <td>
+                        <p>{{ user.location }}<span ng-if="ifEmpty(user.location)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Country</p>
+                    </td>
+                    <td>
+                        <p>{{ user.country }}<span ng-if="ifEmpty(user.country)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Latitude</p>
+                    </td>
+                    <td>
+                        <p>{{ user.latitude }}<span ng-if="ifEmpty(user.latitude)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p class="text-right">Longitude</p>
+                    </td>
+                    <td>
+                        <p>{{ user.longitude }}<span ng-if="ifEmpty(user.longitude)" class="red">Missing information</span></p>
+                    </td>
+                </tr>
+            </table>
+            <div class="map-container">
+                <leaflet id="map" markers="markers" height="100%" width="100%" ng-if="!ifEmpty(user.latitude) && !ifEmpty(user.longitude)"></leaflet>
+            </div>
         </div>
     </div>
 </div>

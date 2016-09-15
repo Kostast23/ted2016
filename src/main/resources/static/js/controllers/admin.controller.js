@@ -17,16 +17,28 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
         return $scope.totalItems > $scope.itemsPerPage;
     };
 
+    var confirmValidation = function () {
+        return confirm("Accepting a user means you cannot delete them anymore!");
+    };
+
     $scope.acceptUser = function (id) {
-        AdminService.validateUser(id).then(function () {
-            getData();
-        });
+        if (confirmValidation()) {
+            AdminService.validateUser(id).then(function () {
+                getData();
+            });
+        }
+    };
+
+    var confirmDeletion = function () {
+        return confirm("Once you delete a user, there is no going back!");
     };
 
     $scope.deleteUser = function (id) {
-        AdminService.deleteUser(id).then(function () {
-            getData();
-        });
+        if (confirmDeletion()) {
+            AdminService.deleteUser(id).then(function () {
+                getData();
+            });
+        }
     };
 
     $scope.doUpload = function (file) {

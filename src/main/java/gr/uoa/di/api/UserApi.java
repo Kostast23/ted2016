@@ -23,7 +23,7 @@ public class UserApi {
 
     @RequestMapping(value = "/{username}")
     public void getUser(@PathVariable String username) {
-        userService.getUserEntity(username);
+        //userService.getUser(username);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

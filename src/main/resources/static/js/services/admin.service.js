@@ -12,7 +12,7 @@ function AdminService($http, $q) {
     return service;
 
     function getUser(id) {
-        return $http.get('/api/admin/users/' + id).then(function success(response) {
+        return $http.get('/api/admin/users/not_validated/' + id).then(function success(response) {
             return $q.resolve(response.data);
         }, function error(response) {
             return $q.reject(response.data.message);
@@ -20,13 +20,13 @@ function AdminService($http, $q) {
     }
 
     function validateUser(id) {
-        return $http.get('/api/admin/users/' + id + '/validate').then(function success() {
+        return $http.get('/api/admin/users/not_validated/' + id + '/validate').then(function success() {
             return $q.resolve();
         });
     }
 
     function deleteUser(id) {
-        return $http.delete('/api/admin/users/' + id).then(function success() {
+        return $http.delete('/api/admin/users/not_validated/' + id).then(function success() {
             return $q.resolve();
         });
     }
