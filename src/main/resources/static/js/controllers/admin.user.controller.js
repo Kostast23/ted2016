@@ -1,9 +1,9 @@
-app.controller('AdminUserController', function ($scope, $state, $stateParams, leafletData, AdminService) {
-    var loaded = false;
+app.controller('AdminUserController', function ($scope, $state, $stateParams, $timeout, leafletData, AdminService) {
+    $scope.resourcesLoaded = false;
 
     AdminService.getUser($stateParams.userId).then(function (user) {
         $scope.user = user;
-        loaded = true;
+        $scope.resourcesLoaded = true;
         if (user.latitude && user.longitude) {
             angular.extend($scope, {
                 markers: {
@@ -16,7 +16,9 @@ app.controller('AdminUserController', function ($scope, $state, $stateParams, le
             $scope.$on('leafletDirectiveMap.map.layeradd', function() {
                 leafletData.getMap().then(function (map) {
                     map.setView([user.latitude, user.longitude], 5);
-                    L.Util.requestAnimFrame(map.invalidateSize,map,!1,map._container);
+                    $timeout(function() {
+                        L.Util.requestAnimFrame(map.invalidateSize,map,!1,map._container);
+                    }, 100);
                 });
             });
         }
@@ -41,9 +43,5 @@ app.controller('AdminUserController', function ($scope, $state, $stateParams, le
         if (angular.isUndefined(val) || val === null || val === '') {
             return true;
         }
-    };
-
-    $scope.pageLoaded = function() {
-        return loaded;
     };
 });

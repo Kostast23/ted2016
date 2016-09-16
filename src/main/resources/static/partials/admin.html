@@ -1,67 +1,75 @@
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a ui-sref="main.admin_user">Home</a></li>
+    <li class="breadcrumb-item"><a ui-sref="main.store">Store</a></li>
     <li class="breadcrumb-item">Admin Panel</li>
 </ol>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Pending users</h3>
-    </div>
-    <div class="panel-body">
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Username</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th></th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="user in awaitingUsers">
-                <td><a ui-sref="main.admin_user({ userId: user.id })">{{ user.username }}</a></td>
-                <td>{{ user.name }}</td>
-                <td>{{ user.surname }}</td>
-                <td>{{ user.email }}</td>
-                <td>
-                    <button ng-click="acceptUser(user.id)" class="btn btn-success">Accept</button>
-                </td>
-                <td>
-                    <button ng-click="deleteUser(user.id)" class="btn btn-danger">Delete</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" ng-show="needPagination()"
-            max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
-    </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Upload database backup</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-2"><label class="btn btn-default btn-file">
-                Browse files <input type="file" style="display: none;" ngf-select ng-model="uplFile">
-            </label></div>
-            <div class="col-sm-2" style="vertical-align: center;">{{ uplFile.name || 'No file selected' }}</div>
-            <button ng-show="uplFile" ng-click="doUpload(uplFile)" class="btn btn-success col-sm-2">Upload</button>
+<div ng-show="resourcesLoaded">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Pending users: {{ totalItems }}</h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped" ng-show="totalItems > 0">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in awaitingUsers">
+                    <td><a ui-sref="main.admin_user({ userId: user.id })">{{ user.username }}</a></td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.surname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <button ng-click="acceptUser(user.id)" class="btn btn-success">Accept</button>
+                    </td>
+                    <td>
+                        <button ng-click="deleteUser(user.id)" class="btn btn-danger">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" ng-show="needPagination()"
+                max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
         </div>
     </div>
-</div>
-
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Download database dump</h3>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Upload database backup</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2"><label class="btn btn-default btn-file">
+                    Browse files <input type="file" style="display: none;" ngf-select ng-model="uplFile">
+                </label></div>
+                <div class="col-sm-2" style="vertical-align: center;">{{ uplFile.name || 'No file selected' }}</div>
+                <button ng-show="uplFile" ng-click="doUpload(uplFile)" class="btn btn-success col-sm-2">Upload</button>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-sm-12">
+                    <div uib-alert ng-class="'alert-success'" ng-if="uploaded">Upload successful!</div>
+                </div>
+                <div class="col-sm-12">
+                    <div uib-alert ng-class="'alert-danger'" ng-if="uploaded == false">Upload failed!</div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-2">
-                <button class="btn btn-primary" ng-click="downloadDump()">Download</button>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Download database dump</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" ng-click="downloadDump()">Download</button>
+                </div>
             </div>
         </div>
     </div>
