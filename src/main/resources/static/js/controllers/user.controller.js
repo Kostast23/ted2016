@@ -1,4 +1,4 @@
-app.controller('UserController', function($scope, $http, $state, AuthService) {
+app.controller('UserController', function($scope, $http, $state, $timeout, leafletData, AuthService) {
     if (AuthService.user.jwt) {
         $state.go('main.store');
     }
@@ -8,6 +8,17 @@ app.controller('UserController', function($scope, $http, $state, AuthService) {
 
     $scope.center = {
         autoDiscover: true
+    };
+
+    $scope.reloadMap = function() {
+        leafletData.getMap("map").then(function (map) {
+            // To render the map correctly after it's hidden we need to invalidate
+            // its size after it's shown.
+            // Awful hack, wait 500 ms for the map to appear and then invalidate its size
+            $timeout(function() {
+                L.Util.requestAnimFrame(map.invalidateSize,map,!1,map._container);
+            }, 500);
+        });
     };
 
     $scope.$on('leafletDirectiveMap.map.click', function (_, event) {
