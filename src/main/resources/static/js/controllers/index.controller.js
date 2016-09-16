@@ -1,4 +1,4 @@
-app.controller('UserController', function($scope, $http, $state, $timeout, leafletData, AuthService) {
+app.controller('IndexController', function($scope, $http, $state, $timeout, leafletData, AuthService) {
     if (AuthService.user.jwt) {
         $state.go('main.store');
     }

@@ -8,7 +8,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('index', {
             url: '/',
             templateUrl: 'partials/index.html',
-            controller: 'UserController',
+            controller: 'IndexController',
             css: 'css/index.css'
         })
         .state('main', {
