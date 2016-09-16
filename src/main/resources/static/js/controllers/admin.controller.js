@@ -1,36 +1,44 @@
-app.controller('AdminController', function ($scope, $http, $state, Upload) {
+app.controller('AdminController', function ($scope, $http, $state, AdminService, Upload) {
     $scope.currentPage = 1;
+    $scope.maxSize = 5;  // number for pagination size
     $scope.itemsPerPage = 10;
     $scope.awaitingUsers = [];
 
     var getData = function () {
-        $http.get('/api/admin/users/not_validated', {
-            params: {
-                page: $scope.currentPage - 1,
-                size: $scope.itemsPerPage
-            }
-        }).then(function (response) {
-            $scope.awaitingUsers = response.data.content;
-            $scope.totalItems = response.data.totalElements;
+        AdminService.getNotValidated($scope.currentPage, $scope.itemsPerPage).then(function (response) {
+            $scope.awaitingUsers = response.content;
+            $scope.totalItems = response.totalElements;
         });
     };
 
     getData();
 
     $scope.needPagination = function () {
-        return $scope.awaitingUsers.length > $scope.itemsPerPage;
+        return $scope.totalItems > $scope.itemsPerPage;
+    };
+
+    var confirmValidation = function () {
+        return confirm("Accepting a user means you cannot delete them anymore!");
     };
 
     $scope.acceptUser = function (id) {
-        $http.get('/api/admin/users/' + id + '/validate').then(function () {
-            getData();
-        });
+        if (confirmValidation()) {
+            AdminService.validateUser(id).then(function () {
+                getData();
+            });
+        }
+    };
+
+    var confirmDeletion = function () {
+        return confirm("Once you delete a user, there is no going back!");
     };
 
     $scope.deleteUser = function (id) {
-        $http.delete('/api/admin/users/' + id).then(function () {
-            getData();
-        });
+        if (confirmDeletion()) {
+            AdminService.deleteUser(id).then(function () {
+                getData();
+            });
+        }
     };
 
     $scope.doUpload = function (file) {

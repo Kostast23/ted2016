@@ -14,6 +14,7 @@ public class UserResponseDto {
     private String afm;
     private Integer buyerrating;
     private Integer sellerrating;
+    private Boolean validated;
 
     public int getId() {
         return id;
@@ -117,5 +118,12 @@ public class UserResponseDto {
 
     public void setSellerrating(Integer sellerrating) {
         this.sellerrating = sellerrating;
+    }
+    public Boolean getValidated() {
+        return validated;
+    }
+
+    public void setValidated(Boolean validated) {
+        this.validated = validated;
     }
 }

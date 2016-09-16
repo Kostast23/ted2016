@@ -1,5 +1,8 @@
-<h1>Administrator panel</h1>
-<br/>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a ui-sref="main.admin_user">Home</a></li>
+    <li class="breadcrumb-item">Admin Panel</li>
+</ol>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Pending users</h3>
@@ -18,7 +21,7 @@
             </thead>
             <tbody>
             <tr ng-repeat="user in awaitingUsers">
-                <td>{{ user.username }}</td>
+                <td><a ui-sref="main.admin_user({ userId: user.id })">{{ user.username }}</a></td>
                 <td>{{ user.name }}</td>
                 <td>{{ user.surname }}</td>
                 <td>{{ user.email }}</td>
@@ -31,7 +34,8 @@
             </tr>
             </tbody>
         </table>
-        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" ng-show="needPagination()"></ul>
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" ng-show="needPagination()"
+            max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
     </div>
 </div>
 

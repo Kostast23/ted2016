@@ -68,6 +68,7 @@ public class UserMapper {
         dto.setAfm(user.getAfm());
         dto.setBuyerrating(user.getBuyerrating());
         dto.setSellerrating(user.getSellerrating());
+        dto.setValidated(user.getValidated());
         return dto;
     }
 

@@ -75,8 +75,8 @@ public class UserService {
         return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
     }
 
-    public Page<UserResponseDto> getUsers(Pageable pageable) {
-        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findAll(pageable));
+    public UserResponseDto getNotValidatedUser(int id) {
+        return userMapper.mapUserEntityToUserResponseDto(getNotValidatedUserEntity(id));
     }
 
     public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {
@@ -84,17 +84,13 @@ public class UserService {
     }
 
     public void validateUser(int userId) {
-        UserEntity user = getUserEntity(userId);
-        if (user.getValidated()) {
-            throw new UserAlreadyValidatedException();
-        }
+        UserEntity user = getNotValidatedUserEntity(userId);
         user.setValidated(true);
         userRepo.save(user);
     }
 
     public void deleteUser(int userId) {
-        UserEntity user = getUserEntity(userId);
-        userRepo.delete(user);
+        userRepo.delete(getNotValidatedUserEntity(userId));
     }
 
     public UserEntity getUserEntity(int userId) {
@@ -109,6 +105,14 @@ public class UserService {
         UserEntity user = userRepo.findOneByUsername(username);
         if (user == null) {
             throw new UserNotFoundException();
+        }
+        return user;
+    }
+
+    private UserEntity getNotValidatedUserEntity(int userId) {
+        UserEntity user = getUserEntity(userId);
+        if (user.getValidated()) {
+            throw new UserAlreadyValidatedException();
         }
         return user;
     }
