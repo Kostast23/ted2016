@@ -31,6 +31,7 @@ public class UserMapper {
     public UserEntity mapBidderJAXToUserEntity(BidderJAX bidder) {
         UserEntity user = new UserEntity();
         user.setUsername(bidder.getUserID());
+        user.setValidated(true);
         if (bidder.getRating() != null)
                 user.setBuyerrating(Integer.valueOf(bidder.getRating()));
         user.setCountry(bidder.getCountry());
@@ -48,6 +49,7 @@ public class UserMapper {
     public UserEntity mapSellerJAXToUserEntity(SellerJAX seller) {
         UserEntity user = new UserEntity();
         user.setUsername(seller.getUserID());
+        user.setValidated(true);
         if (seller.getRating() != null)
             user.setSellerrating(Integer.valueOf(seller.getRating()));
         return user;

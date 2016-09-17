@@ -1,4 +1,6 @@
 app.controller('AdminController', function ($scope, $http, $state, AdminService, Upload) {
+    $scope.resourcesLoaded = false;
+
     $scope.currentPage = 1;
     $scope.maxSize = 5;  // number for pagination size
     $scope.itemsPerPage = 10;
@@ -8,6 +10,7 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
         AdminService.getNotValidated($scope.currentPage, $scope.itemsPerPage).then(function (response) {
             $scope.awaitingUsers = response.content;
             $scope.totalItems = response.totalElements;
+            $scope.resourcesLoaded = true;
         });
     };
 
@@ -46,12 +49,10 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
             url: '/api/admin/uploadBackup',
             data: {file: file}
         }).then(function (resp) {
-            console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
+            $scope.uploaded = true;
+            $scope.uplFile = undefined;
         }, function (resp) {
-            console.log('Error status: ' + resp.status);
-        }, function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            $scope.uploaded = false;
         });
     };
 

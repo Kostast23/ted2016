@@ -1,10 +1,31 @@
-<div class="row">
-    <div class="col-sm-6">Welcome, <b>{{ username || 'guest' }}</b>!</div>
-    <div class="col-sm-6 text-right">
-        <div ng-show="admin"><a ui-sref="main.store">Home</a></div>
-        <div ng-show="admin"><a ui-sref="main.admin">Administrator panel</a></div>
-        <div><a ui-sref="index" ng-click="doLogout()">{{ username ? 'Log out' : 'Log in' }}</a></div>
+<nav id="logo-bar" class="navbar navbar-default">
+    <div class="navbar-header">
+        <a ng-href="{{ getHomeUrl() }}">
+            <img id="logo"src="images/auction-hammer.png">
+        </a>
     </div>
-</div>
-<hr />
+    <div class="navbar-collapse collapse" ng-if="!atIndex()">
+        <ul class="nav navbar-nav navbar-right">
+            <li ng-if="admin">
+                <a ui-sref="main.admin">
+                    <br/>
+                    <div class="line-2">Admin Panel</div>
+                </a>
+            </li>
+            <li ng-if="username">
+                <a ui-sref="main.profile">
+                    <div class="line-1">Hello, {{ username }}!</div>
+                    <div class="line-2">Your Account</div>
+                </a>
+            </li>
+            <li>
+                <a ui-sref="main.index" ng-click="doLogout()">
+                    <div class="line-1">{{ username ? 'Tired?' : 'Register or' }}</div>
+                    <div class="line-2">{{ username ? 'Log out' : 'Log in Now!' }}</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
 <div ui-view></div>

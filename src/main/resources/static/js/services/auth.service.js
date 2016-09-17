@@ -7,6 +7,8 @@ function AuthService($http, $window, $q) {
 		login: login,
 		logout: logout,
         setUser: setUser,
+		isLoggedIn: isLoggedIn,
+        isAdmin: isAdmin,
 		user: {}
 	};
 
@@ -49,5 +51,13 @@ function AuthService($http, $window, $q) {
         service.user.jwt = jwt;
 		service.user.user = jwtObj.user;
         service.user.admin = jwtObj.admin;
+    }
+
+    function isLoggedIn() {
+        return !!service.user.user;
+    }
+
+    function isAdmin() {
+        return !!service.user.admin;
     }
 }

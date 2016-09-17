@@ -1,10 +1,10 @@
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a ui-sref="main.store">Home</a></li>
+    <li class="breadcrumb-item"><a ui-sref="main.store">Store</a></li>
     <li class="breadcrumb-item"><a ui-sref="main.admin">Admin Panel</a></li>
     <li class="breadcrumb-item">{{ user.username }}</li>
 </ol>
 
-<div ng-show="pageLoaded()">
+<div ng-show="resourcesLoaded">
     <div class="row is-flex">
         <div class="col-sm-6">
             <table class="item-table table table-bordered table-condensed">

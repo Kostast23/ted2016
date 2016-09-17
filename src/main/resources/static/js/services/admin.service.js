@@ -12,6 +12,7 @@ function AdminService($http, $q) {
     return service;
 
     function getUser(id) {
+        id = parseInt(id, 10);
         return $http.get('/api/admin/users/not_validated/' + id).then(function success(response) {
             return $q.resolve(response.data);
         }, function error(response) {
@@ -20,12 +21,14 @@ function AdminService($http, $q) {
     }
 
     function validateUser(id) {
+        id = parseInt(id, 10);
         return $http.get('/api/admin/users/not_validated/' + id + '/validate').then(function success() {
             return $q.resolve();
         });
     }
 
     function deleteUser(id) {
+        id = parseInt(id, 10);
         return $http.delete('/api/admin/users/not_validated/' + id).then(function success() {
             return $q.resolve();
         });
