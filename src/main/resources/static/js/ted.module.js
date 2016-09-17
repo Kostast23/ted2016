@@ -5,16 +5,15 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $urlRouterProvider.when('/login', '/').when('/register', '/').otherwise("/page_not_found");
 
     $stateProvider
-        .state('index', {
+        .state('main', {
+            templateUrl: 'partials/main.html',
+            controller: 'MainController'
+        })
+        .state('main.index', {
             url: '/',
             templateUrl: 'partials/index.html',
             controller: 'IndexController',
             css: 'css/index.css'
-        })
-        .state('main', {
-            abstract: true,
-            templateUrl: 'partials/main.html',
-            controller: 'MainController'
         })
         .state('main.store', {
             url: '/store',

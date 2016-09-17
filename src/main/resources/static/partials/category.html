@@ -1,4 +1,5 @@
 <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a ui-sref="main.store">Store</a></li>
     <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
     <li><span class="breadcrumb-item active">{{ category.name }}</span></li>
 </ol>

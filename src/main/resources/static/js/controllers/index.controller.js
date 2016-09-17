@@ -48,7 +48,7 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
     $scope.doLogin = function() {
         AuthService.login($scope.login).then(function() {
         	$scope.loginError = null;
-        	$state.go('main.store');
+        	$state.go('main.store', null, { reload: true });
         }, function(error) {
         	$scope.loginError = error;
         });

@@ -1,3 +1,21 @@
+#logo-bar {
+  height: 70px;
+  background-color: rgba(42, 14, 55, 0.99);
+  border-radius: 0 0 5px 5px; }
+  #logo-bar #logo {
+    height: 60px;
+    width: 150px;
+    margin: 6px 0 0 10px; }
+  #logo-bar div.line-1 {
+    color: #cccccc;
+    font-size: 12px; }
+  #logo-bar div.line-2 {
+    color: white;
+    font-family: 'Suez One', serif;
+    font-size: 14px; }
+  #logo-bar .navbar-nav > li > a {
+    padding-top: 14px; }
+
 .row.is-flex {
   display: flex;
   flex-wrap: wrap; }
