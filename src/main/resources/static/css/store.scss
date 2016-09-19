@@ -1,0 +1,125 @@
+ul#categories {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  & > .category {
+    width: 32.5%;
+    height: 230px;
+    margin: 0 1.25% 1% 0;
+    display: inline-block;
+    float: left;
+    position: relative;
+    background-color: lightblue;
+
+    &:nth-child(3n) {
+      margin: 0;
+    }
+
+    & > a.main {
+      width: 50%;
+      height: 100%;
+      float: left;
+      padding: 15px 10px;
+      display: block;
+
+      color: white;
+      text-decoration: none;
+
+      & > .image {
+        height: 160px;
+
+        & > img {
+          max-height: 100%;
+        }
+      }
+
+      & > h2 {
+        margin: 0;
+        padding: 10px 0;
+
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        vertical-align: baseline;
+        text-align:center;
+        text-decoration: none;
+      }
+    }
+
+    & > .subcategories {
+      width: 50%;
+      height: 100%;
+      float: left;
+      padding: 15px 0 11px 0;
+
+      & > ul {
+        list-style: none;
+        padding: 0;
+
+        & > li {
+          padding: 12px 5px 12px 10px;
+
+          &:nth-child(1) {
+            border-top: 0;
+          }
+
+          & > h3 {
+            margin: 0;
+
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            vertical-align: baseline;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+            & > a {
+              color: white;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin category-style($category, $color1, $color2) {
+  & > .#{$category} {
+    background-color: $color1;
+
+    .subcategories {
+      background-color: $color2;
+
+      & > ul > li {
+        border-top: 1px solid $color1;
+      }
+    }
+  }
+}
+
+ul#categories {
+  @include category-style(collectibles, #E45641, #D0533F);
+  @include category-style(clothing, #F1A94E, #E49D4D);
+  @include category-style(movies, #F2C7D6, #E3BCC7);
+  @include category-style(sports, #8E746A, #776159);
+  @include category-style(pottery, #44B3C2, #41A7B6);
+  @include category-style(toys, #8A9C9D, #7B8D8E);
+  @include category-style(antiques, #9180B9, #6F69AD);
+  @include category-style(electronics, #CAB38D, #BCA580);
+  @include category-style(computers, #E07C82, #DD6C75);
+  @include category-style(photo, #8E887B, #837D71);
+  @include category-style(home, #F1A77F, #E49E78);
+  @include category-style(coins, #3C8FC2, #3884B3);
+  @include category-style(stamps, #F1A94E, #E49D4D);
+  @include category-style(tickets, #E45641, #D0533F);
+  @include category-style(dolls, #F2C7D6, #E3BCC7);
+  @include category-style(business, #8E746A, #776159);
+  @include category-style(music, #44B3C2, #41A7B6);
+  @include category-style(books, #8A9C9D, #7B8D8E);
+  @include category-style(jewelry, #E07C82, #DD6C75);
+  @include category-style(else, #CAB38D, #BCA580);
+}

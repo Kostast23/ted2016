@@ -76,6 +76,7 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
         	AuthService.register($scope.register).then(function() {
         		$scope.registerError = null;
         		$scope.registerSuccess = true;
+                $state.go('main.signup_success');
         	}, function(error) {
         		$scope.registerError = error;
         	});

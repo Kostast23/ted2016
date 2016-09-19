@@ -18,7 +18,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',
-            controller: 'StoreController'
+            controller: 'StoreController',
+            css: 'css/store.css'
         })
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',
@@ -68,6 +69,10 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/page_not_found',
             templateUrl: 'partials/page_not_found.html',
             css: 'css/page_not_found.css'
+        })
+        .state('main.signup_success', {
+            url: '/signup_success',
+            templateUrl: 'partials/signup_success.html'
         });
 
     function authenticateAdmin($q, $state, $timeout, AuthService) {

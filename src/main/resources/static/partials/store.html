@@ -1,12 +1,21 @@
-<h1>Categories</h1>
-<ul>
-    <li ng-repeat="category in categories">
-        {{ category.name }}
-        <ul>
-            <li ng-repeat="subcategory in category.subcategories">
-                <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{ subcategory.name }}</a>
-                <div ng-show="subcategory.count">{{ subcategory.count }} items</div>
-            </li>
-        </ul>
+<ul id="categories">
+    <li ng-repeat="category in categories" class="category {{styles[$index]}}">
+        <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })" class="main">
+            <div class="image">
+                <img src="images/categories/{{styles[$index]}}.png">
+            </div>
+            <h2>
+                <span>{{ category.name }}</span>
+            </h2>
+        </a>
+        <div class="subcategories">
+            <ul>
+                <li ng-repeat="subcategory in category.top">
+                    <h3>
+                        <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{ subcategory.name }}</a>
+                    </h3>
+                </li>
+            </ul>
+        </div>
     </li>
 </ul>
