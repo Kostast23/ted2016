@@ -18,7 +18,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',
-            controller: 'StoreController'
+            controller: 'StoreController',
+            css: 'css/store.css'
         })
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',

@@ -1,0 +1,183 @@
+ul#categories {
+  list-style: none;
+  padding: 0;
+  margin: 0; }
+  ul#categories > .category {
+    width: 32.5%;
+    height: 230px;
+    margin: 0 1.25% 1% 0;
+    display: inline-block;
+    float: left;
+    position: relative;
+    background-color: lightblue; }
+    ul#categories > .category:nth-child(3n) {
+      margin: 0; }
+    ul#categories > .category > a.main {
+      width: 50%;
+      height: 100%;
+      float: left;
+      padding: 15px 10px;
+      display: block;
+      color: white;
+      text-decoration: none; }
+      ul#categories > .category > a.main > .image {
+        height: 160px; }
+        ul#categories > .category > a.main > .image > img {
+          max-height: 100%; }
+      ul#categories > .category > a.main > h2 {
+        margin: 0;
+        padding: 10px 0;
+        color: white;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 20px;
+        vertical-align: baseline;
+        text-align: center;
+        text-decoration: none; }
+    ul#categories > .category > .subcategories {
+      width: 50%;
+      height: 100%;
+      float: left;
+      padding: 15px 0 11px 0; }
+      ul#categories > .category > .subcategories > ul {
+        list-style: none;
+        padding: 0; }
+        ul#categories > .category > .subcategories > ul > li {
+          padding: 12px 5px 12px 10px; }
+          ul#categories > .category > .subcategories > ul > li:nth-child(1) {
+            border-top: 0; }
+          ul#categories > .category > .subcategories > ul > li > h3 {
+            margin: 0;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 16px;
+            vertical-align: baseline;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; }
+            ul#categories > .category > .subcategories > ul > li > h3 > a {
+              color: white;
+              text-decoration: none; }
+
+ul#categories > .collectibles {
+  background-color: #E45641; }
+  ul#categories > .collectibles .subcategories {
+    background-color: #D0533F; }
+    ul#categories > .collectibles .subcategories > ul > li {
+      border-top: 1px solid #E45641; }
+ul#categories > .clothing {
+  background-color: #F1A94E; }
+  ul#categories > .clothing .subcategories {
+    background-color: #E49D4D; }
+    ul#categories > .clothing .subcategories > ul > li {
+      border-top: 1px solid #F1A94E; }
+ul#categories > .movies {
+  background-color: #F2C7D6; }
+  ul#categories > .movies .subcategories {
+    background-color: #E3BCC7; }
+    ul#categories > .movies .subcategories > ul > li {
+      border-top: 1px solid #F2C7D6; }
+ul#categories > .sports {
+  background-color: #8E746A; }
+  ul#categories > .sports .subcategories {
+    background-color: #776159; }
+    ul#categories > .sports .subcategories > ul > li {
+      border-top: 1px solid #8E746A; }
+ul#categories > .pottery {
+  background-color: #44B3C2; }
+  ul#categories > .pottery .subcategories {
+    background-color: #41A7B6; }
+    ul#categories > .pottery .subcategories > ul > li {
+      border-top: 1px solid #44B3C2; }
+ul#categories > .toys {
+  background-color: #8A9C9D; }
+  ul#categories > .toys .subcategories {
+    background-color: #7B8D8E; }
+    ul#categories > .toys .subcategories > ul > li {
+      border-top: 1px solid #8A9C9D; }
+ul#categories > .antiques {
+  background-color: #9180B9; }
+  ul#categories > .antiques .subcategories {
+    background-color: #6F69AD; }
+    ul#categories > .antiques .subcategories > ul > li {
+      border-top: 1px solid #9180B9; }
+ul#categories > .electronics {
+  background-color: #CAB38D; }
+  ul#categories > .electronics .subcategories {
+    background-color: #BCA580; }
+    ul#categories > .electronics .subcategories > ul > li {
+      border-top: 1px solid #CAB38D; }
+ul#categories > .computers {
+  background-color: #E07C82; }
+  ul#categories > .computers .subcategories {
+    background-color: #DD6C75; }
+    ul#categories > .computers .subcategories > ul > li {
+      border-top: 1px solid #E07C82; }
+ul#categories > .photo {
+  background-color: #8E887B; }
+  ul#categories > .photo .subcategories {
+    background-color: #837D71; }
+    ul#categories > .photo .subcategories > ul > li {
+      border-top: 1px solid #8E887B; }
+ul#categories > .home {
+  background-color: #F1A77F; }
+  ul#categories > .home .subcategories {
+    background-color: #E49E78; }
+    ul#categories > .home .subcategories > ul > li {
+      border-top: 1px solid #F1A77F; }
+ul#categories > .coins {
+  background-color: #3C8FC2; }
+  ul#categories > .coins .subcategories {
+    background-color: #3884B3; }
+    ul#categories > .coins .subcategories > ul > li {
+      border-top: 1px solid #3C8FC2; }
+ul#categories > .stamps {
+  background-color: #F1A94E; }
+  ul#categories > .stamps .subcategories {
+    background-color: #E49D4D; }
+    ul#categories > .stamps .subcategories > ul > li {
+      border-top: 1px solid #F1A94E; }
+ul#categories > .tickets {
+  background-color: #E45641; }
+  ul#categories > .tickets .subcategories {
+    background-color: #D0533F; }
+    ul#categories > .tickets .subcategories > ul > li {
+      border-top: 1px solid #E45641; }
+ul#categories > .dolls {
+  background-color: #F2C7D6; }
+  ul#categories > .dolls .subcategories {
+    background-color: #E3BCC7; }
+    ul#categories > .dolls .subcategories > ul > li {
+      border-top: 1px solid #F2C7D6; }
+ul#categories > .business {
+  background-color: #8E746A; }
+  ul#categories > .business .subcategories {
+    background-color: #776159; }
+    ul#categories > .business .subcategories > ul > li {
+      border-top: 1px solid #8E746A; }
+ul#categories > .music {
+  background-color: #44B3C2; }
+  ul#categories > .music .subcategories {
+    background-color: #41A7B6; }
+    ul#categories > .music .subcategories > ul > li {
+      border-top: 1px solid #44B3C2; }
+ul#categories > .books {
+  background-color: #8A9C9D; }
+  ul#categories > .books .subcategories {
+    background-color: #7B8D8E; }
+    ul#categories > .books .subcategories > ul > li {
+      border-top: 1px solid #8A9C9D; }
+ul#categories > .jewelry {
+  background-color: #E07C82; }
+  ul#categories > .jewelry .subcategories {
+    background-color: #DD6C75; }
+    ul#categories > .jewelry .subcategories > ul > li {
+      border-top: 1px solid #E07C82; }
+ul#categories > .else {
+  background-color: #CAB38D; }
+  ul#categories > .else .subcategories {
+    background-color: #BCA580; }
+    ul#categories > .else .subcategories > ul > li {
+      border-top: 1px solid #CAB38D; }
+
+/*# sourceMappingURL=store.css.map */
