@@ -75,8 +75,8 @@ public class UserService {
         return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
     }
 
-    public UserResponseDto getNotValidatedUser(int id) {
-        return userMapper.mapUserEntityToUserResponseDto(getNotValidatedUserEntity(id));
+    public Page<UserResponseDto> getValidatedUsers(Pageable pageable) {
+        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findByValidatedTrue(pageable));
     }
 
     public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {

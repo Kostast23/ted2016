@@ -29,7 +29,6 @@ app.controller('AdminUserController', function ($scope, $state, $stateParams, $t
     $scope.acceptUser = function (id) {
         AdminService.validateUser(id).then(function () {
             $scope.user.validated = true;
-            $state.go('main.admin');
         });
     };
 

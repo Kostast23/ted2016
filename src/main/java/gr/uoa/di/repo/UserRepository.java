@@ -13,5 +13,6 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 
     List<UserEntity> findAll();
     Page<UserEntity> findAll(Pageable pageable);
+    Page<UserEntity> findByValidatedTrue(Pageable pageable);
     Page<UserEntity> findByValidatedFalse(Pageable pageable);
 }
