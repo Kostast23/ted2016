@@ -9,8 +9,9 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="description">Description</label>
         <div class="col-sm-9">
-            <textarea cols="50" rows="5" class="form-control" id="description" name="description" placeholder="Description"
-                   ng-model="item.description"></textarea>
+            <textarea cols="50" rows="5" class="form-control" id="description" name="description"
+                      placeholder="Description"
+                      ng-model="item.description"></textarea>
         </div>
     </div>
     <div class="form-group" has-feedback>
@@ -18,7 +19,9 @@
         <div class="col-sm-9">
             <select class="form-control" id="category" name="category" ng-model="item.category">
                 <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
-                    <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                    <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{
+                        subcategory.name }}
+                    </option>
                 </optgroup>
             </select>
         </div>
@@ -54,7 +57,8 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="startDate">Starting date</label>
         <div class="col-sm-9">
-            <input type="datetime-local" class="form-control" id="startDate" name="startDate" placeholder="Starting date"
+            <input type="datetime-local" class="form-control" id="startDate" name="startDate"
+                   placeholder="Starting date"
                    ng-model="item.startDate" required>
         </div>
     </div>
@@ -68,7 +72,24 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="map">Location</label>
         <div class="col-sm-9">
-            <leaflet class="form-control" id="map" lf-center="center" name="position" markers="markers" height="300px" width="400px"></leaflet>
+            <leaflet class="form-control" id="map" lf-center="center" name="position" markers="markers" height="300px"
+                     width="400px"></leaflet>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label" for="images">Images</label>
+        <div class="col-sm-9">
+            <p ng-repeat="img in item.images"><img style="width: 400px;height: 400px;" src="/api/images/{{ img }}" /></p>
+            <input type="file" nv-file-select="" uploader="uploader" multiple/>
+            <p ng-repeat="item in uploader.queue">{{ item.file.name }}
+                <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                    <span class="glyphicon glyphicon-trash"></span> Remove
+                </button>
+            </p>
+            <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                    ng-disabled="!uploader.getNotUploadedItems().length">
+                <span class="glyphicon glyphicon-upload"></span> Upload all
+            </button>
         </div>
     </div>
     <div class="form-group" has-feedback>

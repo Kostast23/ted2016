@@ -110,7 +110,7 @@ public class ItemMapper {
         item.setStartDate(itemEntity.getStartDate());
         item.setEndDate(itemEntity.getEndDate());
         item.setFinished(itemEntity.getFinished());
-        item.setPictures(itemEntity.getPictures().stream().map(this::mapItemPicturesEntityToPictureDto).collect(Collectors.toList()));
+        item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getFilename).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
         item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false, true));
         return item;
@@ -119,7 +119,6 @@ public class ItemMapper {
     public PictureDto mapItemPicturesEntityToPictureDto(ItemPicturesEntity itemPicturesEntity) {
         PictureDto picture = new PictureDto();
         picture.setName(itemPicturesEntity.getFilename());
-        picture.setContent(itemPicturesEntity.getImage());
         return picture;
     }
 
@@ -139,6 +138,12 @@ public class ItemMapper {
         itemEnt.setFinished(false);
         itemEnt.setStartDate(item.getStartDate());
         itemEnt.setEndDate(item.getEndDate());
+        itemEnt.setPictures(item.getImages().stream().map(image -> {
+            ItemPicturesEntity picEnt = new ItemPicturesEntity();
+            picEnt.setFilename(image);
+            picEnt.setItem(itemEnt);
+            return picEnt;
+        }).collect(Collectors.toList()));
         return itemEnt;
     }
 }

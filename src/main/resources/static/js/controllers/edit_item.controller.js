@@ -1,4 +1,4 @@
-app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window) {
+app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window, FileUploader) {
     var marker = null;
     var curDate = new Date();
     curDate.setSeconds(0);
@@ -9,6 +9,16 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         endDate: moment(curDate).add(1, 'months').toDate()
     };
     $scope.markers = {};
+    $scope.uploader = new FileUploader({
+        url: '/api/images/upload',
+        removeAfterUpload: true
+    });
+    $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
+        if (!$scope.item.images) {
+            $scope.item.images = [];
+        }
+        $scope.item.images.push(response);
+    };
 
     $scope.center = {
         autoDiscover: true
@@ -29,7 +39,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         $scope.markers = {};
     });
 
-    $scope.$on('leafletDirectiveMarker.map.dragend', function(_, event) {
+    $scope.$on('leafletDirectiveMarker.map.dragend', function (_, event) {
         marker.lat = event.leafletEvent.target._latlng.lat;
         marker.lng = event.leafletEvent.target._latlng.lng;
     });
@@ -71,7 +81,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
                 itemId: response.data,
                 itemName: $scope.item.name
             });
-        }, function(err) {
+        }, function (err) {
             $scope.bidError = err.data.message;
         });
     };
@@ -102,7 +112,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
                 lat: item.lat,
                 lng: item.lon,
                 draggable: true,
-                focus:true
+                focus: true
             };
             $scope.markers = {marker: marker};
             $scope.item.name = item.name;
@@ -114,6 +124,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             $scope.item.buyprice = item.buyprice / 100;
             $scope.item.startDate = new Date(item.startDate);
             $scope.item.endDate = new Date(item.endDate);
+            $scope.item.images = item.images;
         });
     } else if ($stateParams.category) {
         $scope.item.category = $stateParams.category.toString();

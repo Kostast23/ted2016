@@ -14,7 +14,7 @@ public class ItemEditDto {
     private String country;
     private Date startDate;
     private Date endDate;
-    private List<PictureDto> pictures;
+    private List<String> images;
     private Integer category;
 
     public String getName() {
@@ -97,12 +97,12 @@ public class ItemEditDto {
         this.endDate = endDate;
     }
 
-    public List<PictureDto> getPictures() {
-        return pictures;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setPictures(List<PictureDto> pictures) {
-        this.pictures = pictures;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public Integer getCategory() {
