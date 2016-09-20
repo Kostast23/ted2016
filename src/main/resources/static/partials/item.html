@@ -4,23 +4,34 @@
 </ol>
 
 <div class="row">
-    <div class="col-sm-5">
+    <div class="col-sm-5" ng-show="item.images.length">
+        <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+            <div uib-slide ng-repeat="img in item.images track by $index" index="$index">
+                <img height="350" ng-src="/api/images/{{img}}" style="margin:auto;">
+            </div>
+        </div>
     </div>
     <div class="col-sm-7 container">
         <h3>{{ item.name }}</h3>
         <div ng-show="currentUser == item.sellerUsername">
-            <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})"><button class="btn btn-primary">Edit</button></a>&nbsp;
-            <a ng-click="deleteItem(item.id)"><button class="btn btn-danger">Delete</button></a>
+            <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
+                <button class="btn btn-primary">Edit</button>
+            </a>&nbsp;
+            <a ng-click="deleteItem(item.id)">
+                <button class="btn btn-danger">Delete</button>
+            </a>
         </div>
         <hr/>
         <div class="clearfix">
             <p class="col-sm-3 text-right">Seller:</p>
-            <p class="col-sm-9"><a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
+            <p class="col-sm-9"><a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
+            </p>
         </div>
         <div class="clearfix">
             <p class="col-sm-3 text-right">Location:</p>
             <p class="col-sm-9">
-                <a href="" uib-popover-template="'map-template.html'" popover-placement="bottom-left">{{ item.location }}, {{ item.country }}</a>
+                <a href="" uib-popover-template="'map-template.html'" popover-placement="bottom-left">{{ item.location
+                    }}, {{ item.country }}</a>
             </p>
             <script type="text/ng-template" id="map-template.html">
                 <div>
@@ -29,8 +40,10 @@
             </script>
         </div>
         <div class="clearfix">
-            <p class="col-sm-3 text-right" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ end }}</p>
-            <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset }}</p>
+            <p class="col-sm-3 text-right" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">
+                {{ end }}</p>
+            <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset
+                }}</p>
         </div>
         <div class="clearfix" ng-show="!canBid()">
             <p class="col-sm-3 text-right">Current Bid:</p>
@@ -39,7 +52,8 @@
         <div class="clearfix" id="bid-panel" ng-show="canBid()">
             <p class="col-sm-3 text-right">Current Bid:</p>
             <p class="col-sm-9">{{ item.currentbid | currency }}</p>
-            <input type="number" ng-model="bidAmount" step="1.00" class="col-sm-offset-3 col-sm-3 bid-input" placeholder="Bid amount">
+            <input type="number" ng-model="bidAmount" step="1.00" class="col-sm-offset-3 col-sm-3 bid-input"
+                   placeholder="Bid amount">
             <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary bid-button">Place bid</button>
             <div class="alert alert-danger" ng-show="bidError">
                 <ul>
@@ -63,10 +77,12 @@
                         <table class="table table-bordered table-hover">
                             <tbody>
                             <tr ng-repeat="bid in bids" ng-class="{'bg-success': $last}">
-                                <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{ bid.owner
+                                <td>{{ bid.amount | currency }} by <a ui-sref="main.user({ username: bid.owner })">{{
+                                    bid.owner
                                     }}</a>,
                                     <a data-toggle="tooltip" data-placement="right"
-                                       title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a></td>
+                                       title="{{ bid.date | date : 'MMM dd, yyyy HH:mm:ss' }}">{{ bid.timeOffset }}</a>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
