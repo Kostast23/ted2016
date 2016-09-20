@@ -1,24 +1,26 @@
 <form class="form-horizontal" novalidate>
     <div class="form-group" has-feedback>
-        <label class="col-sm-3 control-label" for="name">Name</label>
+        <label class="col-sm-3 control-label" for="name">Name<span style="color: red">*</span></label>
         <div class="col-sm-9">
             <input type="text" class="form-control" id="name" name="name" placeholder="Name"
                    ng-model="item.name" required>
         </div>
     </div>
     <div class="form-group" has-feedback>
-        <label class="col-sm-3 control-label" for="description">Description</label>
+        <label class="col-sm-3 control-label" for="description">Description<span style="color: red">*</span></label>
         <div class="col-sm-9">
-            <textarea cols="50" rows="5" class="form-control" id="description" name="description" placeholder="Description"
-                   ng-model="item.description"></textarea>
+            <textarea cols="50" rows="5" class="form-control" id="description" name="description"
+                      placeholder="Description"
+                      ng-model="item.description"></textarea>
         </div>
     </div>
     <div class="form-group" has-feedback>
-        <label class="col-sm-3 control-label" for="category">Category</label>
+        <label class="col-sm-3 control-label" for="category">Category<span style="color: red">*</span></label>
         <div class="col-sm-9">
             <select class="form-control" id="category" name="category" ng-model="item.category">
                 <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
-                    <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}</option>
+                    <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}
+                    </option>
                 </optgroup>
             </select>
         </div>
@@ -26,8 +28,7 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="location">Address</label>
         <div class="col-sm-9">
-            <input type="text" class="form-control" id="location" name="location" placeholder="Address"
-                   ng-model="item.location">
+            <input type="text" class="form-control" id="location" name="location" placeholder="Address" ng-model="item.location">
         </div>
     </div>
     <div class="form-group" has-feedback>
@@ -54,7 +55,8 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="startDate">Starting date</label>
         <div class="col-sm-9">
-            <input type="datetime-local" class="form-control" id="startDate" name="startDate" placeholder="Starting date"
+            <input type="datetime-local" class="form-control" id="startDate" name="startDate"
+                   placeholder="Starting date"
                    ng-model="item.startDate" required>
         </div>
     </div>
@@ -68,7 +70,38 @@
     <div class="form-group" has-feedback>
         <label class="col-sm-3 control-label" for="map">Location</label>
         <div class="col-sm-9">
-            <leaflet class="form-control" id="map" lf-center="center" name="position" markers="markers" height="300px" width="400px"></leaflet>
+            <leaflet class="form-control" id="map" lf-center="center" name="position" markers="markers" height="300px"
+                     width="400px"></leaflet>
+        </div>
+    </div>
+    <div class="form-group" has-feedback>
+        <label class="col-sm-3 control-label">Images</label>
+        <div class="col-sm-9">
+            <div>
+                <p ng-repeat="img in item.images">
+                    <img style="width: 100px;height: 100px;" ng-src="/api/images/{{ img }}"/>
+                    <button ng-click="removeImage(img)" class="btn btn-danger btn-xs">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </p>
+            </div>
+            <div><label class="btn btn-default btn-file">
+                Browse files <input type="file" nv-file-select="" style="display: none;" uploader="uploader" multiple/>
+            </label></div>
+            <div class="row" ng-repeat="item in uploader.queue">
+                <div class="col-sm-4">{{ item.file.name }}</div>
+                <div class="col-sm-2">
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                        ng-disabled="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>
+            </div>
         </div>
     </div>
     <div class="form-group" has-feedback>

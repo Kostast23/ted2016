@@ -2,7 +2,6 @@ package gr.uoa.di.dto.item;
 
 public class PictureDto {
     private String name;
-    private byte[] content;
 
     public String getName() {
         return name;
@@ -10,13 +9,5 @@ public class PictureDto {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
     }
 }

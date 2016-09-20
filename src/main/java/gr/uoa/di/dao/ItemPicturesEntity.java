@@ -1,13 +1,12 @@
 package gr.uoa.di.dao;
 
 import javax.persistence.*;
-import java.util.Arrays;
 
 @Entity
 @Table(name = "item_pictures", schema = "public", catalog = "ted")
 public class ItemPicturesEntity {
     private String filename;
-    private byte[] image;
+    private String uuid;
     private ItemEntity item;
 
     @Id
@@ -20,14 +19,13 @@ public class ItemPicturesEntity {
         this.filename = filename;
     }
 
-    @Basic
-    @Column(name = "image")
-    public byte[] getImage() {
-        return image;
+    @Column(name = "uuid")
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     @Override
@@ -38,15 +36,16 @@ public class ItemPicturesEntity {
         ItemPicturesEntity that = (ItemPicturesEntity) o;
 
         if (filename != null ? !filename.equals(that.filename) : that.filename != null) return false;
-        if (!Arrays.equals(image, that.image)) return false;
+        if (uuid != null ? !uuid.equals(that.uuid) : that.uuid != null) return false;
+        return item != null ? item.equals(that.item) : that.item == null;
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = filename != null ? filename.hashCode() : 0;
-        result = 31 * result + Arrays.hashCode(image);
+        result = 31 * result + (uuid != null ? uuid.hashCode() : 0);
+        result = 31 * result + (item != null ? item.hashCode() : 0);
         return result;
     }
 

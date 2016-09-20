@@ -18,7 +18,7 @@ public class ItemResponseDto {
     private Date startDate;
     private Date endDate;
     private Boolean finished;
-    private List<PictureDto> pictures;
+    private List<String> images;
     private String sellerUsername;
     private CategoryResponseDto category;
 
@@ -118,12 +118,12 @@ public class ItemResponseDto {
         this.finished = finished;
     }
 
-    public List<PictureDto> getPictures() {
-        return pictures;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setPictures(List<PictureDto> pictures) {
-        this.pictures = pictures;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public String getSellerUsername() {

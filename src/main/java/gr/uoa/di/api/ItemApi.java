@@ -54,6 +54,7 @@ public class ItemApi {
             ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
             itemEnt.setId(itemId);
             itemEnt.setOwner(savedItem.getOwner());
+            itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
             return itemRepository.save(itemEnt).getId();
         }
     }
@@ -83,6 +84,7 @@ public class ItemApi {
         }
         ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
         itemEnt.setOwner(userService.getUserEntity((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
         return itemRepository.save(itemEnt).getId();
     }
 }
