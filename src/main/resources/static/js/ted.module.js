@@ -6,6 +6,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
 
     $stateProvider
         .state('main', {
+            abstract: true,
             templateUrl: 'partials/main.html',
             controller: 'MainController'
         })
@@ -94,7 +95,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             return $q.when()
         } else {
             $timeout(function() {
-                $state.go('index')
+                $state.go('main.index')
             });
             return $q.reject()
         }
