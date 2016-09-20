@@ -2,7 +2,7 @@ var app = angular.module('tedApp', ['ui.router', 'ui.bootstrap', 'ngFileUpload',
 
 app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
-    $urlRouterProvider.when('/login', '/').when('/register', '/').otherwise("/page_not_found");
+    $urlRouterProvider.when('', '/').when('/login', '/').when('/register', '/').otherwise("/page_not_found");
 
     $stateProvider
         .state('main', {

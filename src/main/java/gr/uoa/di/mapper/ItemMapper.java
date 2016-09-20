@@ -10,14 +10,12 @@ import gr.uoa.di.jax.BidsJAX;
 import gr.uoa.di.jax.ItemJAX;
 import gr.uoa.di.jax.LocationJAX;
 import gr.uoa.di.repo.CategoryRepository;
+import gr.uoa.di.repo.ItemPicturesRepository;
 import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -30,6 +28,8 @@ public class ItemMapper {
     BidMapper bidMapper;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    private ItemPicturesRepository itemPicturesRepository;
 
     public ItemEntity mapItemJAXToItemEntity(ItemJAX item) {
         ItemEntity itemEnt = new ItemEntity();
@@ -110,16 +110,10 @@ public class ItemMapper {
         item.setStartDate(itemEntity.getStartDate());
         item.setEndDate(itemEntity.getEndDate());
         item.setFinished(itemEntity.getFinished());
-        item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getFilename).collect(Collectors.toList()));
+        item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getUuid).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
         item.setCategory(categoryMapper._mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), false, true));
         return item;
-    }
-
-    public PictureDto mapItemPicturesEntityToPictureDto(ItemPicturesEntity itemPicturesEntity) {
-        PictureDto picture = new PictureDto();
-        picture.setName(itemPicturesEntity.getFilename());
-        return picture;
     }
 
     public ItemEntity mapItemEditDtoToItemEntity(ItemEditDto item) {
@@ -138,12 +132,11 @@ public class ItemMapper {
         itemEnt.setFinished(false);
         itemEnt.setStartDate(item.getStartDate());
         itemEnt.setEndDate(item.getEndDate());
-        itemEnt.setPictures(item.getImages().stream().map(image -> {
-            ItemPicturesEntity picEnt = new ItemPicturesEntity();
-            picEnt.setFilename(image);
-            picEnt.setItem(itemEnt);
-            return picEnt;
-        }).collect(Collectors.toList()));
+        if (item.getImages() == null) {
+            item.setImages(new ArrayList<>());
+        }
+        itemEnt.setPictures(item.getImages().stream().map(
+                image -> itemPicturesRepository.findOneByUuid(image)).collect(Collectors.toList()));
         return itemEnt;
     }
 }

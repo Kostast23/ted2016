@@ -151,6 +151,7 @@ ALTER SEQUENCE item_id_seq OWNED BY item.id;
 
 CREATE TABLE item_pictures (
     filename text NOT NULL,
+    uuid VARCHAR(60) NOT NULL,
     item integer
 );
 

@@ -13,11 +13,20 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         url: '/api/images/upload',
         removeAfterUpload: true
     });
+
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {
         if (!$scope.item.images) {
             $scope.item.images = [];
         }
         $scope.item.images.push(response);
+    };
+
+    $scope.removeImage = function (img) {
+        var idx = $scope.item.images.indexOf(img);
+        if (idx > -1) {
+            $scope.item.images.splice(idx, 1);
+        }
+        $http.delete('/api/images/' + img);
     };
 
     $scope.center = {

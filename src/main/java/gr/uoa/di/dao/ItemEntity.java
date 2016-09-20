@@ -1,9 +1,9 @@
 package gr.uoa.di.dao;
 
 import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -203,8 +203,7 @@ public class ItemEntity {
         return result;
     }
 
-    @OneToMany(mappedBy = "item")
-    @Cascade(CascadeType.ALL)
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     public List<ItemPicturesEntity> getPictures() {
         return pictures;
     }

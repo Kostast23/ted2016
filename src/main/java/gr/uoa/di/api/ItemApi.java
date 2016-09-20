@@ -54,6 +54,7 @@ public class ItemApi {
             ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
             itemEnt.setId(itemId);
             itemEnt.setOwner(savedItem.getOwner());
+            itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
             return itemRepository.save(itemEnt).getId();
         }
     }
@@ -78,12 +79,12 @@ public class ItemApi {
         || item.getStartDate() == null || item.getCategory() == null) {
             throw new ItemFieldsException();
         }
-        Date curDate = new Date();
         if (item.getEndDate().before(item.getStartDate())) {
             throw new ItemDateException();
         }
         ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
         itemEnt.setOwner(userService.getUserEntity((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
+        itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
         return itemRepository.save(itemEnt).getId();
     }
 }
