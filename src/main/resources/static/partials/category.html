@@ -20,11 +20,16 @@ Category: {{ category.name }} with {{ category.count }}
         </li>
     </ul>
 </div>
-<div ng-show="category.items.length">
+<div ng-show="items.length">
     <h2>Items</h2>
     <ul>
-        <li ng-repeat="item in category.items">
+        <li ng-repeat="item in items">
             <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
         </li>
     </ul>
+
+    <div id="pagination" ng-show="needPagination()">
+        <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="getItems()"
+            max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
+    </div>
 </div>
