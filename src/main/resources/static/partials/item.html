@@ -1,24 +1,28 @@
 <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a ui-sref="main.store">Store</a></li>
     <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a
             ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
 </ol>
 
 <div class="row">
-    <div class="col-sm-5" ng-show="item.images.length">
-        <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+    <div class="col-sm-5" id="images">
+        <div uib-carousel ng-if="item.images.length" active="active" interval="myInterval" no-wrap="noWrapSlides" id="carousel">
             <div uib-slide ng-repeat="img in item.images track by $index" index="$index">
-                <img height="350" ng-src="/api/images/{{img}}" style="margin:auto;">
+                <img ng-src="/api/images/{{img}}">
             </div>
+        </div>
+        <div ng-if="!item.images.length" id="no-image">
+            <span>No images are available</span>
         </div>
     </div>
     <div class="col-sm-7 container">
         <h3>{{ item.name }}</h3>
-        <div ng-show="currentUser == item.sellerUsername">
+        <div ng-show="canEdit()">
             <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
-                <button class="btn btn-primary">Edit</button>
-            </a>&nbsp;
+                <button class="btn btn-primary btn-sm">Edit</button>
+            </a>
             <a ng-click="deleteItem(item.id)">
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger btn-sm">Delete</button>
             </a>
         </div>
         <hr/>
@@ -46,7 +50,8 @@
                 }}</p>
         </div>
         <div class="clearfix" ng-show="!canBid()">
-            <p class="col-sm-3 text-right">Current Bid:</p>
+            <p class="col-sm-3 text-right" ng-if="!bids.length">Starting Bid:</p>
+            <p class="col-sm-3 text-right" ng-if="bids.length">Current Bid:</p>
             <p class="col-sm-9">{{ item.currentbid | currency }}</p>
         </div>
         <div class="clearfix" id="bid-panel" ng-show="canBid()">
@@ -67,7 +72,7 @@
                 <button ng-click="submitBid(item.buyprice)" class="btn btn-primary bid-button">Buy Now!</button>
             </div>
         </div>
-        <div class="bid-history">
+        <div class="bid-history" ng-if="bids.length">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Bid History - {{ bids.length }} bid{{ bids.length == 1 ? '' : 's' }}</h3>
@@ -92,7 +97,7 @@
         </div>
     </div>
 </div>
-<div class="panel panel-default">
+<div class="panel panel-default" id="description">
     <div class="panel-heading">
         <h3 class="panel-title">Description</h3>
     </div>

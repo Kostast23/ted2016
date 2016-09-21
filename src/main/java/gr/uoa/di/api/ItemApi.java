@@ -41,7 +41,7 @@ public class ItemApi {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
             if (!savedItem.getOwner().getUsername().equals(
                     SecurityContextHolder.getContext().getAuthentication().getPrincipal()) ||
-                    savedItem.getStartDate().before(new Date())) {
+                    !savedItem.getBids().isEmpty()) {
                 throw new ItemCannotBeEditedException();
             }
             if (item.getName() == null || item.getName().length() == 0 || item.getEndDate() == null
@@ -65,7 +65,7 @@ public class ItemApi {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
             if (!savedItem.getOwner().getUsername().equals(
                     SecurityContextHolder.getContext().getAuthentication().getPrincipal()) ||
-                    savedItem.getStartDate().before(new Date())) {
+                    !savedItem.getBids().isEmpty()) {
                 throw new ItemCannotBeEditedException();
             }
             itemRepository.delete(savedItem);
