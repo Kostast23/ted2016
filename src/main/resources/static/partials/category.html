@@ -3,28 +3,52 @@
     <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>
     <li><span class="breadcrumb-item active">{{ category.name }}</span></li>
 </ol>
-<div ng-show="loggedIn"><a ui-sref="main.new_item({category: category.id})">
-    <button class="btn btn-success">Create new item</button>
-</a></div>
-Category: {{ category.name }} with {{ category.count }}
-<div ng-show="category.subcategories.length">
-    <h2>Subcategories</h2>
-    <ul>
+
+<div id="title">
+    <h2>{{ category.name }}</h2>
+    <a ui-sref="main.new_item({category: category.id})" ng-show="loggedIn">
+        <button class="btn btn-success">Create new item</button>
+    </a>
+</div>
+
+<div id="subcategories" class="col-sm-3" ng-if="category.subcategories.length">
+    <h3>Categories</h3>
+    <ul class="menu">
         <li ng-repeat="subcategory in category.subcategories">
-            <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{
-                subcategory.name
-                }}</a>
-            <span ng-show="subcategory.count">
-                {{ subcategory.count }}
-            </span>
+            <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">
+                {{ subcategory.name }}
+                <span></span>
+            </a>
+            <ul class="submenu">
+                <li ng-repeat="subsubcategory in subcategory.subcategories" ng-if="$index < submenuSize">
+                    <a ui-sref="main.category({ categoryId: subsubcategory.id, categoryName: subsubcategory.name })">
+                        {{ subsubcategory.name }}
+                    </a>
+                </li>
+                <li>
+                    <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">
+                        See All
+                    </a>
+                </li>
+            </ul>
         </li>
     </ul>
 </div>
-<div ng-show="category.items.length">
-    <h2>Items</h2>
-    <ul>
-        <li ng-repeat="item in category.items">
-            <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
-        </li>
-    </ul>
+<div id="main" ng-class="{'col-sm-9': category.subcategories.length, 'col-sm-12': !category.subcategories.length}">
+    <div class="items" ng-show="items.length">
+        <h2>Items</h2>
+        <ul>
+            <li ng-repeat="item in items">
+                <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
+            </li>
+        </ul>
+
+        <div id="pagination" ng-show="needPagination()">
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="getItems()"
+                max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
+        </div>
+    </div>
+    <div class="items" ng-show="!items.length">
+        <p>There are no items here :( Be the first to <a ui-sref="main.new_item({category: category.id})">add one</a></p>
+    </div>
 </div>
