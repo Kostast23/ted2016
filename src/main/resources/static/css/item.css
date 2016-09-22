@@ -1,3 +1,16 @@
+#images #carousel {
+  margin-top: 20px; }
+  #images #carousel img {
+    height: 300px;
+    margin: auto; }
+#images > #no-image {
+  height: 300px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  text-align: center; }
+  #images > #no-image > span {
+    line-height: 300px; }
+
 #bid-panel {
   background-color: #e2e2e2;
   margin: 20px 0;
@@ -17,7 +30,7 @@ input.bid-input {
   margin-left: 10px; }
 
 .bid-history {
-  margin: 30px 0; }
+  margin: 30px 0 15px 0; }
   .bid-history > .panel > .panel-body {
     padding: 0; }
 
@@ -43,5 +56,8 @@ input.bid-input {
   width: intrinsic;
   width: -moz-max-content;
   width: -webkit-max-content; }
+
+#description {
+  margin-top: 20px; }
 
 /*# sourceMappingURL=item.css.map */

@@ -1,3 +1,25 @@
+#images {
+  #carousel {
+    margin-top: 20px;
+
+    img {
+      height: 300px;
+      margin: auto;
+    }
+  }
+
+  & > #no-image {
+    height: 300px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 3px;
+    text-align: center;
+    
+    & > span {
+      line-height: 300px;
+    }
+  }
+}
+
 #bid-panel {
   background-color: #e2e2e2;
   margin: 20px 0;
@@ -22,7 +44,7 @@ input.bid-input {
 }
 
 .bid-history {
-  margin: 30px 0;
+  margin: 30px 0 15px 0;
 
   & > .panel > .panel-body {
     padding: 0;
@@ -56,4 +78,8 @@ input.bid-input {
   width: intrinsic;
   width: -moz-max-content;
   width: -webkit-max-content;
+}
+
+#description {
+  margin-top: 20px;
 }

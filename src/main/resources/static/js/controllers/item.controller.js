@@ -2,7 +2,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     var bidsInterval;
 
     $scope.item = {name: $stateParams.itemName};
-    $scope.loggedIn = !!AuthService.user.user;
+    $scope.loggedIn = AuthService.isLoggedIn();
     $scope.currentUser = AuthService.user.user;
 
     $scope.$on('$stateChangeStart', function () {
@@ -60,6 +60,10 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     $scope.canBid = function () {
         return $scope.loggedIn && !$scope.item.finished && new Date() > new Date($scope.item.startDate) &&
             $scope.currentUser != $scope.item.sellerUsername
+    };
+
+    $scope.canEdit = function() {
+        return $scope.currentUser == $scope.item.sellerUsername && $scope.bids.length == 0;
     };
 
     var confirmBid = function () {

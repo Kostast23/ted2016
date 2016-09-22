@@ -80,40 +80,6 @@
                         <p>{{ user.sellerrating }}<span ng-if="ifEmpty(user.sellerrating)" class="red">Missing information</span></p>
                     </td>
                 </tr>
-            </table>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Accept User</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <p>Accepting a user means you cannot delete them anymore!</p>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-success" ng-click="acceptUser(user.id)">Accept</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Delete User</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-sm-10">
-                            <p>Once you delete a user, there is no going back!</p>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn btn-danger" ng-click="deleteUser(user.id)">Delete</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <table class="item-table table table-bordered table-condensed">
                 <tr>
                     <td>
                         <p class="text-right">Location</p>
@@ -147,8 +113,42 @@
                     </td>
                 </tr>
             </table>
-            <div class="map-container">
-                <leaflet id="map" markers="markers" height="100%" width="100%" ng-if="!ifEmpty(user.latitude) && !ifEmpty(user.longitude)"></leaflet>
+        </div>
+        <div class="col-sm-6">
+            <div class="map-container" ng-if="!ifEmpty(user.latitude) && !ifEmpty(user.longitude)">
+                <leaflet id="map" markers="markers" height="100%" width="100%"></leaflet>
+            </div>
+            <div ng-if="!user.validated">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Approve User</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <p>Approving a user means you cannot delete them anymore!</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-success" ng-click="acceptUser(user.id)">Approve</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Delete User</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-10">
+                                <p>Once you delete a user, there is no going back!</p>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-danger" ng-click="deleteUser(user.id)">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

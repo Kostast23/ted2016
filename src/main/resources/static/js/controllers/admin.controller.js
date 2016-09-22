@@ -1,33 +1,56 @@
 app.controller('AdminController', function ($scope, $http, $state, AdminService, Upload) {
     $scope.resourcesLoaded = false;
-
-    $scope.currentPage = 1;
-    $scope.maxSize = 5;  // number for pagination size
+    $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
-    $scope.awaitingUsers = [];
 
-    var getData = function () {
-        AdminService.getNotValidated($scope.currentPage, $scope.itemsPerPage).then(function (response) {
-            $scope.awaitingUsers = response.content;
-            $scope.totalItems = response.totalElements;
-            $scope.resourcesLoaded = true;
+    $scope.notValidated = {
+        users: [],
+        currentPage: 1,
+        totalItems: 0
+    };
+
+    $scope.notValidated.getData = function () {
+        var self = this;
+        AdminService.getNotValidated(self.currentPage, $scope.itemsPerPage).then(function (response) {
+            self.users = response.content;
+            self.totalItems = response.totalElements;
         });
     };
 
-    getData();
-
-    $scope.needPagination = function () {
-        return $scope.totalItems > $scope.itemsPerPage;
+    $scope.notValidated.needPagination = function() {
+        return this.totalItems > $scope.itemsPerPage;
     };
 
+    $scope.validated = {
+        users: [],
+        currentPage: 1,
+        totalItems: 0
+    };
+
+    $scope.validated.getData = function () {
+        var self = this;
+        AdminService.getValidated(self.currentPage, $scope.itemsPerPage).then(function (response) {
+            self.users = response.content;
+            self.totalItems = response.totalElements;
+        });
+    };
+
+    $scope.validated.needPagination = function() {
+        return this.totalItems > $scope.itemsPerPage;
+    };
+
+    $scope.notValidated.getData();
+    $scope.validated.getData();
+    $scope.resourcesLoaded = true;
+
     var confirmValidation = function () {
-        return confirm("Accepting a user means you cannot delete them anymore!");
+        return confirm("Approving a user means you cannot delete them anymore!");
     };
 
     $scope.acceptUser = function (id) {
         if (confirmValidation()) {
             AdminService.validateUser(id).then(function () {
-                getData();
+                $scope.notValidated.getData();
             });
         }
     };
@@ -39,7 +62,7 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
     $scope.deleteUser = function (id) {
         if (confirmDeletion()) {
             AdminService.deleteUser(id).then(function () {
-                getData();
+                $scope.notValidated.getData();
             });
         }
     };
@@ -65,9 +88,5 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
             var blob = new Blob([text], {type: "application/xml;charset=utf-8"});
             saveAs(blob, filename);
         });
-    };
-
-    $scope.pageChanged = function () {
-        getData();
     };
 });
