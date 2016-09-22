@@ -25,7 +25,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.category', {
             url: '/category/:categoryId/:categoryName',
             templateUrl: 'partials/category.html',
-            controller: 'CategoryController'
+            controller: 'CategoryController',
+            css: 'css/category.css'
         })
         .state('main.item', {
             url: '/item/:itemId/:itemName',

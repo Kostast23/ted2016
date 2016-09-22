@@ -8,6 +8,7 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, Auth
     $scope.loggedIn = AuthService.isLoggedIn();
     $scope.category = { name: $stateParams.categoryName };
     $scope.items = [];
+    $scope.submenuSize = 5;
 
     $http.get('/api/categories/' + $stateParams.categoryId).then(function(response) {
         $scope.category = response.data;

@@ -1,0 +1,77 @@
+#title {
+  height: 65px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #DDDDDD;
+  white-space: nowrap; }
+  #title > h2 {
+    font-size: 24px;
+    width: 75%;
+    display: inline-block; }
+  #title > a {
+    width: 25%;
+    display: inline-block;
+    position: relative;
+    text-align: right;
+    top: -7px;
+    right: 5px; }
+
+#subcategories > h3 {
+  font-size: 20px; }
+#subcategories .menu, #subcategories .submenu {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+#subcategories .menu {
+  overflow: visible; }
+  #subcategories .menu > li {
+    position: relative;
+    border-bottom: 1px solid #EAEAEA; }
+    #subcategories .menu > li > a {
+      padding: 6px 0 6px 10px;
+      display: block; }
+      #subcategories .menu > li > a > span {
+        background-color: inherit;
+        border: 0 none;
+        position: absolute;
+        right: 0;
+        width: 6px; }
+    #subcategories .menu > li:hover {
+      border-left: 1px solid #EAEAEA;
+      background-color: #FBFBFB; }
+      #subcategories .menu > li:hover:nth-child(1) {
+        border-top: 1px solid #EAEAEA; }
+      #subcategories .menu > li:hover > a {
+        color: #0654BA; }
+        #subcategories .menu > li:hover > a span {
+          background: #FBFBFB;
+          height: 100%;
+          right: -5px;
+          top: 0;
+          z-index: 11; }
+      #subcategories .menu > li:hover .submenu {
+        visibility: visible;
+        display: block;
+        background-color: #FBFBFB;
+        box-shadow: #aaaaaa 5px 5px 5px 0; }
+#subcategories .submenu {
+  left: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  visibility: hidden;
+  margin-top: -1px;
+  padding: 10px 10px 20px 10px;
+  border: 1px solid #EAEAEA; }
+  #subcategories .submenu > li {
+    padding: 5px; }
+    #subcategories .submenu > li a:hover {
+      color: #0654BA;
+      text-decoration: underline; }
+#subcategories a {
+  color: #333333;
+  text-decoration: none; }
+
+#main > .items {
+  margin-top: 20px; }
+
+/*# sourceMappingURL=category.css.map */
