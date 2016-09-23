@@ -10,6 +10,9 @@ import javax.persistence.*;
 public class MessageEntity {
     private int id;
     private String message;
+    private Boolean isread;
+    private Boolean deletedsender;
+    private Boolean deletedreceiver;
     private UserEntity from;
     private UserEntity to;
 
@@ -23,6 +26,36 @@ public class MessageEntity {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "isread")
+    public Boolean getIsread() {
+        return isread;
+    }
+
+    public void setIsread(Boolean isread) {
+        this.isread = isread;
+    }
+
+    @Basic
+    @Column(name = "deletedsender")
+    public Boolean getDeletedsender() {
+        return deletedsender;
+    }
+
+    public void setDeletedsender(Boolean deletedsender) {
+        this.deletedsender = deletedsender;
+    }
+
+    @Basic
+    @Column(name = "deletedreceiver")
+    public Boolean getDeletedreceiver() {
+        return deletedreceiver;
+    }
+
+    public void setDeletedreceiver(Boolean deletedreceiver) {
+        this.deletedreceiver = deletedreceiver;
     }
 
     @Basic

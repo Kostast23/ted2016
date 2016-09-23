@@ -165,6 +165,9 @@ ALTER TABLE public.item_pictures OWNER TO ted;
 CREATE TABLE message (
     id integer NOT NULL,
     message text,
+    isread boolean DEFAULT false,
+    deletedsender boolean DEFAULT false,
+    deletedreceiver boolean DEFAULT false,
     from_user integer NOT NULL,
     to_user integer NOT NULL
 );

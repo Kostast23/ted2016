@@ -52,7 +52,8 @@
         visibility: visible;
         display: block;
         background-color: #FBFBFB;
-        box-shadow: #aaaaaa 5px 5px 5px 0; }
+        box-shadow: #aaaaaa 5px 5px 5px 0;
+        z-index: 1; }
 #subcategories .submenu {
   left: 100%;
   position: absolute;
