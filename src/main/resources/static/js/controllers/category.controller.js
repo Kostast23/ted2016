@@ -27,7 +27,22 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, Auth
                 size: $scope.itemsPerPage
             }
         }).then(function success(response) {
-            $scope.items = response.data.content;
+            $scope.items = response.data.content.map(function (item) {
+                item.currentbid = +item.currentbid / 100;
+                if (item.buyprice) {
+                    item.buyprice = +item.buyprice / 100;
+                    if (item.currentbid >= item.buyprice) {
+                        item.finished = true;
+                    }
+                }
+
+                if (!item.finished) {
+                    item.finished = new Date() > new Date(item.endDate);
+                }
+                item.end = (item.finished ? "Closed" : "Ends:");
+                item.endOffset = moment(item.endDate).fromNow();
+                return item;
+            });
             $scope.totalItems = response.data.totalElements;
 
         });
