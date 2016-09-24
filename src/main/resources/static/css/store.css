@@ -42,22 +42,22 @@ ul#categories {
       ul#categories > .category > .subcategories > ul {
         list-style: none;
         padding: 0; }
-        ul#categories > .category > .subcategories > ul > li {
-          padding: 12px 5px 12px 10px; }
-          ul#categories > .category > .subcategories > ul > li:nth-child(1) {
-            border-top: 0; }
-          ul#categories > .category > .subcategories > ul > li > h3 {
-            margin: 0;
-            font-size: 12px;
-            font-weight: 400;
-            line-height: 16px;
-            vertical-align: baseline;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; }
-            ul#categories > .category > .subcategories > ul > li > h3 > a {
-              color: white;
-              text-decoration: none; }
+        ul#categories > .category > .subcategories > ul > li:nth-child(1) {
+          border-top: 0; }
+        ul#categories > .category > .subcategories > ul > li > h3 {
+          margin: 0;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 16px;
+          vertical-align: baseline;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis; }
+          ul#categories > .category > .subcategories > ul > li > h3 > a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 5px 12px 10px;
+            display: block; }
 
 ul#categories > .collectibles {
   background-color: #E45641; }
