@@ -48,6 +48,8 @@
             <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset }}</p>
         </div>
         <div class="clearfix" ng-show="!canBid()">
+            <p class="col-sm-3 text-right" ng-if="bids.length && item.finished">Auction winner:</p>
+            <p class="col-sm-9" ng-if="bids.length && item.finished"><a ui-sref="main.user({ username: bids[bids.length - 1].owner })">{{ bids[bids.length - 1].owner }}</a></p>
             <p class="col-sm-3 text-right" ng-if="!bids.length">Starting Bid:</p>
             <p class="col-sm-3 text-right" ng-if="bids.length">Current Bid:</p>
             <p class="col-sm-9">{{ item.currentbid | currency }}</p>
