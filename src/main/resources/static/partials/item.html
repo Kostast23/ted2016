@@ -12,7 +12,7 @@
             </div>
         </div>
         <div ng-if="!item.images.length" id="no-image">
-            <span>No images are available</span>
+            <span>No images available</span>
         </div>
     </div>
     <div class="col-sm-7 container">
@@ -44,10 +44,8 @@
             </script>
         </div>
         <div class="clearfix">
-            <p class="col-sm-3 text-right" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">
-                {{ end }}</p>
-            <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset
-                }}</p>
+            <p class="col-sm-3 text-right" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}"> {{ end }}</p>
+            <p class="col-sm-9" ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ endOffset }}</p>
         </div>
         <div class="clearfix" ng-show="!canBid()">
             <p class="col-sm-3 text-right" ng-if="!bids.length">Starting Bid:</p>

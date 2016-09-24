@@ -63,7 +63,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     };
 
     $scope.canEdit = function() {
-        return $scope.currentUser == $scope.item.sellerUsername && $scope.bids.length == 0;
+        return $scope.currentUser == $scope.item.sellerUsername && $scope.bids && $scope.bids.length == 0;
     };
 
     var confirmBid = function () {
