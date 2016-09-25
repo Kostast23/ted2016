@@ -63,6 +63,6 @@ public class CategoryApi {
 
     @RequestMapping(value = "/{categoryId}/items")
     public Page<ItemResponseDto> getCategoryItems(@PathVariable Integer categoryId, Pageable pageable) {
-        return itemRepository.findByCategory_Id(categoryId, pageable).map(itemMapper::mapItemEntityToItemResponseDto);
+        return itemRepository.findByCategory_IdOrderByFinishedAsc(categoryId, pageable).map(itemMapper::mapItemEntityToItemResponseDto);
     }
 }

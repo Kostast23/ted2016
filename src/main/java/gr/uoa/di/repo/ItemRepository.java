@@ -10,5 +10,5 @@ import java.util.List;
 public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, Long> {
     ItemEntity findOneById(int id);
     List<ItemEntity> findAll();
-    Page<ItemEntity> findByCategory_Id(int id, Pageable pageable);
+    Page<ItemEntity> findByCategory_IdOrderByFinishedAsc(int id, Pageable pageable);
 }

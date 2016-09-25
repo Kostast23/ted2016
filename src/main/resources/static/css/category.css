@@ -93,6 +93,7 @@
       text-align: center; }
       #main > .items .item > .image > img {
         height: 210px;
+        max-width: 100%;
         margin: auto; }
       #main > .items .item > .image > .no-image {
         color: #767676;
