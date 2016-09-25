@@ -1,14 +1,65 @@
-app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window, FileUploader) {
+app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window, FileUploader, AuthService) {
+    $scope.currentUser = AuthService.user.user;
+
     var marker = null;
     var curDate = new Date();
     curDate.setSeconds(0);
     curDate.setMilliseconds(0);
+
+    $scope.markers = {};
     $scope.minDate = curDate;
     $scope.item = {
+        new: !$stateParams.itemId,
+        name: null,
         startDate: curDate,
         endDate: moment(curDate).add(1, 'months').toDate()
     };
-    $scope.markers = {};
+
+    $http.get('/api/categories/all').then(function (response) {
+        var makeRecursiveCategories = function (depth, cat) {
+            var subcats = cat.subcategories ? [].concat.apply([],
+                cat.subcategories.map(
+                    makeRecursiveCategories.bind(this, depth + 1)
+                )
+            ) : [];
+            return [{
+                name: '-'.repeat(depth) + ' ' + cat.name,
+                id: cat.id
+            }].concat(subcats);
+        };
+        $scope.listCategories = response.data.map(function (category) {
+            var subcatsNested = category.subcategories.map(makeRecursiveCategories.bind(this, 0));
+            category.subcategories = [].concat.apply([], subcatsNested);
+            return category;
+        });
+    });
+
+    if ($stateParams.itemId) {
+        $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
+            var item = response.data;
+            marker = {
+                lat: item.lat,
+                lng: item.lon,
+                draggable: true,
+                focus: true
+            };
+            $scope.markers = {marker: marker};
+            $scope.item.name = item.name;
+            $scope.item.description = item.description;
+            $scope.item.category = item.category.id.toString();
+            $scope.item.location = item.location;
+            $scope.item.country = item.country;
+            $scope.item.firstbid = item.currentbid / 100;
+            $scope.item.buyprice = item.buyprice / 100;
+            $scope.item.startDate = new Date(item.startDate);
+            $scope.item.endDate = new Date(item.endDate);
+            $scope.item.images = item.images;
+            $scope.item.seller = item.sellerUsername;
+        });
+    } else if ($stateParams.category) {
+        $scope.item.category = $stateParams.category.toString();
+    }
+
     $scope.uploader = new FileUploader({
         url: '/api/images/upload',
         removeAfterUpload: true
@@ -60,7 +111,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     $scope.submitItem = function () {
         var item = angular.copy($scope.item);
         if (item.startDate > item.endDate) {
-            $scope.bidError = 'The auction must end after it starts!';
+            $scope.formError = 'The auction must end after it starts!';
             return;
         }
         if (marker) {
@@ -91,51 +142,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
                 itemName: $scope.item.name
             });
         }, function (err) {
-            $scope.bidError = err.data.message;
+            $scope.formError = err.data.message;
         });
     };
-
-    $http.get('/api/categories/all').then(function (response) {
-        var makeRecursiveCategories = function (depth, cat) {
-            var subcats = cat.subcategories ? [].concat.apply([],
-                cat.subcategories.map(
-                    makeRecursiveCategories.bind(this, depth + 1)
-                )
-            ) : [];
-            return [{
-                name: '-'.repeat(depth) + ' ' + cat.name,
-                id: cat.id
-            }].concat(subcats);
-        };
-        $scope.listCategories = response.data.map(function (category) {
-            var subcatsNested = category.subcategories.map(makeRecursiveCategories.bind(this, 0));
-            category.subcategories = [].concat.apply([], subcatsNested);
-            return category;
-        });
-    });
-
-    if ($stateParams.itemId) {
-        $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
-            var item = response.data;
-            marker = {
-                lat: item.lat,
-                lng: item.lon,
-                draggable: true,
-                focus: true
-            };
-            $scope.markers = {marker: marker};
-            $scope.item.name = item.name;
-            $scope.item.description = item.description;
-            $scope.item.category = item.category.id.toString();
-            $scope.item.location = item.location;
-            $scope.item.country = item.country;
-            $scope.item.firstbid = item.currentbid / 100;
-            $scope.item.buyprice = item.buyprice / 100;
-            $scope.item.startDate = new Date(item.startDate);
-            $scope.item.endDate = new Date(item.endDate);
-            $scope.item.images = item.images;
-        });
-    } else if ($stateParams.category) {
-        $scope.item.category = $stateParams.category.toString();
-    }
 });
