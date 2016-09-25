@@ -50,14 +50,16 @@
                         <div class="col-sm-6">
                             <p>
                                 <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
+                                <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
+                                <span class="auction-ended" ng-if="item.finished && !item.winnerUsername">with no bids</span>
                                 <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
                             </p>
-                            <p ng-if="item.finished">Bought <strong class="bid">{{ item.currentbid | currency }}</strong></p>
+                            <p ng-if="item.winnerUsername">from <a ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a></p>
                             <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency }}</strong></p>
 
                         </div>
                         <div class="col-sm-6">
-                            <p><a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
+                            <p><a ui-sref="main.user({ username: item.sellerUsername })">sold by {{ item.sellerUsername }}</a></p>
                             <p>from {{ item.location }}, {{ item.country }}</p>
                         </div>
                     </div>
