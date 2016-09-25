@@ -7,7 +7,7 @@
 <div id="title">
     <h2>{{ category.name }}</h2>
     <a ui-sref="main.new_item({category: category.id})" ng-show="loggedIn">
-        <button class="btn btn-success">Create new item</button>
+        <button class="btn btn-success">Add new item</button>
     </a>
 </div>
 
@@ -36,10 +36,34 @@
 </div>
 <div id="main" ng-class="{'col-sm-9': category.subcategories.length, 'col-sm-12': !category.subcategories.length}">
     <div class="items" ng-show="items.length">
-        <h2>Items</h2>
         <ul>
             <li ng-repeat="item in items">
-                <ul><a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item }}</a></ul>
+                <div class="item">
+                    <div class="image col-sm-3">
+                        <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                        <span ng-if="!item.images.length" class="no-image">No images available</span>
+                    </div>
+                    <div class="info col-sm-9">
+                        <h3 class="item-title">
+                            <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                        </h3>
+                        <div class="col-sm-6">
+                            <p>
+                                <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
+                                <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
+                                <span class="auction-ended" ng-if="item.finished && !item.winnerUsername">with no bids</span>
+                                <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
+                            </p>
+                            <p ng-if="item.winnerUsername">from <a ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a></p>
+                            <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency }}</strong></p>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <p><a ui-sref="main.user({ username: item.sellerUsername })">sold by {{ item.sellerUsername }}</a></p>
+                            <p>from {{ item.location }}, {{ item.country }}</p>
+                        </div>
+                    </div>
+                </div>
             </li>
         </ul>
 
@@ -48,7 +72,7 @@
                 max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
         </div>
     </div>
-    <div class="items" ng-show="!items.length">
+    <div ng-show="!items.length">
         <p>There are no items here :( Be the first to <a ui-sref="main.new_item({category: category.id})">add one</a></p>
     </div>
 </div>

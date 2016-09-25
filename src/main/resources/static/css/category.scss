@@ -36,7 +36,7 @@
 
     & > li {
       position: relative;
-      border-bottom: 1px solid #EAEAEA;
+      border-bottom: 1px solid #E6E6E6;
 
       & > a {
         padding: 6px 0 6px 10px;
@@ -52,31 +52,31 @@
       }
 
       &:hover {
-        border-left: 1px solid #EAEAEA;
-        background-color: #FBFBFB;
+        border-left: 1px solid #E6E6E6;
+        background-color: #FFFFFF;
 
         &:nth-child(1) {
-          border-top: 1px solid #EAEAEA;
+          border-top: 1px solid #E6E6E6;
         }
 
         & > a {
           color: #0654BA;
 
           span {
-            background: #FBFBFB;
+            background: #FFFFFF;
             height: 100%;
             right: -5px;
             top: 0;
-            z-index: 11
+            z-index: 11;
           }
         }
 
         .submenu {
           visibility: visible;
           display: block;
-          background-color: #FBFBFB;
-          box-shadow: rgb(170, 170, 170) 5px 5px 5px 0;
-          z-index: 1;
+          background-color: #FFFFFF;
+          box-shadow: #AAAAAA 5px 5px 5px 0;
+          z-index: 10;
         }
       }
     }
@@ -89,8 +89,8 @@
     width: 100%;
     visibility: hidden;
     margin-top: -1px;
-    padding: 10px 10px 20px 10px;
-    border: 1px solid #EAEAEA;
+    padding: 10px 10px 20px 15px;
+    border: 1px solid #E6E6E6;
 
     & > li {
       padding: 5px;
@@ -109,7 +109,61 @@
 }
 
 #main {
+  margin-top: 20px;
+  padding: 20px 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #E6E6E6;
+
   & > .items {
-    margin-top: 20px;
+
+    & > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .item {
+      height: 231px;
+      padding: 10px 0;
+      border-bottom: 1px solid #E6E6E6;
+
+      & > .image {
+        height: 212px;
+        border: 1px solid #E6E6E6;
+        border-radius: 3px;
+        padding: 0;
+        text-align: center;
+
+        & > img {
+          height: 210px;
+          margin: auto;
+        }
+
+        & > .no-image {
+          color: #767676;
+          line-height: 210px;
+        }
+      }
+
+      & > .info {
+        & > .item-title {
+          font-size: 22px;
+          margin-top: 10px;
+          margin-bottom: 20px;
+        }
+
+        & > div {
+          padding-left: 0;
+        }
+      }
+
+      .auction-ended {
+        color: red;
+      }
+
+      .auction-live {
+        color: green;
+      }
+    }
   }
 }

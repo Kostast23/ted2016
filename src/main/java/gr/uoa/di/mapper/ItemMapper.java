@@ -1,5 +1,6 @@
 package gr.uoa.di.mapper;
 
+import gr.uoa.di.dao.BidEntity;
 import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.ItemPicturesEntity;
@@ -13,6 +14,7 @@ import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemPicturesRepository;
 import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -113,6 +115,13 @@ public class ItemMapper {
         item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getUuid).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
         item.setCategory(categoryMapper.mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), true, 0));
+
+        List<BidEntity> bids = itemEntity.getBids();
+        if (item.getFinished() && bids.size() > 0) {
+            item.setWinnerUsername(bids.get(bids.size() - 1).getOwner().getUsername());
+        } else {
+            item.setWinnerUsername(null);
+        }
         return item;
     }
 

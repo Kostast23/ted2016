@@ -1,3 +1,6 @@
+html > body {
+  background-color: #FBFBFB; }
+
 #logo-bar {
   height: 70px;
   background-color: rgba(42, 14, 55, 0.99);
