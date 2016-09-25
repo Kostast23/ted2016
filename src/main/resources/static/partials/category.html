@@ -1,3 +1,13 @@
+<form ng-submit="doSearch(search)">
+    <div class="row form-group">
+        <div class="col-sm-2 text-right"><label for="search">Search for item</label></div>
+        <div class="col-sm-5"><input id="search" ng-model="search" type="text" class="form-control"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-primary" style="width: 100%">Go!</button>
+        </div>
+        <div class="col-sm-offset-2 col-sm-2"><a ui-sref="main.search">Advanced search</a></div>
+    </div>
+</form>
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a ui-sref="main.store">Store</a></li>
     <li ng-repeat="parent in breadcrumb" class="breadcrumb-item"><a ui-sref="main.category({ categoryId: parent.id, categoryName: parent.name })">{{ parent.name }}</a></li>

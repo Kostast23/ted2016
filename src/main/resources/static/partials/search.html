@@ -7,6 +7,10 @@
         </div>
     </div>
 </form>
+<ol class="breadcrumb ng-scope">
+    <li class="breadcrumb-item"><a ui-sref="main.store" href="#/store">Store</a></li>
+    <li><span class="breadcrumb-item active">Search</span></li>
+</ol>
 <div id="main" ng-class="{'col-sm-9': category.subcategories.length, 'col-sm-12': !category.subcategories.length}">
     <div class="items" ng-show="items.length">
         <ul>
