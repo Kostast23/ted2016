@@ -1,1 +1,55 @@
-{{ searchParams }}
+<form ng-submit="searchParams.page = 1; doSearch(searchParams)">
+    <div class="row form-group">
+        <div class="col-sm-2 text-right"><label for="search">Search for item</label></div>
+        <div class="col-sm-5"><input id="search" ng-model="searchParams.name" type="text" class="form-control"></div>
+        <div class="col-sm-1">
+            <button type="submit" class="btn btn-primary" style="width: 100%">Go!</button>
+        </div>
+    </div>
+</form>
+<div id="main" ng-class="{'col-sm-9': category.subcategories.length, 'col-sm-12': !category.subcategories.length}">
+    <div class="items" ng-show="items.length">
+        <ul>
+            <li ng-repeat="item in items">
+                <div class="item">
+                    <div class="image col-sm-4 col-md-3">
+                        <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                        <span ng-if="!item.images.length" class="no-image">No images available</span>
+                    </div>
+                    <div class="info col-sm-8 col-md-9">
+                        <h3 class="item-title">
+                            <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                        </h3>
+                        <div class="col-sm-6">
+                            <p>
+                                <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
+                                <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
+                                <span class="auction-ended"
+                                      ng-if="item.finished && !item.winnerUsername">with no bids</span>
+                                <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
+                            </p>
+                            <p ng-if="item.winnerUsername">bought from <a
+                                    ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a>
+                            </p>
+                            <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency
+                                }}</strong></p>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
+                            <p>from {{ item.location }}, {{ item.country }}</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div id="pagination" ng-show="needPagination()">
+            <ul uib-pagination total-items="totalItems" ng-model="searchParams.page" ng-change="doSearch()"
+                max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
+        </div>
+    </div>
+    <div ng-show="items && !items.length">
+        <p>Your search returned no results! Please try again.</p>
+    </div>
+</div>

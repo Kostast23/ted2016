@@ -72,7 +72,7 @@
                 max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
         </div>
     </div>
-    <div ng-show="!items.length">
+    <div ng-show="items && !items.length">
         <p>There are no items here :( Be the first to <a ui-sref="main.new_item({category: category.id})">add one</a></p>
     </div>
 </div>

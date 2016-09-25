@@ -28,12 +28,11 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, Auth
             }
         }).then(function success(response) {
             $scope.items = response.data.content.map(function (item) {
-                item.currentbid = +item.currentbid / 100;
+                if (item.currentbid) {
+                    item.currentbid = +item.currentbid / 100;
+                }
                 if (item.buyprice) {
                     item.buyprice = +item.buyprice / 100;
-                    if (item.currentbid >= item.buyprice) {
-                        item.finished = true;
-                    }
                 }
 
                 if (!item.finished) {

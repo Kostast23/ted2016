@@ -8,6 +8,8 @@ public class SearchRequestDto {
     private List<Integer> categories;
     private Integer fromPrice;
     private Integer toPrice;
+    private Integer page;
+    private Integer size;
 
     public String getName() {
         return name;
@@ -47,5 +49,21 @@ public class SearchRequestDto {
 
     public void setToPrice(Integer toPrice) {
         this.toPrice = toPrice;
+    }
+
+    public Integer getPage() {
+        return page;
+    }
+
+    public void setPage(Integer page) {
+        this.page = page;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }

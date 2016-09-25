@@ -45,7 +45,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/search',
             templateUrl: 'partials/search.html',
             params: { name: null },
-            controller: 'SearchController'
+            controller: 'SearchController',
+            css: 'css/category.css'
         })
         .state('main.new_item', {
             url: '/new_item',
