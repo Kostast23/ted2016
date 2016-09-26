@@ -1,21 +1,34 @@
-<ul id="categories">
-    <li ng-repeat="category in categories" class="category {{styles[$index]}}">
-        <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })" class="main">
-            <div class="image">
-                <img src="images/categories/{{styles[$index]}}.png">
-            </div>
-            <h2>
-                <span>{{ category.name }}</span>
-            </h2>
-        </a>
-        <div class="subcategories">
-            <ul>
-                <li ng-repeat="subcategory in category.top">
-                    <h3>
-                        <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{ subcategory.name }}</a>
-                    </h3>
-                </li>
-            </ul>
+<form ng-submit="doSearch(search)">
+    <div class="row form-group">
+        <div class="col-sm-2 text-right"><label for="search">Search for item</label></div>
+        <div class="col-sm-5"><input id="search" ng-model="search" type="text" class="form-control"></div>
+        <div class="col-sm-1">
+            <button class="btn btn-primary" style="width: 100%">Go!</button>
         </div>
-    </li>
-</ul>
+        <div class="col-sm-offset-2 col-sm-2"><a ui-sref="main.search">Advanced search</a></div>
+    </div>
+</form>
+<div>
+    <ul id="categories">
+        <li ng-repeat="category in categories" class="category {{styles[$index]}}">
+            <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })" class="main">
+                <div class="image">
+                    <img ng-src="images/categories/{{styles[$index]}}.png">
+                </div>
+                <h2>
+                    <span>{{ category.name }}</span>
+                </h2>
+            </a>
+            <div class="subcategories">
+                <ul>
+                    <li ng-repeat="subcategory in category.top">
+                        <h3>
+                            <a ui-sref="main.category({ categoryId: subcategory.id, categoryName: subcategory.name })">{{
+                                subcategory.name }}</a>
+                        </h3>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

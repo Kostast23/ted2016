@@ -1,4 +1,4 @@
-app.controller('StoreController', function ($scope, $http) {
+app.controller('StoreController', function ($scope, $http, $state) {
     $http.get('/api/categories/').then(function (response) {
         var categories = response.data;
 
@@ -8,6 +8,10 @@ app.controller('StoreController', function ($scope, $http) {
 
         $scope.categories = categories;
     });
+
+    $scope.doSearch = function (name) {
+        $state.go('main.search', {name: name});
+    };
 
     $scope.styles = [
         "collectibles", "clothing", "movies", "sports", "pottery", "toys", "antiques", "electronics",

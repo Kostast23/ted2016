@@ -41,6 +41,13 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
                 $scope.user = $http.get('/api/user/' + $stateParams.username);
             }
         })
+        .state('main.search', {
+            url: '/search',
+            templateUrl: 'partials/search.html',
+            params: { name: null },
+            controller: 'SearchController',
+            css: 'css/category.css'
+        })
         .state('main.new_item', {
             url: '/new_item',
             templateUrl: 'partials/edit_item.html',

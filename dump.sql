@@ -108,7 +108,7 @@ CREATE TABLE item (
     name text,
     description text,
     buyprice integer,
-    currentbid integer,
+    currentbid integer DEFAULT 0 NOT NULL,
     firstbid integer,
     location text,
     lat double precision,
