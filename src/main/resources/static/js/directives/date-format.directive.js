@@ -7,7 +7,7 @@ app.directive('dateFormat', function(dateFilter) {
         link: function(scope, element, attrs, ngModelController) {
             ngModelController.$parsers.push(function(data) {
                 //convert data from view format to model format
-                return dateFilter(data, scope.format);
+                return new Date(data);
             });
 
             ngModelController.$formatters.push(function(data) {
