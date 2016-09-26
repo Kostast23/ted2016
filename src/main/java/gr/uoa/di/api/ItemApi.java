@@ -3,6 +3,7 @@ package gr.uoa.di.api;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
+import gr.uoa.di.exception.item.ItemBuyingPriceException;
 import gr.uoa.di.exception.item.ItemCannotBeEditedException;
 import gr.uoa.di.exception.item.ItemDateException;
 import gr.uoa.di.exception.item.ItemFieldsException;
@@ -11,8 +12,10 @@ import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 @RestController
@@ -36,7 +39,7 @@ public class ItemApi {
     }
 
     @RequestMapping(method = RequestMethod.PUT, value = "/{itemId}")
-    public Integer editItem(@PathVariable int itemId, @RequestBody ItemEditDto item) {
+    public Integer editItem(@PathVariable int itemId, @RequestBody @Valid ItemEditDto item, BindingResult bindingResult) {
         synchronized (BidApi.class) {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
             if (!savedItem.getOwner().getUsername().equals(
@@ -44,9 +47,11 @@ public class ItemApi {
                     !savedItem.getBids().isEmpty()) {
                 throw new ItemCannotBeEditedException();
             }
-            if (item.getName() == null || item.getName().length() == 0 || item.getEndDate() == null
-                    || item.getStartDate() == null || item.getCategory() == null) {
+            if (bindingResult.hasErrors()) {
                 throw new ItemFieldsException();
+            }
+            if (item.getBuyprice() != null && item.getBuyprice() < item.getFirstbid()) {
+                throw new ItemBuyingPriceException();
             }
             if (item.getEndDate().before(item.getStartDate())) {
                 throw new ItemDateException();
@@ -74,10 +79,12 @@ public class ItemApi {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public Integer newItem(@RequestBody ItemEditDto item) {
-        if (item.getName() == null || item.getName().length() == 0 || item.getEndDate() == null
-        || item.getStartDate() == null || item.getCategory() == null) {
+    public Integer newItem(@RequestBody @Valid ItemEditDto item, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new ItemFieldsException();
+        }
+        if (item.getBuyprice() < item.getFirstbid()) {
+            throw new ItemBuyingPriceException();
         }
         if (item.getEndDate().before(item.getStartDate())) {
             throw new ItemDateException();

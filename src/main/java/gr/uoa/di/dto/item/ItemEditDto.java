@@ -1,20 +1,44 @@
 package gr.uoa.di.dto.item;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
 public class ItemEditDto {
+    @NotNull
+    @Size(min=3)
     private String name;
+    @NotNull
+    @Size(min=10)
     private String description;
+    @Min(1)
     private Integer buyprice;
+    @NotNull
+    @Min(0)
     private Integer firstbid;
+    @NotNull
+    @Size(min=2)
     private String location;
+    @NotNull
+    @Min(-90)
+    @Max(90)
     private Double lat;
+    @NotNull
+    @Min(-180)
+    @Max(180)
     private Double lon;
+    @NotNull
+    @Size(min=2)
     private String country;
+    @NotNull
     private Date startDate;
+    @NotNull
     private Date endDate;
     private List<String> images;
+    @NotNull
     private Integer category;
 
     public String getName() {
