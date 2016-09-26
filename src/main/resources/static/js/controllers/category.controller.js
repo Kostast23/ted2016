@@ -1,4 +1,4 @@
-app.controller('CategoryController', function ($scope, $http, $stateParams, $state, AuthService) {
+app.controller('CategoryController', function ($scope, $http, $stateParams, $state, $timeout, AuthService) {
     $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
@@ -52,8 +52,20 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
     };
 
     $scope.doSearch = function (name) {
-        $state.go('main.search', {name: name});
+        if (name) {
+            $state.go('main.search', {name: name});
+        } else {
+            $('#search').popover('show');
+            $timeout(function() {$('#search').popover('hide');}, 2000);
+        }
     };
 
     $scope.getItems();
+
+    $(function() {
+        $('#search').popover({
+            trigger: 'manual',
+            placement: 'bottom'
+        });
+    });
 });

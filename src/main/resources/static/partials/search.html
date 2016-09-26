@@ -1,9 +1,52 @@
-<form ng-submit="searchParams.page = 1; doSearch(searchParams)">
-    <div class="row form-group">
-        <div class="col-sm-2 text-right"><label for="search">Search for item</label></div>
-        <div class="col-sm-5"><input id="search" ng-model="searchParams.name" type="text" class="form-control"></div>
-        <div class="col-sm-1">
-            <button type="submit" class="btn btn-primary" style="width: 100%">Go!</button>
+<form ng-submit="searchParams.page = 1; doSearch(searchParams)" class="form-horizontal">
+    <div class="form-group">
+        <label for="name" class="col-sm-2 control-label">Item name</label>
+        <div class="col-sm-5">
+            <input id="name" ng-model="searchParams.name" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-5">
+            <input id="description" ng-model="searchParams.description" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="min" class="col-sm-2 control-label">Price from</label>
+        <div class="col-sm-2">
+            <input id="min" ng-model="searchParams.min" type="number" class="form-control">
+        </div>
+        <label for="max" class="col-sm-1 control-label">to</label>
+        <div class="col-sm-2">
+            <input id="max" ng-model="searchParams.max" type="number" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="location" class="col-sm-2 control-label">Location</label>
+        <div class="col-sm-5">
+            <input id="location" ng-model="searchParams.location" type="text" class="form-control">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="category" class="col-sm-2 control-label">Category</label>
+        <div class="col-sm-5">
+            <select class="form-control" id="category" name="category" ng-model="searchParams.category">
+                <option selected="selected" value="-1">All</option>
+                <option ng-repeat="category in listCategories" value="{{ category.id }}">{{ category.name }}
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-5">
+            <label>
+                <input id="finished" ng-model="searchParams.finished" type="checkbox"> Include finished auctions
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <button type="submit" class="btn btn-primary" style="width: 100px">Go!</button>
         </div>
     </div>
 </form>
@@ -21,28 +64,40 @@
                         <span ng-if="!item.images.length" class="no-image">No images available</span>
                     </div>
                     <div class="info col-sm-8 col-md-9">
+                        <ol style="padding: 0;" class="breadcrumb ng-scope small">
+                            <li class="breadcrumb-item" ng-repeat="category in item.categories">
+                                <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        </ol>
                         <h3 class="item-title">
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
                         </h3>
-                        <div class="col-sm-6">
-                            <p>
-                                <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
-                                <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
-                                <span class="auction-ended"
-                                      ng-if="item.finished && !item.winnerUsername">with no bids</span>
-                                <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
-                            </p>
-                            <p ng-if="item.winnerUsername">bought from <a
-                                    ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a>
-                            </p>
-                            <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency
-                                }}</strong></p>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>
+                                    <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
+                                    <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
+                                    <span class="auction-ended"
+                                          ng-if="item.finished && !item.winnerUsername">with no bids</span>
+                                    <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
+                                </p>
+                                <p ng-if="item.winnerUsername">bought from <a
+                                        ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername
+                                    }}</a>
+                                </p>
+                                <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency
+                                    }}</strong></p>
 
+                            </div>
+                            <div class="col-sm-6">
+                                <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{
+                                    item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}</p>
+                            </div>
                         </div>
-                        <div class="col-sm-6">
-                            <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a></p>
-                            <p>from {{ item.location }}, {{ item.country }}</p>
-                        </div>
+                        <br />
+                        <div class="small" style="height: 50px; overflow-y: auto">{{ item.description }}</div>
                     </div>
                 </div>
             </li>

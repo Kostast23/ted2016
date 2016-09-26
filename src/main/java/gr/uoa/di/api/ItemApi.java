@@ -82,6 +82,8 @@ public class ItemApi {
         if (item.getEndDate().before(item.getStartDate())) {
             throw new ItemDateException();
         }
+        if (item.getFirstbid() == null)
+            item.setFirstbid(0);
         ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
         itemEnt.setOwner(userService.getUserEntity((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
