@@ -23,7 +23,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
                 )
             ) : [];
             return [{
-                name: '-'.repeat(depth) + ' ' + cat.name,
+                name: '-' + '-'.repeat(depth) + ' ' + cat.name,
                 id: cat.id
             }].concat(subcats);
         };

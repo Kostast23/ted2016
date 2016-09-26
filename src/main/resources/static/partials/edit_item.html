@@ -33,7 +33,11 @@
             <div class="col-sm-9">
                 <select class="form-control" id="category" name="category" ng-model="item.category">
                     <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
-                        <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}
+                        <option value="{{ category.id }}">
+                            {{ category.name }}
+                        </option>
+                        <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">
+                            {{ subcategory.name }}
                         </option>
                     </optgroup>
                 </select>
