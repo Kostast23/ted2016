@@ -5,7 +5,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     var curDate = new Date();
     curDate.setSeconds(0);
     curDate.setMilliseconds(0);
-
+    console.log(curDate);
     $scope.markers = {};
     $scope.minDate = curDate;
     $scope.item = {
