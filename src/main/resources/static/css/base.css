@@ -45,4 +45,7 @@ html > body {
     -ms-flex-direction: column;
     flex-direction: column; }
 
+.highlighted {
+  background-color: yellow; }
+
 /*# sourceMappingURL=base.css.map */

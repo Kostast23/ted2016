@@ -1,13 +1,13 @@
 package gr.uoa.di.dto.item;
 
-import java.util.List;
-
 public class SearchRequestDto {
     private String name;
     private String description;
-    private List<Integer> categories;
-    private Integer fromPrice;
-    private Integer toPrice;
+    private Integer min;
+    private Integer max;
+    private String location;
+    private Integer category;
+    private Boolean finished;
     private Integer page;
     private Integer size;
 
@@ -27,28 +27,44 @@ public class SearchRequestDto {
         this.description = description;
     }
 
-    public List<Integer> getCategories() {
-        return categories;
+    public Integer getMin() {
+        return min;
     }
 
-    public void setCategories(List<Integer> categories) {
-        this.categories = categories;
+    public void setMin(Integer min) {
+        this.min = min;
     }
 
-    public Integer getFromPrice() {
-        return fromPrice;
+    public Integer getMax() {
+        return max;
     }
 
-    public void setFromPrice(Integer fromPrice) {
-        this.fromPrice = fromPrice;
+    public void setMax(Integer max) {
+        this.max = max;
     }
 
-    public Integer getToPrice() {
-        return toPrice;
+    public String getLocation() {
+        return location;
     }
 
-    public void setToPrice(Integer toPrice) {
-        this.toPrice = toPrice;
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Integer getCategory() {
+        return category;
+    }
+
+    public void setCategory(Integer category) {
+        this.category = category;
+    }
+
+    public Boolean getFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     public Integer getPage() {

@@ -30,6 +30,12 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
                 if (!item.finished) {
                     item.finished = new Date() > new Date(item.endDate);
                 }
+                item.categories = [];
+                var category = item.category;
+                while (category) {
+                    item.categories.unshift(category);
+                    category = category.parent;
+                }
                 item.end = (item.finished ? "Closed" : "Ends:");
                 item.endOffset = moment(item.endDate).fromNow();
                 return item;
@@ -48,4 +54,20 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
     if (Object.keys($scope.searchParams).length) {
         doSearch($scope.searchParams);
     }
+
+    $http.get('/api/categories/all').then(function (response) {
+        var makeRecursiveCategories = function (depth, cat) {
+            var subcats = cat.subcategories ? [].concat.apply([],
+                cat.subcategories.map(
+                    makeRecursiveCategories.bind(this, depth + 1)
+                )
+            ) : [];
+            return [{
+                name: '-'.repeat(depth) + ' ' + cat.name,
+                id: cat.id
+            }].concat(subcats);
+        };
+        var listCategories = response.data.map(makeRecursiveCategories.bind(this, 1));
+        $scope.listCategories = [].concat.apply([], listCategories);
+    });
 });

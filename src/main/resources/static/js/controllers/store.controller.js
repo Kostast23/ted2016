@@ -1,4 +1,4 @@
-app.controller('StoreController', function ($scope, $http, $state) {
+app.controller('StoreController', function ($scope, $http, $state, $timeout) {
     $http.get('/api/categories/').then(function (response) {
         var categories = response.data;
 
@@ -10,7 +10,12 @@ app.controller('StoreController', function ($scope, $http, $state) {
     });
 
     $scope.doSearch = function (name) {
-        $state.go('main.search', {name: name});
+        if (name) {
+            $state.go('main.search', {name: name});
+        } else {
+            $('#search').popover('show');
+            $timeout(function() {$('#search').popover('hide');}, 2000);
+        }
     };
 
     $scope.styles = [
@@ -18,4 +23,11 @@ app.controller('StoreController', function ($scope, $http, $state) {
         "computers", "photo", "home", "coins", "stamps", "tickets", "dolls", "business", "music",
         "books", "jewelry", "else"
     ]
+
+    $(function() {
+        $('#search').popover({
+            trigger: 'manual',
+            placement: 'bottom'
+        });
+    });
 });
