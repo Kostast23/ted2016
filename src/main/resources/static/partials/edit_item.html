@@ -1,6 +1,13 @@
 <ol class="breadcrumb">
-    <li class="breadcrumb-item" ng-if="item.new">{{ currentUser }}</li>
-    <li class="breadcrumb-item" ng-if="!item.new">{{ item.seller }}</li>
+    <li class="breadcrumb-item" ng-if="item.new">
+        <a ui-sref="main.profile.active">{{ currentUser }}</a>
+    </li>
+    <li class="breadcrumb-item" ng-if="!item.new && currentUser == item.seller">
+        <a ui-sref="main.profile.active">{{ item.seller }}</a>
+    </li>
+    <li class="breadcrumb-item" ng-if="!item.new && currentUser != item.seller">
+        <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.seller }}</a>
+    </li>
     <li class="breadcrumb-item" ng-if="!item.name">New Item</li>
     <li class="breadcrumb-item" ng-if="item.name">{{ item.name }}</li>
 </ol>

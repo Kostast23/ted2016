@@ -105,6 +105,7 @@ public class ItemMapper {
         item.setDescription(itemEntity.getDescription());
         item.setBuyprice(itemEntity.getBuyprice());
         item.setCurrentbid(itemEntity.getCurrentbid());
+        item.setFirstbid(itemEntity.getFirstbid());
         item.setLocation(itemEntity.getLocation());
         item.setLat(itemEntity.getLat());
         item.setLon(itemEntity.getLon());

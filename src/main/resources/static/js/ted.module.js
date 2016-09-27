@@ -16,6 +16,18 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             controller: 'IndexController',
             css: 'css/index.css'
         })
+        .state('main.profile', {
+            abstract: true,
+            templateUrl: 'partials/profile.html',
+            controller: 'ProfileController',
+            css: 'css/profile.css'
+        })
+        .state('main.profile.active', {
+            url: '/profile/auctions/active',
+            templateUrl: 'partials/profile_auctions_active.html',
+            controller: 'ProfileAuctionsActiveController',
+            css: 'css/profile.css'
+        })
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',

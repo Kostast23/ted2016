@@ -1,6 +1,8 @@
 package gr.uoa.di.api;
 
+import gr.uoa.di.dao.BidEntity;
 import gr.uoa.di.dao.ItemEntity;
+import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.exception.item.ItemBuyingPriceException;
@@ -11,12 +13,16 @@ import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/items")
@@ -83,7 +89,7 @@ public class ItemApi {
         if (bindingResult.hasErrors()) {
             throw new ItemFieldsException();
         }
-        if (item.getBuyprice() < item.getFirstbid()) {
+        if (item.getBuyprice() != null && item.getBuyprice() < item.getFirstbid()) {
             throw new ItemBuyingPriceException();
         }
         if (item.getEndDate().before(item.getStartDate())) {
@@ -93,5 +99,76 @@ public class ItemApi {
         itemEnt.setOwner(userService.getUserEntity((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
         return itemRepository.save(itemEnt).getId();
+    }
+
+    @RequestMapping(value = "/active/{username}")
+    public Page<ItemResponseDto> getActive(@PathVariable String username, Pageable pageable) {
+        List<ItemEntity> items = itemRepository.findByOwner_Username(username);
+        List<ItemEntity> active = new ArrayList<>();
+        for (ItemEntity item: items) {
+            if (!item.getFinished() && item.getEndDate().before(new Date())) {
+                item.setFinished(true);
+                itemRepository.save(item);
+            } else if (!item.getFinished()) {
+                active.add(item);
+            }
+        }
+        return new PageImpl<>(active.stream().map(itemMapper::mapItemEntityToItemResponseDto).
+                collect(Collectors.toList()), pageable, active.size());
+    }
+
+    @RequestMapping(value = "/finished/{username}")
+    public Page<ItemResponseDto> getFinished(@PathVariable String username, Pageable pageable) {
+        List<ItemEntity> items = itemRepository.findByOwner_Username(username);
+        List<ItemEntity> finished = new ArrayList<>();
+        for (ItemEntity item: items) {
+            if (!item.getFinished() && item.getEndDate().before(new Date())) {
+                item.setFinished(true);
+                itemRepository.save(item);
+                finished.add(item);
+            } else if (item.getFinished()) {
+                finished.add(item);
+            }
+        }
+        return new PageImpl<>(finished.stream().map(itemMapper::mapItemEntityToItemResponseDto).
+                collect(Collectors.toList()), pageable, finished.size());
+    }
+    
+    @RequestMapping(value = "/participating/{username}")
+    public Page<ItemResponseDto> getParticipating(@PathVariable String username, Pageable pageable) {
+        if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
+            throw new ItemBuyingPriceException();
+        }
+
+        UserEntity user = userService.getUserEntity(username);
+        List<BidEntity> bids = user.getBids();
+        Set<ItemEntity> participating = new HashSet<>();
+        for (BidEntity bid: bids) {
+            if (!bid.getItem().getFinished()) {
+                participating.add(bid.getItem());
+            }
+        }
+        return new PageImpl<>(participating.stream().map(itemMapper::mapItemEntityToItemResponseDto).
+                collect(Collectors.toList()), pageable, participating.size());
+    }
+
+    @RequestMapping(value = "/bought/{username}")
+    public Page<ItemResponseDto> getBought(@PathVariable String username, Pageable pageable) {
+        if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
+            throw new ItemBuyingPriceException();
+        }
+
+        UserEntity user = userService.getUserEntity(username);
+        List<BidEntity> bids = user.getBids();
+        Set<ItemEntity> bought = new HashSet<>();
+        for (BidEntity bid: bids) {
+            ItemEntity item = bid.getItem();
+            List<BidEntity> itemBids = item.getBids();
+            if (item.getFinished() && itemBids.get(itemBids.size() - 1).getOwner().getUsername().equals(username)) {
+                bought.add(item);
+            }
+        }
+        return new PageImpl<>(bought.stream().map(itemMapper::mapItemEntityToItemResponseDto).
+                collect(Collectors.toList()), pageable, bought.size());
     }
 }

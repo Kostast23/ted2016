@@ -4,6 +4,7 @@ import gr.uoa.di.exception.bid.AuctionFinishedException;
 import gr.uoa.di.exception.bid.AuctionNotStartedException;
 import gr.uoa.di.exception.bid.BidLessThanCurrentException;
 import gr.uoa.di.exception.bid.BidOnOwnItemException;
+import gr.uoa.di.exception.item.ItemBuyingPriceException;
 import gr.uoa.di.exception.item.ItemCannotBeEditedException;
 import gr.uoa.di.exception.item.ItemDateException;
 import gr.uoa.di.exception.item.ItemFieldsException;
@@ -22,7 +23,8 @@ public class ExceptionControllerAdvice {
                 (createErrorResponse(HttpStatus.NOT_FOUND, ex), HttpStatus.NOT_FOUND);
 	}
 
-	@ExceptionHandler({UserLoginException.class, ItemFieldsException.class, ItemDateException.class})
+	@ExceptionHandler({UserLoginException.class, ItemFieldsException.class, ItemDateException.class,
+            ItemBuyingPriceException.class})
     public ResponseEntity<ErrorResponse> badRequest(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.BAD_REQUEST, ex), HttpStatus.BAD_REQUEST);

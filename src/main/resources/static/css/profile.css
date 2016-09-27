@@ -1,0 +1,60 @@
+#profile-down {
+  background-color: white;
+  padding: 15px 0; }
+  #profile-down .sidebar h3 {
+    color: #767676;
+    font-size: 18px;
+    margin: 10px 0 5px 0; }
+  #profile-down .sidebar ul {
+    border: 0; }
+    #profile-down .sidebar ul > li > a {
+      color: black;
+      padding: 5px 10px; }
+      #profile-down .sidebar ul > li > a:hover {
+        color: #0654BA; }
+    #profile-down .sidebar ul > li.active > a {
+      color: white; }
+
+#auctions {
+  padding: 20px 20px;
+  background-color: #FFFFFF;
+  border: 1px solid #E6E6E6; }
+  #auctions > .items > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  #auctions > .items .item {
+    height: 171px;
+    padding: 10px 0;
+    border-bottom: 1px solid #E6E6E6; }
+    #auctions > .items .item > .image {
+      height: 152px;
+      border: 1px solid #E6E6E6;
+      border-radius: 3px;
+      padding: 0;
+      text-align: center; }
+      #auctions > .items .item > .image > img {
+        height: 150px;
+        max-width: 100%;
+        margin: auto; }
+      #auctions > .items .item > .image > .no-image {
+        color: #767676;
+        line-height: 150px; }
+    #auctions > .items .item > .info > .item-title {
+      font-size: 22px;
+      margin-top: 10px;
+      margin-bottom: 20px; }
+      #auctions > .items .item > .info > .item-title > a {
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word; }
+    #auctions > .items .item > .info > div {
+      padding-left: 0; }
+    #auctions > .items .item .auction-ended {
+      color: red; }
+    #auctions > .items .item .auction-live {
+      color: green; }
+
+/*# sourceMappingURL=profile.css.map */
