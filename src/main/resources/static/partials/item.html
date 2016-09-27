@@ -16,15 +16,17 @@
         </div>
     </div>
     <div class="col-sm-7 container">
-        <h3>{{ item.name }}</h3>
-        <div ng-show="canEdit()">
-            <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
-                <button class="btn btn-primary btn-sm">Edit</button>
-            </a>
-            <a ng-click="deleteItem(item.id)">
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </a>
-        </div>
+        <h3>
+            <span id="item-title">{{ item.name }}</span>
+            <span ng-show="canEdit()" class="pull-right">
+                <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
+                    <button class="btn btn-primary btn-sm">Edit</button>
+                </a>
+                <a ng-click="deleteItem(item.id)" style="padding-left: 5px;">
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </a>
+            </span>
+        </h3>
         <hr/>
         <div class="clearfix">
             <p class="col-sm-3 text-right">Seller:</p>
@@ -34,8 +36,8 @@
         <div class="clearfix">
             <p class="col-sm-3 text-right">Location:</p>
             <p class="col-sm-9">
-                <a href="" uib-popover-template="'map-template.html'" popover-placement="bottom-left">{{ item.location
-                    }}, {{ item.country }}</a>
+                <a href="" uib-popover-template="'map-template.html'" popover-placement="bottom-left">
+                    {{ item.location }}, {{ item.country }}</a>
             </p>
             <script type="text/ng-template" id="map-template.html">
                 <div>

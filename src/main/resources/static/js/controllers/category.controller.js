@@ -1,5 +1,4 @@
 app.controller('CategoryController', function ($scope, $http, $stateParams, $state, AuthService) {
-    $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
     $scope.currentPage = 1;

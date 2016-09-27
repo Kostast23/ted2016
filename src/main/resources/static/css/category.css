@@ -102,6 +102,12 @@
       font-size: 22px;
       margin-top: 10px;
       margin-bottom: 20px; }
+      #main > .items .item > .info > .item-title > a {
+        white-space: pre-wrap;
+        white-space: -moz-pre-wrap;
+        white-space: -pre-wrap;
+        white-space: -o-pre-wrap;
+        word-wrap: break-word; }
     #main > .items .item > .info > div {
       padding-left: 0; }
     #main > .items .item .auction-ended {

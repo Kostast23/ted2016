@@ -12,6 +12,13 @@
   #images > #no-image > span {
     line-height: 300px; }
 
+#item-title {
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word; }
+
 #bid-panel {
   background-color: #e2e2e2;
   margin: 20px 0;

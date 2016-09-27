@@ -151,6 +151,14 @@
           font-size: 22px;
           margin-top: 10px;
           margin-bottom: 20px;
+
+          & > a {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+          }
         }
 
         & > div {

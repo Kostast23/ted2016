@@ -133,7 +133,7 @@ public class ItemApi {
         return new PageImpl<>(finished.stream().map(itemMapper::mapItemEntityToItemResponseDto).
                 collect(Collectors.toList()), pageable, finished.size());
     }
-    
+
     @RequestMapping(value = "/participating/{username}")
     public Page<ItemResponseDto> getParticipating(@PathVariable String username, Pageable pageable) {
         if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
