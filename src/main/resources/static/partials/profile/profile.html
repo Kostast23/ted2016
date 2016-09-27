@@ -3,10 +3,16 @@
         <h3>Auctions</h3>
         <ul class="nav nav-tabs nav-stacked nav-pills" role="tablist">
             <li ng-class="{'active': view_tab == 'active'}">
-                <a ng-click="changeTab('active')" ui-sref="main.profile.active">Active</a>
+                <a ui-sref="main.profile.active">Active</a>
             </li>
             <li ng-class="{'active': view_tab == 'closed'}">
-                <a ng-click="changeTab('closed')" href="javascript:void(0);">Closed</a>
+                <a ui-sref="main.profile.closed">Closed</a>
+            </li>
+            <li ng-class="{'active': view_tab == 'participating'}">
+                <a ui-sref="main.profile.participating">Participating</a>
+            </li>
+            <li ng-class="{'active': view_tab == 'bought'}">
+                <a ui-sref="main.profile.bought">Bought</a>
             </li>
         </ul>
         <h3>Messages</h3>

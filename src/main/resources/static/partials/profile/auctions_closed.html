@@ -1,4 +1,4 @@
-<div id="auctions">
+<div id="auctions" ng-show="resourcesLoaded">
     <div class="items" ng-show="items.length">
         <ul>
             <li ng-repeat="item in filteredItems">
@@ -10,24 +10,24 @@
                     <div class="info col-sm-8 col-md-9">
                         <h3 class="item-title">
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
-                            <span class="pull-right" ng-show="canEdit(item)">
-                                <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                </a>
-                                <a ng-click="deleteItem(item.id)" style="padding-left: 5px;">
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </a>
-                            </span>
                         </h3>
-                        <div class="col-sm-6">
-                            <p>
-                                <span class="auction-live">Ends</span>
-                                <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
+                        <div class="col-sm-12">
+                            <p class="auction-ended">
+                                <span>Ended</span>
+                                <span>{{ item.endOffset }}</span>
+                                <span ng-if="!item.winnerUsername">with no bids</span>
                             </p>
-                            <p ng-if="!item.finished">Current Bid <strong class="bid">{{ item.currentbid | currency }}</strong></p>
-                        </div>
-                        <div class="col-sm-6">
-                            <p ng-if="item.buyprice">Buying Price {{ item.buyprice | currency }}</p>
+                            <p ng-if="item.winnerUsername">
+                                <span>
+                                    Bought at <strong class="bid">{{ item.currentbid | currency }}</strong> from
+                                    <a ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a>
+                                </span>
+                                <span class="pull-right">
+                                    <a ui-sref="" style="padding-left: 5px;">
+                                        <button class="btn btn-primary btn-sm">Message buyer</button>
+                                    </a>
+                                </span>
+                            </p>
                         </div>
                     </div>
                 </div>

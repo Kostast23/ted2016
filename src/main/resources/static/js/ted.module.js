@@ -18,14 +18,20 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         })
         .state('main.profile', {
             abstract: true,
-            templateUrl: 'partials/profile.html',
+            templateUrl: 'partials/profile/profile.html',
             controller: 'ProfileController',
             css: 'css/profile.css'
         })
         .state('main.profile.active', {
             url: '/profile/auctions/active',
-            templateUrl: 'partials/profile_auctions_active.html',
+            templateUrl: 'partials/profile/auctions_active.html',
             controller: 'ProfileAuctionsActiveController',
+            css: 'css/profile.css'
+        })
+        .state('main.profile.closed', {
+            url: '/profile/auctions/closed',
+            templateUrl: 'partials/profile/auctions_closed.html',
+            controller: 'ProfileAuctionsClosedController',
             css: 'css/profile.css'
         })
         .state('main.store', {

@@ -1,0 +1,45 @@
+<div id="auctions" ng-show="resourcesLoaded">
+    <div class="items" ng-show="items.length">
+        <ul>
+            <li ng-repeat="item in filteredItems">
+                <div class="item">
+                    <div class="image col-sm-4 col-md-3">
+                        <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                        <span ng-if="!item.images.length" class="no-image">No images available</span>
+                    </div>
+                    <div class="info col-sm-8 col-md-9">
+                        <h3 class="item-title">
+                            <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                            <span class="pull-right" ng-show="canEdit(item)">
+                                <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </a>
+                                <a ng-click="deleteItem(item.id)" style="padding-left: 5px;">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </a>
+                            </span>
+                        </h3>
+                        <div class="col-sm-6">
+                            <p class="auction-live">
+                                <span>Ends</span>
+                                <span>{{ item.endOffset }}</span>
+                            </p>
+                            <p>Current Bid <strong class="bid">{{ item.currentbid | currency }}</strong></p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p ng-if="item.buyprice">Buying Price {{ item.buyprice | currency }}</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <div id="pagination" ng-show="needPagination()">
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage"
+                max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
+        </div>
+    </div>
+    <div ng-show="items && !items.length">
+        <p>There are no items here :( <a ui-sref="main.new_item">Create an auction</a></p>
+    </div>
+</div>
