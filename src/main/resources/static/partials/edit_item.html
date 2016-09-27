@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
-    <li class="breadcrumb-item" ng-if="!item.name">{{ currentUser }}</li>
-    <li class="breadcrumb-item" ng-if="item.name">{{ item.seller }}</li>
+    <li class="breadcrumb-item" ng-if="item.new">{{ currentUser }}</li>
+    <li class="breadcrumb-item" ng-if="!item.new">{{ item.seller }}</li>
     <li class="breadcrumb-item" ng-if="!item.name">New Item</li>
     <li class="breadcrumb-item" ng-if="item.name">{{ item.name }}</li>
 </ol>
@@ -18,6 +18,9 @@
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="name" name="name" placeholder="Name"
                        ng-model="item.name" required>
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Name has to be at least 3 characters long.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
@@ -26,6 +29,9 @@
                 <textarea cols="50" rows="5" class="form-control" id="description" name="description"
                           placeholder="Description"
                           ng-model="item.description"></textarea>
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Description has to be at least 10 characters long.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
@@ -33,30 +39,43 @@
             <div class="col-sm-9">
                 <select class="form-control" id="category" name="category" ng-model="item.category">
                     <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
-                        <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">{{ subcategory.name }}
+                        <option value="{{ category.id }}">
+                            {{ category.name }}
+                        </option>
+                        <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">
+                            {{ subcategory.name }}
                         </option>
                     </optgroup>
                 </select>
             </div>
         </div>
         <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="location">Address</label>
+            <label class="col-sm-3 control-label" for="location">Address<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="location" name="location" placeholder="Address" ng-model="item.location">
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Address has to be at least 2 characters long.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="country">Country</label>
+            <label class="col-sm-3 control-label" for="country">Country<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <input type="text" class="form-control" id="country" name="country" placeholder="Country"
                        ng-model="item.country">
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Country has to be at least 2 characters long.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="firstbid">Starting price</label>
+            <label class="col-sm-3 control-label" for="firstbid">Starting price<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="firstbid" name="firstbid" placeholder="Starting price"
                        ng-model="item.firstbid">
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Starting price has to be at least 0.01$.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
@@ -64,21 +83,16 @@
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="buyprice" name="buyprice" placeholder="Buying price"
                        ng-model="item.buyprice">
+                <span style="font-size: 10px; color: red; padding-left: 10px;">
+                    Buying price can be 0 (no buying price) or >= starting price.
+                </span>
             </div>
         </div>
         <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="startDate">Starting date</label>
+            <label class="col-sm-3 control-label" for="endDate">Ending date<span style="color: red">*</span></label>
             <div class="col-sm-9">
-                <input type="datetime-local" class="form-control" id="startDate" name="startDate"
-                       placeholder="Starting date"
-                       ng-model="item.startDate" required>
-            </div>
-        </div>
-        <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="endDate">Ending date</label>
-            <div class="col-sm-9">
-                <input type="datetime-local" class="form-control" id="endDate" name="endDate" placeholder="Ending date"
-                       ng-model="item.endDate" required>
+                <input type="text" class="form-control" id="endDate" name="endDate" placeholder="Ending date"
+                       ng-model="item.endDate" date-format format="'M/dd/y HH:mm:ss'" required>
             </div>
         </div>
     </form>
@@ -86,7 +100,7 @@
 <div class="col-sm-6">
     <form class="form-horizontal" novalidate>
         <div class="form-group" has-feedback>
-            <label class="col-sm-3 control-label" for="map">Location</label>
+            <label class="col-sm-3 control-label" for="map">Location<span style="color: red">*</span></label>
             <div class="col-sm-9" style="padding: 0;">
                 <leaflet class="form-control" id="map" lf-center="center" name="position" markers="markers" height="300px"
                          style="padding: 0;max-width: 100%;"></leaflet>
@@ -94,7 +108,7 @@
         </div>
         <div class="form-group" has-feedback>
             <label class="col-sm-3 control-label">Images</label>
-            <div class="col-sm-9" style="padding: 0; padding: auto">
+            <div class="col-sm-9" style="padding: 0;">
                 <div>
                     <span ng-repeat="img in item.images"
                           style="display: inline-block; position: relative;width: 100px;height: 100px; margin: 0 5px 5px 0;">
@@ -127,7 +141,7 @@
     </form>
 </div>
 
-<div class="col-sm-12" style="margin-top: 20px;">
+<div class="col-sm-12" style="margin-top: 20px; padding: 0;">
     <div class="alert alert-danger" ng-show="formError">
         <ul>
             <li>{{ formError }}</li>

@@ -5,13 +5,12 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     var curDate = new Date();
     curDate.setSeconds(0);
     curDate.setMilliseconds(0);
-
+    console.log(curDate);
     $scope.markers = {};
     $scope.minDate = curDate;
     $scope.item = {
         new: !$stateParams.itemId,
         name: null,
-        startDate: curDate,
         endDate: moment(curDate).add(1, 'months').toDate()
     };
 
@@ -23,7 +22,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
                 )
             ) : [];
             return [{
-                name: '-'.repeat(depth) + ' ' + cat.name,
+                name: '-' + '-'.repeat(depth) + ' ' + cat.name,
                 id: cat.id
             }].concat(subcats);
         };
@@ -110,9 +109,8 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
 
     $scope.submitItem = function () {
         var item = angular.copy($scope.item);
-        if (item.startDate > item.endDate) {
-            $scope.formError = 'The auction must end after it starts!';
-            return;
+        if (item.new) {
+            item.startDate = new Date();
         }
         if (marker) {
             item.lat = marker.lat % 360;
@@ -126,6 +124,8 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         }
         if (item.buyprice) {
             item.buyprice *= 100;
+        } else {
+            item.buyprice = null;
         }
         if (item.firstbid) {
             item.firstbid *= 100;
