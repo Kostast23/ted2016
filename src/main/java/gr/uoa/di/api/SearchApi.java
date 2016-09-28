@@ -1,10 +1,12 @@
 package gr.uoa.di.api;
 
 import com.mysema.query.types.expr.BooleanExpression;
+import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.QItemEntity;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.dto.item.SearchRequestDto;
 import gr.uoa.di.mapper.ItemMapper;
+import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/search")
 public class SearchApi {
     @Autowired
     ItemRepository itemRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     ItemMapper itemMapper;
@@ -45,6 +49,36 @@ public class SearchApi {
             exprs.add(Arrays.asList(params.getDescription().split(" ")).stream()
                     .map(s -> item.description.likeIgnoreCase("%" + s + "%"))
                     .reduce((exp1, exp2) -> exp1.and(exp2)).get());
+        }
+
+        if (params.getMin() != null) {
+            exprs.add(item.currentbid.goe(params.getMin()));
+        }
+
+        if (params.getMax() != null) {
+            exprs.add(item.currentbid.loe(params.getMax()));
+        }
+
+        if (params.getLocation() != null) {
+            exprs.add(item.location.like("%" + params.getLocation() + "%"));
+        }
+
+        if (params.getFinished() == null || !params.getFinished()) {
+            exprs.add(item.finished.eq(false));
+        }
+
+        if (params.getCategory() != null && params.getCategory() != -1) {
+            Queue<CategoryEntity> remainingCategories = new ArrayDeque<>();
+            List<CategoryEntity> includedCategories = new LinkedList<>();
+            remainingCategories.add(categoryRepository.findOneById(params.getCategory()));
+
+            while (!remainingCategories.isEmpty()) {
+                CategoryEntity category = remainingCategories.poll();
+                includedCategories.add(category);
+                remainingCategories.addAll(category.getSubcategories());
+            }
+
+            exprs.add(item.category.in(includedCategories));
         }
 
         Optional<BooleanExpression> finalExpr = exprs.stream().reduce((exp1, exp2) -> exp1.and(exp2));
