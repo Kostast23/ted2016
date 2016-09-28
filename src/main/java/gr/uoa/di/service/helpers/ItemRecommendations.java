@@ -17,11 +17,10 @@ public class ItemRecommendations {
         recommendations.put(item, oldValue + value);
     }
 
-    public List<Integer> getTop(int n) {
+    public List<Map.Entry<Integer, Double>> getTop(int n) {
         return recommendations.entrySet().stream()
                 .sorted((o1, o2) -> Double.compare(o2.getValue(), o1.getValue()))
                 .limit(n)
-                .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 }
