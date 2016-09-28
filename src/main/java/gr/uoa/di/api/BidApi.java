@@ -80,6 +80,7 @@ public class BidApi {
             item.setCurrentbid(bidAmount);
             if (item.getBuyprice() != null && item.getBuyprice() <= bidAmount) {
                 item.setFinished(true);
+                item.setEndDate(new Date());
             }
             itemRepository.save(item);
         }

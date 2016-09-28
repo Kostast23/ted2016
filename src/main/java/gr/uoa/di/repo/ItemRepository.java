@@ -12,4 +12,5 @@ public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, L
     ItemEntity findOneById(int id);
     List<ItemEntity> findAll();
     Page<ItemEntity> findByCategory_IdOrderByFinishedAsc(int id, Pageable pageable);
+    List<ItemEntity> findByOwner_Username(String username);
 }

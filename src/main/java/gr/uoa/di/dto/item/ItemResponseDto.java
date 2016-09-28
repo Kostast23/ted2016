@@ -11,6 +11,7 @@ public class ItemResponseDto {
     private String description;
     private Integer buyprice;
     private Integer currentbid;
+    private Integer firstbid;
     private String location;
     private Double lat;
     private Double lon;
@@ -61,6 +62,14 @@ public class ItemResponseDto {
 
     public void setCurrentbid(Integer currentbid) {
         this.currentbid = currentbid;
+    }
+
+    public Integer getFirstbid() {
+        return firstbid;
+    }
+
+    public void setFirstbid(Integer firstbid) {
+        this.firstbid = firstbid;
     }
 
     public String getLocation() {

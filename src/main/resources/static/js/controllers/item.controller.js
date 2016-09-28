@@ -73,14 +73,13 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     $scope.submitBid = function (amount) {
         if (confirmBid()) {
             var amountStr = Math.floor(amount * 100);
-            $http.post('/api/bids/' + $stateParams.itemId, amountStr)
-                .then(function () {
-                    $scope.bidError = null;
-                    $scope.bidAmount = null;
-                    updateBids();
-                }, function (err) {
-                    $scope.bidError = err.data.message;
-                });
+            $http.post('/api/bids/' + $stateParams.itemId, amountStr).then(function () {
+                $scope.bidError = null;
+                $scope.bidAmount = null;
+                updateBids();
+            }, function (err) {
+                $scope.bidError = err.data.message;
+            });
         }
     };
 
