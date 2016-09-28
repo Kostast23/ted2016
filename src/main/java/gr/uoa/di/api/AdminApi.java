@@ -2,6 +2,7 @@ package gr.uoa.di.api;
 
 import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.service.AdminService;
+import gr.uoa.di.service.SuggestionService;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,8 @@ public class AdminApi {
     private UserService userService;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private SuggestionService suggestionService;
 
     @Value("${secret_key}")
     private String secretKey;
@@ -56,5 +59,10 @@ public class AdminApi {
     @RequestMapping(value = "/dumpDatabase", method = RequestMethod.GET)
     public byte[] dumpDatabase() {
         return adminService.createXMLDump();
+    }
+
+    @RequestMapping(value = "/runAutosuggestions", method = RequestMethod.GET)
+    public void runAutosuggestions() {
+        suggestionService.runAutosuggestions();
     }
 }

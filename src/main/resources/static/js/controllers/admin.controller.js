@@ -1,4 +1,4 @@
-app.controller('AdminController', function ($scope, $http, $state, AdminService, FileUploader) {
+app.controller('AdminController', function ($scope, $http, $state, $timeout, AdminService, FileUploader) {
     $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
@@ -76,10 +76,6 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
         $scope.uploaded = true;
     };
 
-    $scope.uploader.onProgressItem = function() {
-        console.log(arguments);
-    };
-
     $scope.uploader.onErrorItem = function() {
         $scope.uploader.cancelAll();
         $scope.uploaded = false;
@@ -95,4 +91,11 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
             saveAs(blob, filename);
         });
     };
+
+    $scope.runAutosuggestions = function() {
+        $http.get('/api/admin/runAutosuggestions').then(function() {
+            $scope.algorithmRunning = true;
+            $timeout(function() {$scope.algorithmRunning = false;}, 2000);
+        });
+    }
 });
