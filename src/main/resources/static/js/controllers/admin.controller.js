@@ -94,8 +94,8 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
 
     $scope.runAutosuggestions = function() {
         $http.get('/api/admin/runAutosuggestions').then(function() {
-            $scope.algorithmRunning = true;
-            $timeout(function() {$scope.algorithmRunning = false;}, 2000);
+            $scope.algorithmMsg = 'Algorithm finished successfully!';
         });
+        $scope.algorithmMsg = 'Running algorithm...';
     }
 });

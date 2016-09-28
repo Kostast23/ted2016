@@ -1,30 +1,15 @@
 package gr.uoa.di.service;
 
-import gr.uoa.di.dao.CategoryEntity;
-import gr.uoa.di.dao.ItemEntity;
-import gr.uoa.di.dao.UserEntity;
-import gr.uoa.di.jax.ItemsJAX;
-import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.BidRepository;
-import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
+import gr.uoa.di.service.helpers.ItemRecommendations;
+import gr.uoa.di.service.helpers.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,6 +18,8 @@ public class SuggestionService {
     ItemRepository itemRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    BidRepository bidRepository;
 
     private double cosSimilarity(Set<Integer> s1, Set<Integer> s2) {
         Set<Integer> common = new HashSet<>(s1);
@@ -43,18 +30,42 @@ public class SuggestionService {
 
     public void runAutosuggestions() {
         Map<Integer, Set<Integer>> userBidOnItems = new HashMap<>();
-        Map<Integer, Set<Integer>> itemBidByUser = new HashMap<>();
+        Map<Integer, ItemRecommendations> userItemSuggestions = new HashMap<>();
+        Map<Integer, List<UserSimilarity>> userSimilarities = new HashMap<>();
 
-        userRepository.findAll().stream().forEach(user -> {
-            userBidOnItems.put(user.getId(), user.getBids().stream()
-                    .map(bid -> bid.getItem().getId())
-                    .collect(Collectors.toSet()));
+        bidRepository.getUserBidsOnItems().forEach(entry -> {
+            Set<Integer> items = userBidOnItems
+                    .computeIfAbsent(entry.getUserId(), i -> new HashSet<>());
+            items.add(entry.getItemId());
         });
 
-        itemRepository.findAll().stream().forEach(item -> {
-            itemBidByUser.put(item.getId(), item.getBids().stream()
-                    .map(bid -> bid.getOwner().getId())
-                    .collect(Collectors.toSet()));
+        userBidOnItems.forEach((user, items) -> {
+            userBidOnItems.forEach((user2, items2) -> {
+                if (user != user2) {
+                    double similarity = cosSimilarity(items, items2);
+                    if (similarity > 0) {
+                        userSimilarities.computeIfAbsent(user, i -> new ArrayList<>())
+                                .add(new UserSimilarity(user2, similarity));
+                    }
+                }
+            });
+        });
+
+        userSimilarities.values().stream().forEach(similarities -> {
+            similarities.sort((o1, o2) -> Double.compare(o2.getSimilarity(), o1.getSimilarity()));
+        });
+
+        userSimilarities.forEach((user, similar) -> {
+            ItemRecommendations recommended = new ItemRecommendations();
+            Set<Integer> currentUserBids = userBidOnItems.get(user);
+            similar.forEach(userSimilarity ->
+                    userBidOnItems.get(userSimilarity.getUser())
+                    .forEach(item -> {
+                        if (!currentUserBids.contains(item)) {
+                            recommended.addRecommendation(item, userSimilarity.getSimilarity());
+                        }
+                    }));
+            userItemSuggestions.put(user, recommended);
         });
     }
 
