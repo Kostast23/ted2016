@@ -117,7 +117,7 @@ public class MessageEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "from", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "from_user", referencedColumnName = "id", nullable = false)
     public UserEntity getFrom() {
         return from;
     }
@@ -137,7 +137,7 @@ public class MessageEntity {
     }
 
     @ManyToOne
-    @JoinColumn(name = "to", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "to_user", referencedColumnName = "id", nullable = false)
     public UserEntity getTo() {
         return to;
     }
