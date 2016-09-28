@@ -1,4 +1,4 @@
-app.controller('AdminController', function ($scope, $http, $state, AdminService, Upload) {
+app.controller('AdminController', function ($scope, $http, $state, AdminService, FileUploader) {
     $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
@@ -67,16 +67,22 @@ app.controller('AdminController', function ($scope, $http, $state, AdminService,
         }
     };
 
-    $scope.doUpload = function (file) {
-        Upload.upload({
-            url: '/api/admin/uploadBackup',
-            data: {file: file}
-        }).then(function (resp) {
-            $scope.uploaded = true;
-            $scope.uplFile = undefined;
-        }, function (resp) {
-            $scope.uploaded = false;
-        });
+    $scope.uploader = new FileUploader({
+        url: '/api/admin/uploadBackup',
+        removeAfterUpload: true
+    });
+
+    $scope.uploader.onCompleteAll = function() {
+        $scope.uploaded = true;
+    };
+
+    $scope.uploader.onProgressItem = function() {
+        console.log(arguments);
+    };
+
+    $scope.uploader.onErrorItem = function() {
+        $scope.uploader.cancelAll();
+        $scope.uploaded = false;
     };
 
     $scope.downloadDump = function () {

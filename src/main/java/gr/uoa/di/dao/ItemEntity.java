@@ -25,6 +25,8 @@ public class ItemEntity {
     private Date startDate;
     private Date endDate;
     private Boolean finished;
+    private Boolean ratedBySeller;
+    private Boolean ratedByBuyer;
     private List<ItemPicturesEntity> pictures;
     private UserEntity owner;
     private List<BidEntity> bids;
@@ -162,47 +164,25 @@ public class ItemEntity {
         this.finished = finished;
     }
 
-
-        @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        ItemEntity that = (ItemEntity) o;
-
-        if (id != that.id) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (description != null ? !description.equals(that.description) : that.description != null) return false;
-        if (buyprice != null ? !buyprice.equals(that.buyprice) : that.buyprice != null) return false;
-        if (currentbid != null ? !currentbid.equals(that.currentbid) : that.currentbid != null) return false;
-        if (firstbid != null ? !firstbid.equals(that.firstbid) : that.firstbid != null) return false;
-        if (location != null ? !location.equals(that.location) : that.location != null) return false;
-        if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
-        if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
-        if (country != null ? !country.equals(that.country) : that.country != null) return false;
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
-        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
-
-        return true;
+    @Basic
+    @Column(name = "ratedseller")
+    public Boolean getRatedBySeller() {
+        return ratedBySeller;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (buyprice != null ? buyprice.hashCode() : 0);
-        result = 31 * result + (currentbid != null ? currentbid.hashCode() : 0);
-        result = 31 * result + (firstbid != null ? firstbid.hashCode() : 0);
-        result = 31 * result + (location != null ? location.hashCode() : 0);
-        result = 31 * result + (lat != null ? lat.hashCode() : 0);
-        result = 31 * result + (lon != null ? lon.hashCode() : 0);
-        result = 31 * result + (country != null ? country.hashCode() : 0);
-        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
-        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
-        return result;
+    public void setRatedBySeller(Boolean ratedBySeller) {
+        this.ratedBySeller = ratedBySeller;
     }
 
+    @Basic
+    @Column(name = "ratedbuyer")
+    public Boolean getRatedByBuyer() {
+        return ratedByBuyer;
+    }
+
+    public void setRatedByBuyer(Boolean ratedByBuyer) {
+        this.ratedByBuyer = ratedByBuyer;
+    }
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     public List<ItemPicturesEntity> getPictures() {
         return pictures;
@@ -239,5 +219,59 @@ public class ItemEntity {
 
     public void setCategory(CategoryEntity category) {
         this.category = category;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ItemEntity that = (ItemEntity) o;
+
+        if (id != that.id) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
+        if (buyprice != null ? !buyprice.equals(that.buyprice) : that.buyprice != null) return false;
+        if (currentbid != null ? !currentbid.equals(that.currentbid) : that.currentbid != null) return false;
+        if (firstbid != null ? !firstbid.equals(that.firstbid) : that.firstbid != null) return false;
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
+        if (lat != null ? !lat.equals(that.lat) : that.lat != null) return false;
+        if (lon != null ? !lon.equals(that.lon) : that.lon != null) return false;
+        if (country != null ? !country.equals(that.country) : that.country != null) return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
+        if (finished != null ? !finished.equals(that.finished) : that.finished != null) return false;
+        if (ratedBySeller != null ? !ratedBySeller.equals(that.ratedBySeller) : that.ratedBySeller != null)
+            return false;
+        if (ratedByBuyer != null ? !ratedByBuyer.equals(that.ratedByBuyer) : that.ratedByBuyer != null) return false;
+        if (pictures != null ? !pictures.equals(that.pictures) : that.pictures != null) return false;
+        if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
+        if (bids != null ? !bids.equals(that.bids) : that.bids != null) return false;
+        return category != null ? category.equals(that.category) : that.category == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (buyprice != null ? buyprice.hashCode() : 0);
+        result = 31 * result + (currentbid != null ? currentbid.hashCode() : 0);
+        result = 31 * result + (firstbid != null ? firstbid.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
+        result = 31 * result + (lat != null ? lat.hashCode() : 0);
+        result = 31 * result + (lon != null ? lon.hashCode() : 0);
+        result = 31 * result + (country != null ? country.hashCode() : 0);
+        result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
+        result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
+        result = 31 * result + (finished != null ? finished.hashCode() : 0);
+        result = 31 * result + (ratedBySeller != null ? ratedBySeller.hashCode() : 0);
+        result = 31 * result + (ratedByBuyer != null ? ratedByBuyer.hashCode() : 0);
+        result = 31 * result + (pictures != null ? pictures.hashCode() : 0);
+        result = 31 * result + (owner != null ? owner.hashCode() : 0);
+        result = 31 * result + (bids != null ? bids.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        return result;
     }
 }

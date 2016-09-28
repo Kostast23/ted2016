@@ -60,6 +60,8 @@ public class ItemMapper {
         itemEnt.setStartDate(Utils.parseXMLDate(item.getStarted()));
         itemEnt.setEndDate(Utils.parseXMLDate(item.getEnds()));
         itemEnt.setFinished(itemEnt.getEndDate().before(new Date()) || (itemEnt.getBuyprice() != null && itemEnt.getBuyprice() <= itemEnt.getCurrentbid()));
+        itemEnt.setRatedByBuyer(false);
+        itemEnt.setRatedBySeller(false);
         itemEnt.setDescription(item.getDescription());
         itemEnt.setOwner(userMapper.mapSellerJAXToUserEntity(item.getSeller()));
         return itemEnt;
@@ -140,6 +142,8 @@ public class ItemMapper {
         itemEnt.setLat(item.getLat());
         itemEnt.setLon(item.getLon());
         itemEnt.setFinished(false);
+        itemEnt.setRatedByBuyer(false);
+        itemEnt.setRatedBySeller(false);
         itemEnt.setStartDate(item.getStartDate());
         itemEnt.setEndDate(item.getEndDate());
         if (item.getImages() == null) {

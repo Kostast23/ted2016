@@ -17,6 +17,12 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         var httpParams = angular.merge({
             size: $scope.itemsPerPage
         }, searchParams);
+        if (httpParams.min) {
+            httpParams.min = Math.floor(httpParams.min * 100);
+        }
+        if (httpParams.max) {
+            httpParams.max = Math.floor(httpParams.max * 100);
+        }
         $http.post('/api/search/', httpParams).then(function(response) {
             $scope.totalItems = response.data.totalElements;
             $scope.items = response.data.content.map(function (item) {
@@ -44,6 +50,13 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
     };
 
     $scope.searchParams = $location.search();
+    if ($scope.searchParams.min) {
+        $scope.searchParams.min = +$scope.searchParams.min;
+    }
+    if ($scope.searchParams.max) {
+        $scope.searchParams.max = +$scope.searchParams.max;
+    }
+
     $scope.doSearch = doSearch;
 
     if ($stateParams.name) {
@@ -54,6 +67,8 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
     if (Object.keys($scope.searchParams).length) {
         doSearch($scope.searchParams);
     }
+
+    $scope.searchParams.category = '-1';
 
     $http.get('/api/categories/all').then(function (response) {
         var makeRecursiveCategories = function (depth, cat) {
