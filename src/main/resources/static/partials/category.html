@@ -53,7 +53,7 @@
                         <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
                         <span ng-if="!item.images.length" class="no-image">No images available</span>
                     </div>
-                    <div class="info col-sm-8 col-md-9" style="height: 200px;">
+                    <div class="info col-sm-8 col-md-9">
                         <h3 class="item-title">
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
                         </h3>
@@ -65,7 +65,10 @@
                                 <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
                             </p>
                             <p ng-if="item.winnerUsername">bought from <a ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a></p>
-                            <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency }}</strong></p>
+                            <p ng-if="!item.finished">
+                                Bid over <strong class="bid">{{ item.currentbid | currency }}</strong>
+                                <span ng-if="item.buyprice">or buy for <strong class="bid">{{item.buyprice | currency }}</strong></span>
+                            </p>
                         </div>
                         <div class="col-sm-6">
                             <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}</p>
