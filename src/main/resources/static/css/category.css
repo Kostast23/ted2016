@@ -98,18 +98,26 @@
       #main > .items .item > .image > .no-image {
         color: #767676;
         line-height: 210px; }
-    #main > .items .item > .info > .item-title {
-      font-size: 22px;
-      margin-top: 10px;
-      margin-bottom: 20px; }
-      #main > .items .item > .info > .item-title > a {
-        white-space: pre-wrap;
-        white-space: -moz-pre-wrap;
-        white-space: -pre-wrap;
-        white-space: -o-pre-wrap;
-        word-wrap: break-word; }
-    #main > .items .item > .info > div {
-      padding-left: 0; }
+    #main > .items .item > .info {
+      height: 210px; }
+      #main > .items .item > .info > .item-title {
+        font-size: 22px;
+        margin-top: 10px;
+        margin-bottom: 20px; }
+        #main > .items .item > .info > .item-title > a {
+          white-space: pre-wrap;
+          white-space: -moz-pre-wrap;
+          white-space: -pre-wrap;
+          white-space: -o-pre-wrap;
+          word-wrap: break-word; }
+      #main > .items .item > .info > div {
+        padding-left: 0; }
+      #main > .items .item > .info > .item-desc {
+        position: absolute;
+        bottom: 0;
+        height: 80px;
+        overflow-y: auto;
+        margin-top: 10px; }
     #main > .items .item .auction-ended {
       color: red; }
     #main > .items .item .auction-live {

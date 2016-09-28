@@ -1,4 +1,4 @@
-app.controller('ProfileAuctionsActiveController', function ($scope, $http, $stateParams, $interval, AuthService) {
+app.controller('ProfileAuctionsActiveController', function ($scope, $http, $interval, AuthService) {
     $scope.$parent.view_tab = "active";
     $scope.resourcesLoaded = false;
 

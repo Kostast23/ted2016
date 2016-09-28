@@ -34,6 +34,12 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             controller: 'ProfileAuctionsClosedController',
             css: 'css/profile.css'
         })
+        .state('main.profile.participating', {
+            url: '/profile/auctions/participating',
+            templateUrl: 'partials/profile/auctions_participating.html',
+            controller: 'ProfileAuctionsParticipatingController',
+            css: 'css/profile.css'
+        })
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',

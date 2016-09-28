@@ -10,14 +10,6 @@
                     <div class="info col-sm-8 col-md-9">
                         <h3 class="item-title">
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
-                            <span class="pull-right" ng-show="canEdit(item)">
-                                <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
-                                    <button class="btn btn-primary btn-sm">Edit</button>
-                                </a>
-                                <a ng-click="deleteItem(item.id)" style="padding-left: 5px;">
-                                    <button class="btn btn-danger btn-sm">Delete</button>
-                                </a>
-                            </span>
                         </h3>
                         <div class="col-sm-6">
                             <p class="auction-live">
@@ -27,7 +19,14 @@
                             <p>Current Bid <strong class="bid">{{ item.currentbid | currency }}</strong></p>
                         </div>
                         <div class="col-sm-6">
-                            <p ng-if="item.buyprice">Buying Price <strong class="bid">{{ item.buyprice | currency }}</strong></p>
+                            <p>
+                                sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}
+                            </p>
+                            <p ng-if="item.buyprice">
+                                <span style="padding-right: 5px;">Buying Price <strong class="bid">{{ item.buyprice | currency }}</strong></span>
+                                <button ng-click="buyNow(item)" class="btn btn-danger btn-sm">Buy Now!</button>
+                            </p>
+                            <span style="color: red;" ng-show="item.bidError">{{ item.bidError }}</span>
                         </div>
                     </div>
                 </div>
@@ -40,6 +39,6 @@
         </div>
     </div>
     <div ng-show="items && !items.length">
-        <p>There are no items here :( <a ui-sref="main.new_item">Create an auction</a></p>
+        <p>There are no items here :( <a ui-sref="main.store">Find auctions!</a></p>
     </div>
 </div>

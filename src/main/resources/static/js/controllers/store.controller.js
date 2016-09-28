@@ -22,7 +22,7 @@ app.controller('StoreController', function ($scope, $http, $state, $timeout) {
         "collectibles", "clothing", "movies", "sports", "pottery", "toys", "antiques", "electronics",
         "computers", "photo", "home", "coins", "stamps", "tickets", "dolls", "business", "music",
         "books", "jewelry", "else"
-    ]
+    ];
 
     $(function() {
         $('#search').popover({

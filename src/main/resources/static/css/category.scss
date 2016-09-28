@@ -147,6 +147,8 @@
       }
 
       & > .info {
+        height: 210px;
+
         & > .item-title {
           font-size: 22px;
           margin-top: 10px;
@@ -163,6 +165,14 @@
 
         & > div {
           padding-left: 0;
+        }
+
+        & > .item-desc {
+          position: absolute;
+          bottom: 0;
+          height: 80px;
+          overflow-y: auto;
+          margin-top: 10px;
         }
       }
 

@@ -1,5 +1,5 @@
-app.controller('ProfileAuctionsClosedController', function ($scope, $http, $interval, AuthService) {
-    $scope.$parent.view_tab = "closed";
+app.controller('ProfileAuctionsParticipatingController', function ($scope, $http, $interval, AuthService) {
+    $scope.$parent.view_tab = "participating";
     $scope.resourcesLoaded = false;
 
     $scope.maxSize = 5;  // pagination size
@@ -10,13 +10,16 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
     $scope.filteredItems = [];
 
     var getItems = function() {
-        $http.get('/api/items/finished/' + AuthService.user.user, {
+        $http.get('/api/items/participating/' + AuthService.user.user, {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage
             }
         }).then(function success(response) {
             $scope.items = response.data.content.map(function (item) {
+                if (item.buyprice) {
+                    item.buyprice = +item.buyprice / 100;
+                }
                 item.currentbid = +item.currentbid / 100;
                 item.endOffset = moment(item.endDate).fromNow();
                 return item;
@@ -48,4 +51,20 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
             updateInterval = null;
         }
     });
+
+    var confirmBid = function (name, price) {
+        return confirm("You are buying " + name + " for " + price + "$. Are you sure?");
+    };
+
+    $scope.buyNow = function (item) {
+        if (confirmBid(item.name, item.buyprice)) {
+            var amount = Math.floor(item.buyprice * 100);
+            $http.post('/api/bids/' + item.id, amount).then(function () {
+                item.bidError = null;
+                getItems();
+            }, function(err) {
+                item.bidError = err.data.message;
+            });
+        }
+    };
 });
