@@ -14,7 +14,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             url: '/',
             templateUrl: 'partials/index.html',
             controller: 'IndexController',
-            css: 'css/index.css'
+            css: 'css/index.css',
+            resolve: { redirect: redirectIfLoggedIn }
         })
         .state('main.profile', {
             abstract: true,
@@ -116,26 +117,38 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
 
     function authenticateAdmin($q, $state, $timeout, AuthService) {
         if (AuthService.isAdmin()) {
-            return $q.when()
+            return $q.when();
         } else {
             $timeout(function() {
                 // This code runs after the authentication promise has been rejected.
-                $state.go('page_not_found')
+                $state.go('page_not_found');
             });
 
             // Reject the authentication promise to prevent the state from loading
-            return $q.reject()
+            return $q.reject();
         }
     }
 
     function authenticateUser($q, $state, $timeout, AuthService) {
         if (AuthService.isLoggedIn()) {
-            return $q.when()
+            return $q.when();
         } else {
             $timeout(function() {
-                $state.go('main.index')
+                $state.go('main.index');
             });
-            return $q.reject()
+            return $q.reject();
+        }
+    }
+
+    function redirectIfLoggedIn($q, $state, $timeout, AuthService) {
+        if (AuthService.isLoggedIn()) {
+            $timeout(function() {
+                $state.go('main.store')
+            });
+            return $q.reject();
+        } else {
+            return $q.when();
+
         }
     }
 });
