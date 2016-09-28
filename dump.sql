@@ -117,6 +117,8 @@ CREATE TABLE item (
     startdate timestamp without time zone,
     enddate timestamp without time zone,
     finished boolean DEFAULT false,
+    ratedseller boolean DEFAULT false,
+	ratedbuyer boolean DEFAULT false,
     owner integer NOT NULL,
     category integer DEFAULT 1 NOT NULL
 );
@@ -165,9 +167,11 @@ ALTER TABLE public.item_pictures OWNER TO ted;
 CREATE TABLE message (
     id integer NOT NULL,
     message text,
+    subject text,
     isread boolean DEFAULT false,
     deletedsender boolean DEFAULT false,
     deletedreceiver boolean DEFAULT false,
+    sentdate timestamp without time zone,
     from_user integer NOT NULL,
     to_user integer NOT NULL
 );
