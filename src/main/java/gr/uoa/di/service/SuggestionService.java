@@ -4,9 +4,7 @@ import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.RecommendationEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.repo.BidRepository;
-import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.RecommendationRepository;
-import gr.uoa.di.repo.UserRepository;
 import gr.uoa.di.service.helpers.ItemRecommendations;
 import gr.uoa.di.service.helpers.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +16,6 @@ import java.util.*;
 @Service
 @Transactional
 public class SuggestionService {
-    @Autowired
-    ItemRepository itemRepository;
-    @Autowired
-    UserRepository userRepository;
     @Autowired
     BidRepository bidRepository;
     @Autowired
@@ -75,16 +69,16 @@ public class SuggestionService {
         });
 
         List<RecommendationEntity> recEnts = new LinkedList<>();
-        Map<Integer, UserEntity> allUsers = new HashMap<>();
-        Map<Integer, ItemEntity> allItems = new HashMap<>();
-        userRepository.findAll().forEach(userEntity -> allUsers.put(userEntity.getId(), userEntity));
-        itemRepository.findAll().forEach(itemEntity -> allItems.put(itemEntity.getId(), itemEntity));
 
         userItemSuggestions.forEach((user, itemRecommendations) -> {
             itemRecommendations.getTop(5).forEach(item -> {
                 RecommendationEntity recEnt = new RecommendationEntity();
-                recEnt.setUser(allUsers.get(user));
-                recEnt.setItem(allItems.get(item.getKey()));
+                UserEntity userEnt = new UserEntity();
+                ItemEntity itemEnt = new ItemEntity();
+                userEnt.setId(user);
+                itemEnt.setId(item.getKey());
+                recEnt.setUser(userEnt);
+                recEnt.setItem(itemEnt);
                 recEnt.setRecValue(item.getValue());
                 recEnts.add(recEnt);
             });
