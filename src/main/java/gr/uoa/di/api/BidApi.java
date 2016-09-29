@@ -13,15 +13,12 @@ import gr.uoa.di.repo.BidRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.apache.coyote.http11.Constants.a;
 
 @RestController
 @RequestMapping("/api/bids")
@@ -44,16 +41,19 @@ public class BidApi {
         ItemEntity item = itemRepository.findOneById(itemId);
         if (item == null)
             return null;
+        /* map to response and return */
         return bidRepository.findByItem(item).stream().map(bidMapper::mapBidEntityToBidResponseDto).collect(Collectors.toList());
     }
 
     @RequestMapping(value = "/{itemId}", method = RequestMethod.POST)
     public void makeBid(@PathVariable Integer itemId, @RequestBody String bid) {
+        /* avoid a race condition */
         synchronized (BidApi.class) {
             Date curDate = new Date();
             UserEntity user = userRepository.findOneByUsername((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
             ItemEntity item = itemRepository.findOneById(itemId);
             int bidAmount = Integer.parseInt(bid);
+            /* security checks */
             if (curDate.before(item.getStartDate())) {
                 throw new AuctionNotStartedException();
             }
@@ -77,6 +77,7 @@ public class BidApi {
             bidEnt.setTime(new Date());
             bidRepository.save(bidEnt);
 
+            /* create successful bid */
             item.setCurrentbid(bidAmount);
             if (item.getBuyprice() != null && item.getBuyprice() <= bidAmount) {
                 item.setFinished(true);

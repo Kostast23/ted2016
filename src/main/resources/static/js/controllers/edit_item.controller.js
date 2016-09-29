@@ -83,6 +83,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         autoDiscover: true
     };
 
+    /* on map click, set the marker */
     $scope.$on('leafletDirectiveMap.map.click', function (_, event) {
         marker = {
             lat: event.leafletEvent.latlng.lat,
@@ -93,11 +94,13 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         $scope.markers = {marker: marker};
     });
 
+    /* remove the marker if it's clicked */
     $scope.$on('leafletDirectiveMarker.map.click', function () {
         marker = null;
         $scope.markers = {};
     });
 
+    /* update the marker on drag */
     $scope.$on('leafletDirectiveMarker.map.dragend', function (_, event) {
         marker.lat = event.leafletEvent.target._latlng.lat;
         marker.lng = event.leafletEvent.target._latlng.lng;

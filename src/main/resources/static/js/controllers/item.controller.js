@@ -12,6 +12,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
         }
     });
 
+    /* update the time remaining/passed from the auction end */
     var updateOffset = function () {
         var endMoment = moment($scope.item.realEndDate);
         if (!$scope.item.finished) {
@@ -21,6 +22,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
         $scope.endOffset = endMoment.fromNow();
     };
 
+    /* continuously refresh the bids */
     var updateBids = function () {
         $http.get('/api/bids/' + $stateParams.itemId).then(function (response) {
             $scope.bids = response.data.map(function (bid) {

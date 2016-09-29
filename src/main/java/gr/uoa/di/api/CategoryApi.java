@@ -44,6 +44,7 @@ public class CategoryApi {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<CategoryResponseDto> getCategoriesAndSubsInDepth1() {
+        /* get top categories and their subcategories */
         return categoryRepository.findByParentCategoryIsNull().stream().map(cat
                 -> categoryMapper.mapCategoryEntityToCategoryResponseDto(cat, false, 1)).collect(Collectors.toList());
     }

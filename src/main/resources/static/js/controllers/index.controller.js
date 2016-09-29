@@ -6,17 +6,16 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
         autoDiscover: true
     };
 
+    /* to render the map correctly we need to invalidate its size after it's shown */
     $scope.reloadMap = function() {
         leafletData.getMap("map").then(function (map) {
-            // To render the map correctly after it's hidden we need to invalidate
-            // its size after it's shown.
-            // Awful hack, wait 500 ms for the map to appear and then invalidate its size
             $timeout(function() {
                 L.Util.requestAnimFrame(map.invalidateSize,map,!1,map._container);
             }, 500);
         });
     };
 
+    /* on map click, set the marker */
     $scope.$on('leafletDirectiveMap.map.click', function (_, event) {
         marker = {
             lat: event.leafletEvent.latlng.lat,
@@ -27,11 +26,13 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
         $scope.markers = {marker: marker};
     });
 
+    /* remove the marker if it's clicked */
     $scope.$on('leafletDirectiveMarker.map.click', function () {
         marker = null;
         $scope.markers = {};
     });
 
+    /* update the marker on drag */
     $scope.$on('leafletDirectiveMarker.map.dragend', function(_, event) {
         marker.lat = event.leafletEvent.target._latlng.lat;
         marker.lng = event.leafletEvent.target._latlng.lng;
@@ -41,6 +42,7 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
         return field.$touched && field.$invalid;
     };
 
+    /* do login and go to store page if successful */
     $scope.doLogin = function() {
         AuthService.login($scope.login).then(function() {
         	$scope.loginError = null;
@@ -69,6 +71,7 @@ app.controller('IndexController', function($scope, $http, $state, $timeout, leaf
                     $scope.register.longitude -= 360;
                 }
             }
+            /* do the registration */
         	AuthService.register($scope.register).then(function() {
         		$scope.registerError = null;
         		$scope.registerSuccess = true;

@@ -18,6 +18,7 @@ app.controller('StoreController', function ($scope, $http, $state, $timeout) {
         }
     };
 
+    /* map categories to their styles and images */
     $scope.styles = {
         "Clothing & Accessories": "clothing",
         "Movies & Television": "movies",

@@ -31,9 +31,10 @@ function AuthService($http, $window, $q) {
 	function login(loginInfo) {
 		return $http.post('/api/login', loginInfo).then(function success(response) {
             console.log('Login success!');
+			/* save the returned JWT */
             var jwt = response.data.jwt;
             service.setUser(jwt);
-            // Do not store the user object as objects get stringified.
+            /* do not store the user object as objects get stringified */
             $window.localStorage.setItem('jwt', jwt);
             return $q.resolve(response.data);
         }, function error(response) {

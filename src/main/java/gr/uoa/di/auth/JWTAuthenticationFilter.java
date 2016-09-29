@@ -31,6 +31,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         String auth = request.getHeader("Authorization");
 
         if (auth != null && auth.startsWith(BEARER)) {
+            /* parse JWT and its claims */
             String jwt = auth.substring(BEARER.length());
             Jws<Claims> claims = Jwts.parser()
                     .requireSubject("TED")

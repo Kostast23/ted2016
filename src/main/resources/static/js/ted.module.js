@@ -4,6 +4,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
     $httpProvider.interceptors.push('httpAuthInterceptor');
     $urlRouterProvider.when('', '/').when('/login', '/').when('/register', '/').otherwise("/page_not_found");
 
+    /* prepare the ui router routes */
     $stateProvider
         .state('main', {
             abstract: true,

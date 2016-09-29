@@ -37,18 +37,24 @@ public class SearchApi {
         List<BooleanExpression> exprs = new LinkedList<>();
         Pageable pageable = new PageRequest(params.getPage() - 1, params.getSize());
 
+        /*
+         * add expressions to match items whose names contain all
+         * of the space-separated values in the field
+         */
         if (params.getName() != null) {
             exprs.add(Arrays.asList(params.getName().split(" ")).stream()
                     .map(s -> item.name.likeIgnoreCase("%" + s + "%"))
                     .reduce((exp1, exp2) -> exp1.and(exp2)).get());
         }
 
+        /* same for descriptions */
         if (params.getDescription() != null) {
             exprs.add(Arrays.asList(params.getDescription().split(" ")).stream()
                     .map(s -> item.description.likeIgnoreCase("%" + s + "%"))
                     .reduce((exp1, exp2) -> exp1.and(exp2)).get());
         }
 
+        /* add the rest of the constraints */
         if (params.getMin() != null) {
             exprs.add(item.currentbid.goe(params.getMin()));
         }
@@ -65,11 +71,13 @@ public class SearchApi {
             exprs.add(item.finished.eq(false));
         }
 
+        /* if the user has selected a category, match that or any of its subcategories */
         if (params.getCategory() != null && params.getCategory() != -1) {
             Queue<CategoryEntity> remainingCategories = new ArrayDeque<>();
             List<CategoryEntity> includedCategories = new LinkedList<>();
             remainingCategories.add(categoryRepository.findOneById(params.getCategory()));
 
+            /* add all subcategories to a list */
             while (!remainingCategories.isEmpty()) {
                 CategoryEntity category = remainingCategories.poll();
                 includedCategories.add(category);

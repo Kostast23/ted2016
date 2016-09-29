@@ -31,9 +31,11 @@ public class ImagesApi {
         }
         String uuid = UUID.randomUUID().toString();
 
+        /* save image on host */
         thisImage += uuid + uploadFile.getOriginalFilename();
         uploadFile.transferTo(new File(thisImage));
 
+        /* create image entry on database */
         ItemPicturesEntity imageEnt = new ItemPicturesEntity();
         imageEnt.setUuid(uuid);
         imageEnt.setFilename(uploadFile.getOriginalFilename());
@@ -44,6 +46,7 @@ public class ImagesApi {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public FileSystemResource getFile(@PathVariable("id") String uuid) {
+        /* get image by uuid */
         String filename = itemPicturesRepository.findOneByUuid(uuid).getFilename();
         String thisImage = new String(imagePath);
         if (!thisImage.endsWith("/")) {

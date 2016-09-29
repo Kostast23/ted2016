@@ -45,6 +45,7 @@ public class AdminService {
 
     public void restoreFile(MultipartFile uploadFile) {
         try {
+            /* unmarshall the xml file */
             JAXBContext jaxbContext = JAXBContext.newInstance(ItemsJAX.class);
 
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -53,7 +54,9 @@ public class AdminService {
             Map<String, UserEntity> allUsers = userRepository.findAll().stream().collect(Collectors.toMap(UserEntity::getUsername, Function.identity()));
             Map<Pair<String, CategoryEntity>, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(o -> new ImmutablePair<>(o.getName(), o.getParentCategory()), Function.identity()));
 
+            /* for each item in the file */
             items.getItem().stream().map(itemMapper::mapItemJAXToItemEntity).forEach(item -> {
+                /* add the owner to the db if they don't exist */
                 UserEntity owner = allUsers.get(item.getOwner().getUsername());
                 if (owner != null) {
                     owner.setSellerrating(item.getOwner().getSellerrating());
@@ -63,6 +66,7 @@ public class AdminService {
                     allUsers.put(item.getOwner().getUsername(), item.getOwner());
                 }
 
+                /* add all bidders */
                 Optional.ofNullable(item.getBids()).ifPresent(bids ->
                         bids.stream().forEach(bid -> {
                             UserEntity bidOwner = allUsers.get(bid.getOwner().getUsername());
@@ -82,6 +86,7 @@ public class AdminService {
                     currentCategory = currentCategory.getParentCategory();
                 }
 
+                /* add all categories */
                 categories.forEach(category -> {
                     CategoryEntity existingCategory = allCategories.get(new ImmutablePair(category.getName(), category.getParentCategory()));
                     if (existingCategory == null) {
@@ -92,6 +97,7 @@ public class AdminService {
                     }
                 });
 
+                /* map item and save it */
                 ItemEntity savedItem = itemRepository.save(item);
                 if (item.getBids() != null)
                     item.getBids().stream().forEach(bidEntity -> {
@@ -108,6 +114,7 @@ public class AdminService {
 
     public byte[] createXMLDump() {
         try {
+            /* map items to their JAX objects and create the xml dump */
             ItemsJAX items = new ItemsJAX();
             items.getItem().addAll(itemRepository.findAll().stream().map(itemMapper::mapItemEntityToItemJAX).collect(Collectors.toList()));
             JAXBContext jaxbContext = JAXBContext.newInstance(ItemsJAX.class);

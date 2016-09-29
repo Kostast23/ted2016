@@ -22,6 +22,10 @@ public class SuggestionService {
     RecommendationRepository recommendationRepository;
 
     private double cosSimilarity(Set<Integer> s1, Set<Integer> s2) {
+        /*
+         * calculate the cosine similarity of two users based on
+         * the sets of items on which they have bids
+         */
         Set<Integer> common = new HashSet<>(s1);
         common.retainAll(s2);
         int intersect = common.size();
@@ -33,12 +37,14 @@ public class SuggestionService {
         Map<Integer, ItemRecommendations> userItemSuggestions = new HashMap<>();
         Map<Integer, List<UserSimilarity>> userSimilarities = new HashMap<>();
 
+        /* map from user to the set of items they have bids on */
         bidRepository.getUserBidsOnItems().forEach(entry -> {
             Set<Integer> items = userBidOnItems
                     .computeIfAbsent(entry.getUserId(), i -> new HashSet<>());
             items.add(entry.getItemId());
         });
 
+        /* cos similarities of any two users */
         userBidOnItems.forEach((user, items) -> {
             userBidOnItems.forEach((user2, items2) -> {
                 if (user != user2) {
@@ -51,16 +57,26 @@ public class SuggestionService {
             });
         });
 
+        /* find closest neighbours of each user */
         userSimilarities.values().stream().forEach(similarities -> {
             similarities.sort((o1, o2) -> Double.compare(o2.getSimilarity(), o1.getSimilarity()));
         });
 
+        /*
+         * increase recommendations for each item based on neighbouring
+         * users having bids on it
+         * the more similar another user is, the greater the weight of their choices
+         */
         userSimilarities.forEach((user, similar) -> {
             ItemRecommendations recommended = new ItemRecommendations();
             Set<Integer> currentUserBids = userBidOnItems.get(user);
             similar.forEach(userSimilarity ->
                     userBidOnItems.get(userSimilarity.getUser())
                     .forEach(item -> {
+                        /*
+                         * for each item of a neighbouring user,
+                         * increase its recommendation for the current user
+                         */
                         if (!currentUserBids.contains(item)) {
                             recommended.addRecommendation(item, userSimilarity.getSimilarity());
                         }
@@ -70,6 +86,7 @@ public class SuggestionService {
 
         List<RecommendationEntity> recEnts = new LinkedList<>();
 
+        /* find the most recommended items and prepare the entities */
         userItemSuggestions.forEach((user, itemRecommendations) -> {
             itemRecommendations.getTop(5).forEach(item -> {
                 RecommendationEntity recEnt = new RecommendationEntity();
@@ -84,6 +101,7 @@ public class SuggestionService {
             });
         });
 
+        /* delete old recommendations and insert the new ones */
         recommendationRepository.deleteAll();
         recommendationRepository.save(recEnts);
     }

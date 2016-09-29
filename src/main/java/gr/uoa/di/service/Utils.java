@@ -19,6 +19,7 @@ public class Utils {
         formatter.setDecimalFormatSymbols(symbols);
     }
 
+    /* sha1 hash of a string, used for passwords */
     public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         MessageDigest crypt = MessageDigest.getInstance("SHA-1");
         crypt.reset();
@@ -27,6 +28,7 @@ public class Utils {
         return new BigInteger(1, crypt.digest()).toString(16);
     }
 
+    /* string to cents */
     public static Integer parseUSDollars(String usd) {
         if (usd == null)
             return null;
@@ -43,6 +45,7 @@ public class Utils {
         }
     }
 
+    /* cents to string */
     public static String toUSDollars(Integer usd) {
         if (usd == null)
             return null;
@@ -52,6 +55,7 @@ public class Utils {
         return res;
     }
 
+    /* parse the xml date format */
     public static Date parseXMLDate(String xmlDate) {
         if (xmlDate == null)
             return null;
@@ -62,6 +66,7 @@ public class Utils {
         }
     }
 
+    /* create the xml date format */
     public static String toXMLDate(Date date) {
         if (date == null)
             return null;

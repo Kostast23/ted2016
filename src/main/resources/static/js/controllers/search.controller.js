@@ -7,12 +7,17 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
     };
 
     var doSearch = function(searchParams) {
+        /*
+         * if this is the same search with a different page, use the last use params,
+         * otherwise get the first page
+         */
         if (searchParams) {
             $scope.lastParams = angular.copy(searchParams);
         } else {
             searchParams = $scope.lastParams;
             searchParams.page = $scope.searchParams.page;
         }
+        /* save the parameters in the url */
         $location.search(searchParams);
         var httpParams = angular.merge({
             size: $scope.itemsPerPage
@@ -49,6 +54,7 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         });
     };
 
+    /* get parameters saved in the url */
     $scope.searchParams = $location.search();
     if ($scope.searchParams.min) {
         $scope.searchParams.min = +$scope.searchParams.min;
@@ -64,12 +70,14 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         $scope.searchParams.page = 1;
     }
 
+    /* if there already are parameters, start a search */
     if (Object.keys($scope.searchParams).length) {
         doSearch($scope.searchParams);
     }
 
     $scope.searchParams.category = '-1';
 
+    /* make the recursive list of categories with subcategories under their parents */
     $http.get('/api/categories/all').then(function (response) {
         var makeRecursiveCategories = function (depth, cat) {
             var subcats = cat.subcategories ? [].concat.apply([],

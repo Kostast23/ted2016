@@ -38,6 +38,7 @@ public class UserService {
 
     public void register(UserRegisterDto dto)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        /* security checks */
         if (!dto.getPassword().equals(dto.getPassword2())) {
             throw new UserService.PasswordMatchingException();
         } else if (dto.getPassword().length() < 8) {
@@ -48,6 +49,7 @@ public class UserService {
             throw new UserAlreadyExistsException();
         }
         UserEntity user = userMapper.mapUserRegisterDtoToUserEntity(dto);
+        /* create a salt and encrypt the password */
         String salt = Long.toHexString(new Random().nextLong());
         String encPass = Utils.sha1(Utils.sha1(dto.getPassword()) + salt);
         user.setPassword(encPass);
@@ -58,6 +60,7 @@ public class UserService {
     public Map<String, String> login(UserLoginDto request)
             throws UnsupportedEncodingException, NoSuchAlgorithmException {
         try {
+            /* check if credentials match */
             UserEntity user = getUserEntity(request.getUsername());
             String encPass = Utils.sha1(Utils.sha1(request.getPassword()) + user.getSalt());
             if (!encPass.equals(user.getPassword())) {
@@ -65,6 +68,7 @@ public class UserService {
             } else if (!user.getValidated()) {
                 throw new UserNotValidatedException();
             }
+            /* create a JWT with the necessary user info */
             return Collections.singletonMap("jwt", createJwt(user));
         } catch (UserNotFoundException ex) {
             throw new UserLoginException();
