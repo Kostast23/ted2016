@@ -1,5 +1,5 @@
-<div id="profile-down" class="col-sm-12">
-    <div class="col-sm-2 sidebar">
+<div id="profile" class="col-sm-12">
+    <div id="sidebar" class="col-sm-2">
         <h3>Auctions</h3>
         <ul class="nav nav-tabs nav-stacked nav-pills" role="tablist">
             <li ng-class="{'active': view_tab == 'active'}">
@@ -18,10 +18,10 @@
         <h3>Messages</h3>
         <ul class="nav nav-tabs nav-stacked nav-pills" role="tablist">
             <li ng-class="{'active': view_tab == 'received'}">
-                <a ng-click="changeTab('received')" href="javascript:void(0);">Received</a>
+                <a ui-sref="main.profile.messages_received">Received</a>
             </li>
             <li ng-class="{'active': view_tab == 'sent'}">
-                <a ng-click="changeTab('sent')" href="javascript:void(0);">Sent</a>
+                <a ui-sref="main.profile.messages_sent">Sent</a>
             </li>
         </ul>
     </div>

@@ -8,7 +8,10 @@ import gr.uoa.di.exception.item.ItemBuyingPriceException;
 import gr.uoa.di.exception.item.ItemCannotBeEditedException;
 import gr.uoa.di.exception.item.ItemDateException;
 import gr.uoa.di.exception.item.ItemFieldsException;
+import gr.uoa.di.exception.message.CannotDeleteMessageException;
+import gr.uoa.di.exception.message.MessageFieldsException;
 import gr.uoa.di.exception.user.*;
+import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -24,7 +27,7 @@ public class ExceptionControllerAdvice {
 	}
 
 	@ExceptionHandler({UserLoginException.class, ItemFieldsException.class, ItemDateException.class,
-            ItemBuyingPriceException.class})
+            ItemBuyingPriceException.class, MessageFieldsException.class})
     public ResponseEntity<ErrorResponse> badRequest(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.BAD_REQUEST, ex), HttpStatus.BAD_REQUEST);
@@ -39,7 +42,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler({ UserAlreadyExistsException.class, UserAlreadyValidatedException.class,
             AuctionFinishedException.class, AuctionNotStartedException.class,
             BidLessThanCurrentException.class, BidOnOwnItemException.class,
-            ItemCannotBeEditedException.class})
+            ItemCannotBeEditedException.class, CannotDeleteMessageException.class})
     public ResponseEntity<ErrorResponse> conflict(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.CONFLICT, ex), HttpStatus.CONFLICT);

@@ -1,0 +1,32 @@
+<div id="messages">
+    <h2 ng-if="messageType == 'received'">Received messages</h2>
+    <h2 ng-if="messageType == 'sent'">Sent messages</h2>
+    <div id="messages-content">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th><input type="checkbox" ng-model="isAll" ng-click="selectAll()"/></th>
+                <th class="first" ng-if="messageType == 'received'">From</th>
+                <th class="first" ng-if="messageType == 'sent'">To</th>
+                <th class="second">Subject</th>
+                <th class="third">Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="message in messages" ng-class="{'danger' : message.selected,
+                    'new' : !message.selected && !message.isread && messageType == 'received'}">
+                <td><input type="checkbox" ng-model="message.selected" ng-change="optionToggled()"/></td>
+                <td class="first" ng-if="messageType == 'received'"><a>{{ message.from }}</a></td>
+                <td class="first" ng-if="messageType == 'sent'"><a>{{ message.to }}</a></td>
+                <td class="second"><a>{{ message.subject }}</a></td>
+                <td class="third"><a>{{ message.date | date: "mediumDate" }}</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <button class="btn btn-danger" ng-click="deleteSelected()">Delete Selected Messages</button>
+        <span id="pagination" class="pull-right" ng-show="needPagination()">
+            <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage"
+                max-size="maxSize" boundary-link-numbers="true" rotate="false" ng-change="getMessages()"></ul>
+        </span>
+    </div>
+</div>
