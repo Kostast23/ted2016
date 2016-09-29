@@ -35,22 +35,24 @@ function AdminService($http, $q) {
         });
     }
 
-    function getValidated(page, itemsPerPage) {
+    function getValidated(page, itemsPerPage, username) {
         return $http.get('/api/admin/users/validated', {
             params: {
                 page: page - 1,
-                size: itemsPerPage
+                size: itemsPerPage,
+                username: username
             }
         }).then(function success(response) {
             return $q.resolve(response.data);
         });
     }
 
-    function getNotValidated(page, itemsPerPage) {
+    function getNotValidated(page, itemsPerPage, username) {
         return $http.get('/api/admin/users/not_validated', {
             params: {
                 page: page - 1,
-                size: itemsPerPage
+                size: itemsPerPage,
+                username: username
             }
         }).then(function success(response) {
             return $q.resolve(response.data);

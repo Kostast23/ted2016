@@ -26,13 +26,13 @@ public class AdminApi {
     private String secretKey;
 
     @RequestMapping(value = "/users/validated", method = RequestMethod.GET)
-    public Page<UserResponseDto> getValidatedUsers(Pageable pageable) {
-        return userService.getValidatedUsers(pageable);
+    public Page<UserResponseDto> getValidatedUsers(@RequestParam(required = false) String username, Pageable pageable) {
+        return userService.getValidatedUsers(username, pageable);
     }
 
     @RequestMapping(value = "/users/not_validated", method = RequestMethod.GET)
-    public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {
-        return userService.getNotValidatedUsers(pageable);
+    public Page<UserResponseDto> getNotValidatedUsers(@RequestParam(required = false) String username, Pageable pageable) {
+        return userService.getNotValidatedUsers(username, pageable);
     }
 
     @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)

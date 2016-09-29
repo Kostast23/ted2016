@@ -9,9 +9,9 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
         totalItems: 0
     };
 
-    $scope.notValidated.getData = function () {
+    $scope.notValidated.getData = function (username) {
         var self = this;
-        AdminService.getNotValidated(self.currentPage, $scope.itemsPerPage).then(function (response) {
+        AdminService.getNotValidated(self.currentPage, $scope.itemsPerPage, username).then(function (response) {
             self.users = response.content;
             self.totalItems = response.totalElements;
         });
@@ -27,9 +27,9 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
         totalItems: 0
     };
 
-    $scope.validated.getData = function () {
+    $scope.validated.getData = function (username) {
         var self = this;
-        AdminService.getValidated(self.currentPage, $scope.itemsPerPage).then(function (response) {
+        AdminService.getValidated(self.currentPage, $scope.itemsPerPage, username).then(function (response) {
             self.users = response.content;
             self.totalItems = response.totalElements;
         });
@@ -53,6 +53,14 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
                 $scope.notValidated.getData();
             });
         }
+    };
+
+    /* fetch filtered users */
+    $scope.doUsernameFilter = function(username) {
+        $scope.notValidated.getData(username);
+        $scope.validated.getData(username);
+        $scope.notValidated.currentPage = 1;
+        $scope.validated.currentPage = 1;
     };
 
     var confirmDeletion = function () {

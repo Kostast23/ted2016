@@ -8,6 +8,13 @@
         <uib-tab index="0" heading="Pending Users">
             <div class="panel panel-default" style="border-top: 0">
                 <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Filter by username"
+                             ng-model="usernameFilter" ng-change="doUsernameFilter(usernameFilter)">
+                        </div>
+                    </div>
+                    <br />
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -43,6 +50,13 @@
         <uib-tab index="1" heading="Approved Users">
             <div class="panel panel-default" style="border-top: 0">
                 <div class="panel-body">
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Filter by username"
+                             ng-model="usernameFilter" ng-change="doUsernameFilter(usernameFilter)">
+                        </div>
+                    </div>
+                    <br />
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -79,7 +93,8 @@
         <div class="panel-body">
             <div>
                 <label class="btn btn-default btn-file">
-                    Browse files <input type="file" nv-file-select="" style="display: none;" uploader="uploader" multiple/>
+                    Browse files <input type="file" nv-file-select="" style="display: none;" uploader="uploader"
+                                        multiple/>
                 </label>
             </div>
             <div class="row" ng-repeat="item in uploader.queue">

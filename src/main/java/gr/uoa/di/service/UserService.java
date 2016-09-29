@@ -79,12 +79,24 @@ public class UserService {
         return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
     }
 
-    public Page<UserResponseDto> getValidatedUsers(Pageable pageable) {
-        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findByValidatedTrue(pageable));
+    public Page<UserResponseDto> getValidatedUsers(String username, Pageable pageable) {
+        Page<UserEntity> users;
+        if (username == null || username.length() == 0) {
+            users = userRepo.findByValidatedTrue(pageable);
+        } else {
+            users = userRepo.findByValidatedTrueAndUsernameLike("%" + username + "%", pageable);
+        }
+        return userMapper.mapUserEntityPageToUserResponseDtoPage(users);
     }
 
-    public Page<UserResponseDto> getNotValidatedUsers(Pageable pageable) {
-        return userMapper.mapUserEntityPageToUserResponseDtoPage(userRepo.findByValidatedFalse(pageable));
+    public Page<UserResponseDto> getNotValidatedUsers(String username, Pageable pageable) {
+        Page<UserEntity> users;
+        if (username == null || username.length() == 0) {
+            users = userRepo.findByValidatedFalse(pageable);
+        } else {
+            users = userRepo.findByValidatedFalseAndUsernameLike("%" + username + "%", pageable);
+        }
+        return userMapper.mapUserEntityPageToUserResponseDtoPage(users);
     }
 
     public void validateUser(int userId) {
