@@ -119,4 +119,21 @@
             </div>
         </div>
     </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Autosuggestions</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" ng-click="runAutosuggestions()">
+                        Run autosuggestions algorithm
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div uib-alert class="col-sm-12 alert-success" ng-show="algorithmMsg">{{ algorithmMsg }}</div>
+            </div>
+        </div>
+    </div>
 </div>

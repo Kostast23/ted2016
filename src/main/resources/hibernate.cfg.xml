@@ -12,6 +12,7 @@
         <mapping class="gr.uoa.di.dao.ItemPicturesEntity"/>
         <mapping class="gr.uoa.di.dao.MessageEntity"/>
         <mapping class="gr.uoa.di.dao.UserEntity"/>
+        <mapping class="gr.uoa.di.dao.RecommendationEntity"/>
         <!-- DB schema will be updated if needed -->
         <!-- <property name="hbm2ddl.auto">update</property> -->
     </session-factory>

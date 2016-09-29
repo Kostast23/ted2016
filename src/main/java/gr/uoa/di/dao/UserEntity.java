@@ -1,6 +1,5 @@
 package gr.uoa.di.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -31,6 +30,7 @@ public class UserEntity {
     private List<MessageEntity> receivedMessages;
     private List<BidEntity> bids;
     private List<ItemEntity> items;
+    private List<RecommendationEntity> recommendations;
 
     @Id
     @Generated(GenerationTime.INSERT)
@@ -288,5 +288,14 @@ public class UserEntity {
 
     public void setItems(List<ItemEntity> items) {
         this.items = items;
+    }
+
+    @OneToMany(mappedBy = "user")
+    public List<RecommendationEntity> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(List<RecommendationEntity> recommendations) {
+        this.recommendations = recommendations;
     }
 }

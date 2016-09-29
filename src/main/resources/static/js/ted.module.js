@@ -124,6 +124,12 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             css: 'css/admin_user.css',
             resolve: { authenticate: authenticateAdmin }
         })
+        .state('main.suggestions', {
+            url: '/suggestions',
+            templateUrl: 'partials/suggestions.html',
+            controller: 'SuggestionsController',
+            css: 'css/category.css'
+        })
         .state('page_not_found', {
             url: '/page_not_found',
             templateUrl: 'partials/page_not_found.html',

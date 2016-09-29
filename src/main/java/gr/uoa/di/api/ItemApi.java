@@ -2,6 +2,7 @@ package gr.uoa.di.api;
 
 import gr.uoa.di.dao.BidEntity;
 import gr.uoa.di.dao.ItemEntity;
+import gr.uoa.di.dao.RecommendationEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
@@ -11,6 +12,7 @@ import gr.uoa.di.exception.item.ItemDateException;
 import gr.uoa.di.exception.item.ItemFieldsException;
 import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.ItemRepository;
+import gr.uoa.di.repo.RecommendationRepository;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,6 +35,8 @@ public class ItemApi {
     ItemMapper itemMapper;
     @Autowired
     UserService userService;
+    @Autowired
+    RecommendationRepository recommendationRepository;
 
     @RequestMapping(value = "/{itemId}")
     public ItemResponseDto getItem(@PathVariable int itemId) {
@@ -170,5 +174,17 @@ public class ItemApi {
         }
         return new PageImpl<>(bought.stream().map(itemMapper::mapItemEntityToItemResponseDto).
                 collect(Collectors.toList()), pageable, bought.size());
+    }
+
+    @RequestMapping(value = "/suggestions")
+    public List<ItemResponseDto> getSuggestions() {
+        String currentUsername = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserEntity currentUser = userService.getUserEntity(currentUsername);
+        List<RecommendationEntity> suggestions = recommendationRepository.findByUser(currentUser);
+        return suggestions.stream()
+                .sorted((rec1, rec2) -> Double.compare(rec2.getRecValue(), rec1.getRecValue()))
+                .map(RecommendationEntity::getItem)
+                .map(itemMapper::mapItemEntityToItemResponseDto)
+                .collect(Collectors.toList());
     }
 }

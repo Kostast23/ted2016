@@ -118,7 +118,7 @@ CREATE TABLE item (
     enddate timestamp without time zone,
     finished boolean DEFAULT false,
     ratedseller boolean DEFAULT false,
-	ratedbuyer boolean DEFAULT false,
+    ratedbuyer boolean DEFAULT false,
     owner integer NOT NULL,
     category integer DEFAULT 1 NOT NULL
 );
@@ -153,7 +153,7 @@ ALTER SEQUENCE item_id_seq OWNED BY item.id;
 
 CREATE TABLE item_pictures (
     filename text NOT NULL,
-    uuid VARCHAR(60) NOT NULL,
+    uuid character varying(60) NOT NULL,
     item integer
 );
 
@@ -178,6 +178,41 @@ CREATE TABLE message (
 
 
 ALTER TABLE public.message OWNER TO ted;
+
+--
+-- Name: recommendation; Type: TABLE; Schema: public; Owner: ted; Tablespace: 
+--
+
+CREATE TABLE recommendation (
+    id integer NOT NULL,
+    for_user integer NOT NULL,
+    item integer NOT NULL,
+    rec_value double precision NOT NULL
+);
+
+
+ALTER TABLE public.recommendation OWNER TO ted;
+
+--
+-- Name: recommendation_id_seq; Type: SEQUENCE; Schema: public; Owner: ted
+--
+
+CREATE SEQUENCE recommendation_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.recommendation_id_seq OWNER TO ted;
+
+--
+-- Name: recommendation_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: ted
+--
+
+ALTER SEQUENCE recommendation_id_seq OWNED BY recommendation.id;
+
 
 --
 -- Name: table_name_id_seq; Type: SEQUENCE; Schema: public; Owner: ted
@@ -280,6 +315,13 @@ ALTER TABLE ONLY message ALTER COLUMN id SET DEFAULT nextval('table_name_id_seq'
 -- Name: id; Type: DEFAULT; Schema: public; Owner: ted
 --
 
+ALTER TABLE ONLY recommendation ALTER COLUMN id SET DEFAULT nextval('recommendation_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: ted
+--
+
 ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -335,6 +377,19 @@ SELECT pg_catalog.setval('item_id_seq', 1, false);
 
 
 --
+-- Data for Name: recommendation; Type: TABLE DATA; Schema: public; Owner: ted
+--
+
+
+
+--
+-- Name: recommendation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ted
+--
+
+SELECT pg_catalog.setval('recommendation_id_seq', 1, false);
+
+
+--
 -- Name: table_name_id_seq; Type: SEQUENCE SET; Schema: public; Owner: ted
 --
 
@@ -345,7 +400,7 @@ SELECT pg_catalog.setval('table_name_id_seq', 1, false);
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: ted
 --
 
-INSERT INTO "user" VALUES (1, 'admin', '43f632723d2617d1e3eea574c56f7856a61d7d7a', '19639d60cb9d41d4', true, 'Nikolaos Filippakis', 'Filippakis', 'aesmade@gmail.com', '0775040931', '11', NULL, 11, 11, 'France', 0, 0, true);
+INSERT INTO "user" VALUES (1, 'admin', 'bf80088c6408a8d5150e614b5aa4fca8f1c78178', '4f1f25ddab7a1154', true, 'Nikolaos Filippakis', 'Filippakis', 'aesmade@gmail.com', '0775040931', '1234', 'Ain', 4.21494314139065107, 25.46630859375, 'France', 0, 0, true);
 
 
 --
@@ -385,6 +440,14 @@ ALTER TABLE ONLY item_pictures
 
 ALTER TABLE ONLY item
     ADD CONSTRAINT item_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: recommendation_pkey; Type: CONSTRAINT; Schema: public; Owner: ted; Tablespace: 
+--
+
+ALTER TABLE ONLY recommendation
+    ADD CONSTRAINT recommendation_pkey PRIMARY KEY (id);
 
 
 --
@@ -429,6 +492,13 @@ CREATE UNIQUE INDEX item_id_uindex ON item USING btree (id);
 --
 
 CREATE UNIQUE INDEX item_pictures_filename_uindex ON item_pictures USING btree (filename);
+
+
+--
+-- Name: recommendation_id_uindex; Type: INDEX; Schema: public; Owner: ted; Tablespace: 
+--
+
+CREATE UNIQUE INDEX recommendation_id_uindex ON recommendation USING btree (id);
 
 
 --

@@ -1,0 +1,57 @@
+<ol class="breadcrumb ng-scope">
+    <li class="breadcrumb-item"><a ui-sref="main.store" href="#/store">Store</a></li>
+    <li><span class="breadcrumb-item active">Suggestions</span></li>
+</ol>
+<div id="main">
+    <div class="items" ng-show="items.length">
+        <ul>
+            <li ng-repeat="item in items">
+                <div class="item">
+                    <div class="image col-sm-4 col-md-3">
+                        <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                        <span ng-if="!item.images.length" class="no-image">No images available</span>
+                    </div>
+                    <div class="info col-sm-8 col-md-9">
+                        <ol style="padding: 0;" class="breadcrumb ng-scope small">
+                            <li class="breadcrumb-item" ng-repeat="category in item.categories">
+                                <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        </ol>
+                        <h3 class="item-title">
+                            <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                        </h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <p>
+                                    <span ng-class="{'auction-ended': item.finished, 'auction-live': !item.finished}">{{ item.end }}</span>
+                                    <span ng-if="item.winnerUsername">at <strong class="bid">{{ item.currentbid | currency }}</strong></span>
+                                    <span class="auction-ended"
+                                          ng-if="item.finished && !item.winnerUsername">with no bids</span>
+                                    <span class="auction-live" ng-if="!item.finished">{{ item.endOffset }}</span>
+                                </p>
+                                <p ng-if="item.winnerUsername">bought from <a
+                                        ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername
+                                    }}</a>
+                                </p>
+                                <p ng-if="!item.finished">Bid over <strong class="bid">{{ item.currentbid | currency
+                                    }}</strong></p>
+
+                            </div>
+                            <div class="col-sm-6">
+                                <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{
+                                    item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}</p>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="small" style="height: 50px; overflow-y: auto">{{ item.description }}</div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div ng-show="items.length == 0">
+        Sorry! We have no suggestions for you.
+    </div>
+</div>

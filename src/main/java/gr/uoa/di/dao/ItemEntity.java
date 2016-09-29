@@ -31,6 +31,7 @@ public class ItemEntity {
     private UserEntity owner;
     private List<BidEntity> bids;
     private CategoryEntity category;
+    private List<RecommendationEntity> recommendations;
 
     @Id
     @Generated(GenerationTime.INSERT)
@@ -273,5 +274,14 @@ public class ItemEntity {
         result = 31 * result + (bids != null ? bids.hashCode() : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
+    }
+
+    @OneToMany(mappedBy = "item")
+    public List<RecommendationEntity> getRecommendations() {
+        return recommendations;
+    }
+
+    public void setRecommendations(List<RecommendationEntity> recommendations) {
+        this.recommendations = recommendations;
     }
 }
