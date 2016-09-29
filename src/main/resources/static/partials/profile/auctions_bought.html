@@ -1,4 +1,5 @@
 <div id="auctions" ng-show="resourcesLoaded">
+    <h2>Auction items you have bought</h2>
     <div class="items" ng-show="items.length">
         <ul>
             <li ng-repeat="item in filteredItems">
@@ -18,7 +19,7 @@
                                     Sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
                                 </span>
                                 <span class="pull-right">
-                                <a ui-sref="" style="padding-left: 5px;">
+                                <a ui-sref="main.profile.new_message({ to: item.sellerUsername })" style="padding-left: 5px;">
                                     <button class="btn btn-primary btn-sm">Message seller</button>
                                 </a>
                             </span>
@@ -33,7 +34,7 @@
                 max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
         </div>
     </div>
-    <div ng-show="items && !items.length">
+    <div id="no-items" ng-show="items && !items.length">
         <p>There are no items here :( <a ui-sref="main.store">Find auctions!</a></p>
     </div>
 </div>

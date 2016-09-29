@@ -1,8 +1,8 @@
-#profile-down {
+#profile {
   background-color: white;
   padding: 15px 0;
 
-  .sidebar {
+  #sidebar {
     h3 {
       color: #767676;
       font-size: 18px;
@@ -29,11 +29,19 @@
   }
 }
 
-#auctions {
-  padding: 20px 20px;
+#auctions, #messages {
+  padding: 0 20px 20px 20px;
   background-color: #FFFFFF;
-  border: 1px solid #E6E6E6;
 
+  & > h2 {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
+    font-size: 20px;
+    margin: 10px 0;
+  }
+}
+
+#auctions{
   & > .items {
 
     & > ul {
@@ -94,5 +102,77 @@
         color: green;
       }
     }
+  }
+
+  & > #no-items {
+    padding-top: 10px;
+  }
+}
+
+#messages {
+  & > #messages-content {
+    padding: 10px 0;
+  }
+
+  table {
+    table-layout: fixed;
+
+    tr {
+      border-bottom: 1px solid #DDDDDD;
+
+      &:hover td {
+        background-color: #eccfd7;
+      }
+    }
+
+    tr.new td {
+      background-color: #F1F0F0;
+    }
+
+    th, td {
+      border: 0;
+    }
+
+    td {
+      padding: 0;
+
+      &:first-child {
+        padding: 8px;
+      }
+
+      & > input {
+        padding: 8px;
+      }
+
+      & > a {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: black;
+        text-decoration: none;
+        padding: 8px;
+      }
+    }
+
+    th.first, td.first {
+      width: 25%
+    }
+
+    th.second, td.second {
+      width: 50%;
+    }
+
+    th.third, td.third {
+      width: 20%;
+    }
+
+    td.first, td.second, td.third {
+      cursor: pointer;
+    }
+  }
+
+  #pagination > .pagination {
+    margin: 0;
   }
 }

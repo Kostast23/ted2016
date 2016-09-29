@@ -12,9 +12,9 @@ public class MessageEntity {
     private int id;
     private String message;
     private String subject;
-    private Boolean isread;
-    private Boolean deletedsender;
-    private Boolean deletedreceiver;
+    private Boolean isread = false;
+    private Boolean deletedsender = false;
+    private Boolean deletedreceiver = false;
     private Date sentdate;
     private UserEntity from;
     private UserEntity to;

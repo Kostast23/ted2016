@@ -1,60 +1,104 @@
-#profile-down {
+#profile {
   background-color: white;
   padding: 15px 0; }
-  #profile-down .sidebar h3 {
+  #profile #sidebar h3 {
     color: #767676;
     font-size: 18px;
     margin: 10px 0 5px 0; }
-  #profile-down .sidebar ul {
+  #profile #sidebar ul {
     border: 0; }
-    #profile-down .sidebar ul > li > a {
+    #profile #sidebar ul > li > a {
       color: black;
       padding: 5px 10px; }
-      #profile-down .sidebar ul > li > a:hover {
+      #profile #sidebar ul > li > a:hover {
         color: #0654BA; }
-    #profile-down .sidebar ul > li.active > a {
+    #profile #sidebar ul > li.active > a {
       color: white; }
 
-#auctions {
-  padding: 20px 20px;
-  background-color: #FFFFFF;
-  border: 1px solid #E6E6E6; }
-  #auctions > .items > ul {
-    list-style: none;
-    margin: 0;
+#auctions, #messages {
+  padding: 0 20px 20px 20px;
+  background-color: #FFFFFF; }
+  #auctions > h2, #messages > h2 {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
+    font-size: 20px;
+    margin: 10px 0; }
+
+#auctions > .items > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+#auctions > .items .item {
+  height: 171px;
+  padding: 10px 0;
+  border-bottom: 1px solid #E6E6E6; }
+  #auctions > .items .item > .image {
+    height: 152px;
+    border: 1px solid #E6E6E6;
+    border-radius: 3px;
+    padding: 0;
+    text-align: center; }
+    #auctions > .items .item > .image > img {
+      height: 150px;
+      max-width: 100%;
+      margin: auto; }
+    #auctions > .items .item > .image > .no-image {
+      color: #767676;
+      line-height: 150px; }
+  #auctions > .items .item > .info > .item-title {
+    font-size: 22px;
+    margin-top: 10px;
+    margin-bottom: 20px; }
+    #auctions > .items .item > .info > .item-title > a {
+      white-space: pre-wrap;
+      white-space: -moz-pre-wrap;
+      white-space: -pre-wrap;
+      white-space: -o-pre-wrap;
+      word-wrap: break-word; }
+  #auctions > .items .item > .info > div {
+    padding-left: 0; }
+  #auctions > .items .item .auction-ended {
+    color: red; }
+  #auctions > .items .item .auction-live {
+    color: green; }
+#auctions > #no-items {
+  padding-top: 10px; }
+
+#messages > #messages-content {
+  padding: 10px 0; }
+#messages table {
+  table-layout: fixed; }
+  #messages table tr {
+    border-bottom: 1px solid #DDDDDD; }
+    #messages table tr:hover td {
+      background-color: #eccfd7; }
+  #messages table tr.new td {
+    background-color: #F1F0F0; }
+  #messages table th, #messages table td {
+    border: 0; }
+  #messages table td {
     padding: 0; }
-  #auctions > .items .item {
-    height: 171px;
-    padding: 10px 0;
-    border-bottom: 1px solid #E6E6E6; }
-    #auctions > .items .item > .image {
-      height: 152px;
-      border: 1px solid #E6E6E6;
-      border-radius: 3px;
-      padding: 0;
-      text-align: center; }
-      #auctions > .items .item > .image > img {
-        height: 150px;
-        max-width: 100%;
-        margin: auto; }
-      #auctions > .items .item > .image > .no-image {
-        color: #767676;
-        line-height: 150px; }
-    #auctions > .items .item > .info > .item-title {
-      font-size: 22px;
-      margin-top: 10px;
-      margin-bottom: 20px; }
-      #auctions > .items .item > .info > .item-title > a {
-        white-space: pre-wrap;
-        white-space: -moz-pre-wrap;
-        white-space: -pre-wrap;
-        white-space: -o-pre-wrap;
-        word-wrap: break-word; }
-    #auctions > .items .item > .info > div {
-      padding-left: 0; }
-    #auctions > .items .item .auction-ended {
-      color: red; }
-    #auctions > .items .item .auction-live {
-      color: green; }
+    #messages table td:first-child {
+      padding: 8px; }
+    #messages table td > input {
+      padding: 8px; }
+    #messages table td > a {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: black;
+      text-decoration: none;
+      padding: 8px; }
+  #messages table th.first, #messages table td.first {
+    width: 25%; }
+  #messages table th.second, #messages table td.second {
+    width: 50%; }
+  #messages table th.third, #messages table td.third {
+    width: 20%; }
+  #messages table td.first, #messages table td.second, #messages table td.third {
+    cursor: pointer; }
+#messages #pagination > .pagination {
+  margin: 0; }
 
 /*# sourceMappingURL=profile.css.map */

@@ -47,6 +47,25 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             controller: 'ProfileAuctionsBoughtController',
             css: 'css/profile.css'
         })
+        .state('main.profile.new_message', {
+            url: '/profile/messages/new',
+            templateUrl: 'partials/profile/new_message.html',
+            params: { to: null, subject: null },
+            controller: 'NewMessageController',
+            css: 'css/profile.css'
+        })
+        .state('main.profile.messages_received', {
+            url: '/profile/messages/received',
+            templateUrl: 'partials/profile/messages.html',
+            controller: 'MessagesController',
+            css: 'css/profile.css'
+        })
+        .state('main.profile.messages_sent', {
+            url: '/profile/messages/sent',
+            templateUrl: 'partials/profile/messages.html',
+            controller: 'MessagesController',
+            css: 'css/profile.css'
+        })
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',
