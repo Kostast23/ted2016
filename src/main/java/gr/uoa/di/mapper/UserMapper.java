@@ -6,9 +6,12 @@ import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.jax.BidderJAX;
 import gr.uoa.di.jax.LocationJAX;
 import gr.uoa.di.jax.SellerJAX;
+import gr.uoa.di.service.Utils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Component
@@ -31,6 +34,12 @@ public class UserMapper {
     public UserEntity mapBidderJAXToUserEntity(BidderJAX bidder) {
         UserEntity user = new UserEntity();
         user.setUsername(bidder.getUserID());
+        user.setSalt("");
+        try {
+            user.setPassword(Utils.sha1(Utils.sha1(bidder.getUserID())));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         user.setValidated(true);
         if (bidder.getRating() != null)
                 user.setBuyerrating(Integer.valueOf(bidder.getRating()));
@@ -50,6 +59,12 @@ public class UserMapper {
         UserEntity user = new UserEntity();
         user.setUsername(seller.getUserID());
         user.setValidated(true);
+        user.setSalt("");
+        try {
+            user.setPassword(Utils.sha1(Utils.sha1(seller.getUserID())));
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         if (seller.getRating() != null)
             user.setSellerrating(Integer.valueOf(seller.getRating()));
         return user;

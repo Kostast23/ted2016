@@ -24,6 +24,10 @@ app.controller('StoreController', function ($scope, $http, $state, $timeout) {
         "books", "jewelry", "else"
     ];
 
+    $http.get('/api/items/suggestions').then(function(response) {
+        $scope.hasSuggestions = !!response.data.length;
+    });
+
     $(function() {
         $('#search').popover({
             trigger: 'manual',

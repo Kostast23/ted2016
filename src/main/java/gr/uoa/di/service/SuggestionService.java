@@ -83,6 +83,8 @@ public class SuggestionService {
                 recEnts.add(recEnt);
             });
         });
+
+        recommendationRepository.deleteAll();
         recommendationRepository.save(recEnts);
     }
 

@@ -29,6 +29,7 @@ public class Security extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .addFilterBefore(jwtFilter, BasicAuthenticationFilter.class).authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/items").hasAuthority("ROLE_USER")
+                .antMatchers(HttpMethod.GET, "/api/items/suggestions").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.PUT, "/api/items/**").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/api/items/**").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.GET, "/api/items/participating/**").hasAuthority("ROLE_USER")
