@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/search")
@@ -63,7 +61,7 @@ public class SearchApi {
             exprs.add(item.location.like("%" + params.getLocation() + "%"));
         }
 
-        if (params.getFinished() == null || !params.getFinished()) {
+        if (params.getFinished() != null && params.getFinished()) {
             exprs.add(item.finished.eq(false));
         }
 

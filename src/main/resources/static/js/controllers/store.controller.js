@@ -18,11 +18,28 @@ app.controller('StoreController', function ($scope, $http, $state, $timeout) {
         }
     };
 
-    $scope.styles = [
-        "collectibles", "clothing", "movies", "sports", "pottery", "toys", "antiques", "electronics",
-        "computers", "photo", "home", "coins", "stamps", "tickets", "dolls", "business", "music",
-        "books", "jewelry", "else"
-    ];
+    $scope.styles = {
+        "Clothing & Accessories": "clothing",
+        "Movies & Television": "movies",
+        "Toys & Hobbies": "toys",
+        "Jewelry, Gems & Watches": "jewelry",
+        "Collectibles": "collectibles",
+        "Antiques & Art": "antiques",
+        "Everything Else": "else",
+        "Computers": "computers",
+        "Books": "books",
+        "Business, Office & Industrial": "business",
+        "Music": "music",
+        "Stamps": "stamps",
+        "Pottery & Glass": "pottery",
+        "Consumer Electronics": "electronics",
+        "Dolls & Bears": "dolls",
+        "Home & Garden": "home",
+        "Photo": "photo",
+        "Coins": "coins",
+        "Tickets & Travel": "tickets",
+        "Sports": "sports"
+    };
 
     $http.get('/api/items/suggestions').then(function(response) {
         $scope.hasSuggestions = !!response.data.length;

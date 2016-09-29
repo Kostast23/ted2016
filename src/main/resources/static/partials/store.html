@@ -12,10 +12,10 @@
 <br />
 <div>
     <ul id="categories">
-        <li ng-repeat="category in categories" class="category {{styles[$index]}}">
+        <li ng-repeat="category in categories" class="category {{styles[category.name]}}">
             <a ui-sref="main.category({ categoryId: category.id, categoryName: category.name })" class="main">
                 <div class="image">
-                    <img ng-src="images/categories/{{styles[$index]}}.png">
+                    <img ng-src="images/categories/{{styles[category.name]}}.png">
                 </div>
                 <h2>
                     <span>{{ category.name }}</span>
