@@ -65,8 +65,9 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
 
     $scope.doSearch = doSearch;
 
-    if ($stateParams.name) {
+    if ($stateParams.name && $stateParams.categoryId) {
         $scope.searchParams.name = $stateParams.name;
+        $scope.searchParams.category = $stateParams.categoryId;
         $scope.searchParams.page = 1;
     }
 
@@ -75,7 +76,7 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         doSearch($scope.searchParams);
     }
 
-    $scope.searchParams.category = '-1';
+    $scope.searchParams.category = $stateParams.categoryId || '-1';
 
     /* make the recursive list of categories with subcategories under their parents */
     $http.get('/api/categories/all').then(function (response) {

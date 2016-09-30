@@ -102,7 +102,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.search', {
             url: '/search',
             templateUrl: 'partials/search.html',
-            params: { name: null },
+            params: { name: null, categoryId: null },
             controller: 'SearchController',
             css: 'css/category.css'
         })

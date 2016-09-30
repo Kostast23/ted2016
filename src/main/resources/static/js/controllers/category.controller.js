@@ -52,7 +52,7 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
 
     $scope.doSearch = function (name) {
         if (name) {
-            $state.go('main.search', {name: name});
+            $state.go('main.search', {name: name, categoryId: $stateParams.categoryId});
         } else {
             $('#search').popover('show');
             $timeout(function() {$('#search').popover('hide');}, 2000);
