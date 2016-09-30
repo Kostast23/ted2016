@@ -10,6 +10,7 @@ import gr.uoa.di.exception.item.ItemDateException;
 import gr.uoa.di.exception.item.ItemFieldsException;
 import gr.uoa.di.exception.message.CannotDeleteMessageException;
 import gr.uoa.di.exception.message.MessageFieldsException;
+import gr.uoa.di.exception.message.MessageNotFoundException;
 import gr.uoa.di.exception.user.*;
 import org.aspectj.bridge.Message;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({UserNotFoundException.class, MessageNotFoundException.class})
     public ResponseEntity<ErrorResponse> resourceNotFound(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.NOT_FOUND, ex), HttpStatus.NOT_FOUND);

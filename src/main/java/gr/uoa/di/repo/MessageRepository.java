@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface MessageRepository extends PagingAndSortingRepository<MessageEntity, Long> {
-    MessageEntity findById(int id);
+    MessageEntity findOneById(int id);
     Page<MessageEntity> findByFrom_UsernameAndDeletedsenderFalseOrderBySentdateDesc(String username, Pageable pageable);
     Page<MessageEntity> findByTo_UsernameAndDeletedreceiverFalseOrderBySentdateDesc(String username, Pageable pageable);
+    Long countByTo_UsernameAndIsreadFalse(String username);
 }

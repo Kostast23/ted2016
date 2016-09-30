@@ -1,4 +1,4 @@
-app.controller('MessagesController', function ($scope, $http, $state, $window, $timeout, AuthService) {
+app.controller('MessagesController', function ($scope, $http, $state) {
     $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
