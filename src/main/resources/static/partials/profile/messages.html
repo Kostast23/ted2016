@@ -16,10 +16,18 @@
             <tr ng-repeat="message in messages" ng-class="{'danger' : message.selected,
                     'new' : !message.selected && !message.isread && messageType == 'received'}">
                 <td><input type="checkbox" ng-model="message.selected" ng-change="optionToggled()"/></td>
-                <td class="first" ng-if="messageType == 'received'"><a>{{ message.from }}</a></td>
-                <td class="first" ng-if="messageType == 'sent'"><a>{{ message.to }}</a></td>
-                <td class="second"><a>{{ message.subject }}</a></td>
-                <td class="third"><a>{{ message.date | date: "mediumDate" }}</a></td>
+                <td class="first" ng-if="messageType == 'received'">
+                    <a ui-sref="main.profile.message({ messageId: message.id })">{{ message.from }}</a>
+                </td>
+                <td class="first" ng-if="messageType == 'sent'">
+                    <a ui-sref="main.profile.message({ messageId: message.id })">{{ message.to }}</a>
+                </td>
+                <td class="second">
+                    <a ui-sref="main.profile.message({ messageId: message.id })">{{ message.subject }}</a>
+                </td>
+                <td class="third">
+                    <a ui-sref="main.profile.message({ messageId: message.id })">{{ message.date | date: "mediumDate" }}</a>
+                </td>
             </tr>
             </tbody>
         </table>

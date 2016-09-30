@@ -175,4 +175,19 @@
   #pagination > .pagination {
     margin: 0;
   }
+
+  .message-field {
+    padding: 2px 0;
+    background-color: rgba(149, 192, 207, 0.24);
+
+    & > .message-field-label {
+      text-align: right;
+      font-weight: 600;
+    }
+  }
+
+  .message-message {
+    margin-top: 15px;
+    font-size: 16px;
+  }
 }

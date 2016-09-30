@@ -1,4 +1,5 @@
-app.controller('NewMessageController', function ($scope, $http, $stateParams, $window, $timeout, AuthService) {
+app.controller('NewMessageController', function ($scope, $http, $stateParams, $window) {
+    $scope.$parent.view_tab = "new";
     $scope.message = {};
 
     if ($stateParams.to) {

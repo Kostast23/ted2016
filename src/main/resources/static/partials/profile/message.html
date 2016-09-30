@@ -1,0 +1,58 @@
+<div id="messages" ng-if="message">
+    <h2>{{ message.subject }}</h2>
+    <div id="messages-content">
+        <div class="container-fluid">
+            <div class="row message-field">
+                <div class="col-sm-2 message-field-label">
+                    <p>From</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>{{ message.from }}</p>
+                </div>
+            </div>
+            <div class="row message-field">
+                <div class="col-sm-2 message-field-label">
+                    <p>To</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>{{ message. to }}</p>
+                </div>
+            </div>
+            <div class="row message-field">
+                <div class="col-sm-2 message-field-label">
+                    <p>Date</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>{{ message.date | date: "medium" }}</p>
+                </div>
+            </div>
+            <div class="row message-field">
+                <div class="col-sm-2 message-field-label">
+                    <p>Subject</p>
+                </div>
+                <div class="col-sm-10">
+                    <p>{{ message.subject }}</p>
+                </div>
+            </div>
+            <div class="row message-message">
+                <div class="col-sm-10">
+                    <p>{{ message.message }}</p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div style="text-align: center;">
+            <button class="btn btn-primary" ng-click="reply()">Reply</button>
+            <button class="btn btn-danger" ng-click="goBack()">Back</button>
+        </div>
+    </div>
+</div>
+
+<div id="messages" ng-if="!message && error">
+    <h2>Message not found</h2>
+    <div class="alert alert-danger">
+        <ul>
+            <li>{{ error }}</li>
+        </ul>
+    </div>
+</div>

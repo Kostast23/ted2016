@@ -12,6 +12,14 @@
                     <div class="line-2">Admin Panel</div>
                 </a>
             </li>
+            <li ng-show="newMessageCount">
+                <a ui-sref="main.profile.messages_received">
+                    <div class="line-1">You got &nbsp;<span class="glyphicon glyphicon-envelope"></span></div>
+                    <div class="line-2" ng-show="newMessageCount == 1">{{ newMessageCount }} new message!</div>
+                    <div class="line-2" ng-show="newMessageCount > 1">{{ newMessageCount }} new messages!</div>
+
+                </a>
+            </li>
             <li ng-if="username">
                 <a ui-sref="main.profile.active">
                     <div class="line-1">Hello, {{ username }}!</div>

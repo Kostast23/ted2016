@@ -100,5 +100,14 @@
     cursor: pointer; }
 #messages #pagination > .pagination {
   margin: 0; }
+#messages .message-field {
+  padding: 2px 0;
+  background-color: rgba(149, 192, 207, 0.24); }
+  #messages .message-field > .message-field-label {
+    text-align: right;
+    font-weight: 600; }
+#messages .message-message {
+  margin-top: 15px;
+  font-size: 16px; }
 
 /*# sourceMappingURL=profile.css.map */

@@ -67,6 +67,12 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             controller: 'MessagesController',
             css: 'css/profile.css'
         })
+        .state('main.profile.message', {
+            url: '/profile/messages/:messageId',
+            templateUrl: 'partials/profile/message.html',
+            controller: 'MessageController',
+            css: 'css/profile.css'
+        })
         .state('main.store', {
             url: '/store',
             templateUrl: 'partials/store.html',

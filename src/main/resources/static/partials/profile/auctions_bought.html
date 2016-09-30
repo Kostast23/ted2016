@@ -13,7 +13,7 @@
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
                         </h3>
                         <div class="col-sm-12">
-                            <p>Bought at <strong class="bid">{{ item.currentbid | currency }}</strong> {{ item.endOffset }}</p>
+                            <p>Bought at <strong class="bid">{{ item.currentbid | currency }}</strong>, {{ item.endOffset }}</p>
                             <p>
                                 <span>
                                     Sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
