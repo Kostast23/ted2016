@@ -61,7 +61,8 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
 
     $scope.uploader = new FileUploader({
         url: '/api/images/upload',
-        removeAfterUpload: true
+        removeAfterUpload: true,
+        headers: { 'Authorization': 'Bearer ' + AuthService.user.jwt }
     });
 
     $scope.uploader.onSuccessItem = function (fileItem, response, status, headers) {

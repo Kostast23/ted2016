@@ -77,7 +77,8 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
 
     $scope.uploader = new FileUploader({
         url: '/api/admin/uploadBackup',
-        removeAfterUpload: true
+        removeAfterUpload: true,
+        headers: { 'Authorization': 'Bearer ' + AuthService.user.jwt }
     });
 
     $scope.uploader.onCompleteAll = function() {
