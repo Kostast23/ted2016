@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
@@ -40,6 +41,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/images/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/messages/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll().and().sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 }
