@@ -117,6 +117,7 @@ public class ItemMapper {
         item.setFinished(itemEntity.getFinished());
         item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getUuid).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
+        item.setSellerrating(itemEntity.getOwner().getSellerrating());
         item.setCategory(categoryMapper.mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), true, 0));
 
         List<BidEntity> bids = itemEntity.getBids();

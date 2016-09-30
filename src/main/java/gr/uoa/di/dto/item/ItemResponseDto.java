@@ -21,6 +21,7 @@ public class ItemResponseDto {
     private Boolean finished;
     private List<String> images;
     private String sellerUsername;
+    private Integer sellerrating;
     private String winnerUsername;
     private CategoryResponseDto category;
 
@@ -142,6 +143,14 @@ public class ItemResponseDto {
 
     public void setSellerUsername(String sellerUsername) {
         this.sellerUsername = sellerUsername;
+    }
+
+    public Integer getSellerrating() {
+        return sellerrating;
+    }
+
+    public void setSellerrating(Integer sellerrating) {
+        this.sellerrating = sellerrating;
     }
 
     public String getWinnerUsername() {

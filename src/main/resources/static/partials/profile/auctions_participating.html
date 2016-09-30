@@ -20,9 +20,8 @@
                             <p>Current Bid <strong class="bid">{{ item.currentbid | currency }}</strong></p>
                         </div>
                         <div class="col-sm-6">
-                            <p>
-                                sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}
-                            </p>
+                            <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">
+                                {{ item.sellerUsername }}</a> ({{ item.sellerrating }})</p>
                             <p ng-if="item.buyprice">
                                 <span style="padding-right: 5px;">Buying Price <strong class="bid">{{ item.buyprice | currency }}</strong></span>
                                 <button ng-click="buyNow(item)" class="btn btn-danger btn-sm">Buy Now!</button>

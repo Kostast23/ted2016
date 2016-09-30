@@ -112,6 +112,10 @@
           word-wrap: break-word; }
       #main > .items .item > .info > div {
         padding-left: 0; }
+        #main > .items .item > .info > div p {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
       #main > .items .item > .info > .item-desc {
         position: absolute;
         bottom: 0;

@@ -17,6 +17,7 @@
                             <p>
                                 <span>
                                     Sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
+                                    ({{ item.sellerrating }})
                                 </span>
                                 <span class="pull-right">
                                 <a ui-sref="main.profile.new_message({ to: item.sellerUsername })" style="padding-left: 5px;">
