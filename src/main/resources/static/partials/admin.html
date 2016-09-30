@@ -96,6 +96,10 @@
                     Browse files <input type="file" nv-file-select="" style="display: none;" uploader="uploader"
                                         multiple/>
                 </label>
+                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                        ng-disabled="!uploader.getNotUploadedItems().length">
+                    <span class="glyphicon glyphicon-upload"></span> Upload all
+                </button>
             </div>
             <div class="row" ng-repeat="item in uploader.queue">
                 <div class="col-sm-2">{{ item.file.name }}</div>
@@ -104,13 +108,6 @@
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </div>
-            </div>
-            <br />
-            <div>
-                <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
-                        ng-disabled="!uploader.getNotUploadedItems().length">
-                    <span class="glyphicon glyphicon-upload"></span> Upload all
-                </button>
             </div>
             <div class="row" style="margin-top: 10px;">
                 <div class="col-sm-12">
@@ -147,7 +144,12 @@
                 </div>
             </div>
             <div class="row">
-                <div uib-alert class="col-sm-12 alert-success" ng-show="algorithmMsg">{{ algorithmMsg }}</div>
+                <div class="col-sm-12" style="margin-top: 10px;">
+                    <div uib-alert class="alert-warning" ng-show="algorithmRunningMsg">{{ algorithmRunningMsg }}</div>
+                </div>
+                <div class="col-sm-12">
+                    <div uib-alert class="alert-success" ng-show="algorithmFinishedMsg">{{ algorithmFinishedMsg }}</div>
+                </div>
             </div>
         </div>
     </div>

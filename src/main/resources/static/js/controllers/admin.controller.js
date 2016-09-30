@@ -1,4 +1,4 @@
-app.controller('AdminController', function ($scope, $http, $state, $timeout, AdminService, FileUploader) {
+app.controller('AdminController', function ($scope, $http, $state, $timeout, AdminService, AuthService, FileUploader) {
     $scope.resourcesLoaded = false;
     $scope.maxSize = 5;  // pagination size
     $scope.itemsPerPage = 10;
@@ -102,8 +102,9 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
 
     $scope.runAutosuggestions = function() {
         $http.get('/api/admin/runAutosuggestions').then(function() {
-            $scope.algorithmMsg = 'Algorithm finished successfully!';
+            $scope.algorithmRunningMsg = null;
+            $scope.algorithmFinishedMsg = 'Algorithm finished successfully!';
         });
-        $scope.algorithmMsg = 'Running algorithm...';
+        $scope.algorithmRunningMsg = 'Running algorithm...';
     }
 });
