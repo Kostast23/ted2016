@@ -62,6 +62,12 @@ public class MessageApi {
         return messageMapper.mapMessageEntityToMessageResponseDto(messageEntity);
     }
 
+    @RequestMapping(value="/new", method = RequestMethod.GET)
+    public Long newMessageCount() {
+        return messageRepository.countByTo_UsernameAndIsreadFalseAndDeletedreceiverFalse(
+                (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     public void newMessage(@RequestBody MessageRequestDto dto) {
         Date curDate = new Date();

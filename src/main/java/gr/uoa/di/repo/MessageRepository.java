@@ -9,5 +9,5 @@ public interface MessageRepository extends PagingAndSortingRepository<MessageEnt
     MessageEntity findOneById(int id);
     Page<MessageEntity> findByFrom_UsernameAndDeletedsenderFalseOrderBySentdateDesc(String username, Pageable pageable);
     Page<MessageEntity> findByTo_UsernameAndDeletedreceiverFalseOrderBySentdateDesc(String username, Pageable pageable);
-    Long countByTo_UsernameAndIsreadFalse(String username);
+    Long countByTo_UsernameAndIsreadFalseAndDeletedreceiverFalse(String username);
 }
