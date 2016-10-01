@@ -30,7 +30,8 @@
         <hr/>
         <div class="clearfix">
             <p class="col-sm-3 text-right">Seller:</p>
-            <p class="col-sm-9"><a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
+            <p class="col-sm-9">
+                <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a> ({{ item.sellerrating }})
             </p>
         </div>
         <div class="clearfix">

@@ -48,4 +48,12 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
             updateInterval = null;
         }
     });
+
+    $scope.happy = function(itemId) {
+        $http.get('/api/ratings/' + itemId + '/seller/happy');
+    };
+
+    $scope.unhappy = function(itemId) {
+        $http.get('/api/ratings/' + itemId + '/seller/unhappy');
+    };
 });

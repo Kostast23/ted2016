@@ -117,8 +117,8 @@ CREATE TABLE item (
     startdate timestamp without time zone,
     enddate timestamp without time zone,
     finished boolean DEFAULT false,
-    ratedseller boolean DEFAULT false,
-    ratedbuyer boolean DEFAULT false,
+    sellerhappy boolean,
+    buyerhappy boolean,
     owner integer NOT NULL,
     category integer DEFAULT 1 NOT NULL
 );

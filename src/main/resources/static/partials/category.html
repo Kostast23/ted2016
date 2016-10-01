@@ -1,6 +1,6 @@
 <form ng-submit="doSearch(search)" class="form-inline pull-right">
     <div class="form-group">
-        <label for="search" style="line-height: 36px;">Search for item</label>
+        <label for="search" style="line-height: 36px;">Search for items</label>
         <div class="input-group" style="margin: 0 5px;">
             <input data-toggle="popover" data-content="Please specify some terms!" id="search" ng-model="search" type="text" class="form-control">
         </div>
@@ -71,7 +71,9 @@
                             </p>
                         </div>
                         <div class="col-sm-6">
-                            <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}</p>
+                            <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">
+                                {{ item.sellerUsername }}</a> ({{ item.sellerrating }})</p>
+                            <p>from {{ item.location }}, {{ item.country }}</p>
                         </div>
                         <div class="item-desc small col-sm-12">{{ item.description }}</div>
                     </div>

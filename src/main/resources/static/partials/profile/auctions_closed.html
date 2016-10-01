@@ -14,11 +14,27 @@
                         </h3>
                         <div class="col-sm-12">
                             <p class="auction-ended">
-                                <span>Ended</span>
-                                <span>{{ item.endOffset }}</span>
-                                <span ng-if="!item.winnerUsername">with no bids</span>
+                                <span>
+                                    Ended {{ item.endOffset }} <span ng-if="!item.winnerUsername">with no bids</span>
+                                </span>
+                                <span class="pull-right" ng-show="item.winnerUsername && item.sellerHappy == null">
+                                    <button class="btn btn-success btn-sm" ng-click="happy(item.id)">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Happy
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" ng-click="unhappy(item.id)">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Unhappy
+                                    </button>
+                                </span>
+                                <span class="pull-right" ng-show="item.winnerUsername && item.sellerHappy != null">
+                                    <button class="btn btn-success btn-sm disabled" ng-if="item.sellerHappy">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Happy
+                                    </button>
+                                    <button class="btn btn-danger btn-sm disabled" ng-if="!item.sellerHappy">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Unhappy
+                                    </button>
+                                </span>
                             </p>
-                            <p ng-if="item.winnerUsername">
+                            <p ng-if="item.winnerUsername" style="padding-top: 5px;">
                                 <span>
                                     Bought at <strong class="bid">{{ item.currentbid | currency }}</strong> from
                                     <a ui-sref="main.user({ username: item.winnerUsername })">{{ item.winnerUsername }}</a>

@@ -92,8 +92,9 @@
 
                             </div>
                             <div class="col-sm-6">
-                                <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{
-                                    item.sellerUsername }}</a> from {{ item.location }}, {{ item.country }}</p>
+                                <p>sold by <a ui-sref="main.user({ username: item.sellerUsername })">
+                                    {{ item.sellerUsername }}</a> ({{ item.sellerrating }})</p>
+                                <p>from {{ item.location }}, {{ item.country }}</p>
                             </div>
                         </div>
                         <br />

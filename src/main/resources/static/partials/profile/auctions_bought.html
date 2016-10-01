@@ -13,16 +13,37 @@
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
                         </h3>
                         <div class="col-sm-12">
-                            <p>Bought at <strong class="bid">{{ item.currentbid | currency }}</strong>, {{ item.endOffset }}</p>
                             <p>
                                 <span>
+                                    Bought at <strong class="bid">{{ item.currentbid | currency }}</strong>, {{ item.endOffset }}
+                                </span>
+                                <span class="pull-right" ng-show="item.buyerHappy == null">
+                                    <button class="btn btn-success btn-sm" ng-click="happy(item.id)">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Happy
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" ng-click="unhappy(item.id)">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Unhappy
+                                    </button>
+                                </span>
+                                <span class="pull-right" ng-show="item.buyerHappy != null">
+                                    <button class="btn btn-success btn-sm disabled" ng-if="item.buyerHappy">
+                                        <span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Happy
+                                    </button>
+                                    <button class="btn btn-danger btn-sm disabled" ng-if="!item.buyerHappy">
+                                        <span class="glyphicon glyphicon-thumbs-down"></span>&nbsp;Unhappy
+                                    </button>
+                                </span>
+                            </p>
+                            <p style="padding-top: 5px;">
+                                <span>
                                     Sold by <a ui-sref="main.user({ username: item.sellerUsername })">{{ item.sellerUsername }}</a>
+                                    ({{ item.sellerrating }})
                                 </span>
                                 <span class="pull-right">
-                                <a ui-sref="main.profile.new_message({ to: item.sellerUsername })" style="padding-left: 5px;">
-                                    <button class="btn btn-primary btn-sm">Message seller</button>
-                                </a>
-                            </span>
+                                    <a ui-sref="main.profile.new_message({ to: item.sellerUsername })" style="padding-left: 5px;">
+                                        <button class="btn btn-primary btn-sm">Message seller</button>
+                                    </a>
+                                </span>
                             </p>
                         </div>
                     </div>

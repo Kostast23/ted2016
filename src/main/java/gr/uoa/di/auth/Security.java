@@ -40,6 +40,7 @@ public class Security extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/api/images/upload").hasAuthority("ROLE_USER")
                 .antMatchers(HttpMethod.DELETE, "/api/images/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/messages/**").hasAuthority("ROLE_USER")
+                .antMatchers("/api/ratings/**").hasAuthority("ROLE_USER")
                 .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().permitAll().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);

@@ -60,8 +60,6 @@ public class ItemMapper {
         itemEnt.setStartDate(Utils.parseXMLDate(item.getStarted()));
         itemEnt.setEndDate(Utils.parseXMLDate(item.getEnds()));
         itemEnt.setFinished(itemEnt.getEndDate().before(new Date()) || (itemEnt.getBuyprice() != null && itemEnt.getBuyprice() <= itemEnt.getCurrentbid()));
-        itemEnt.setRatedByBuyer(false);
-        itemEnt.setRatedBySeller(false);
         itemEnt.setDescription(item.getDescription());
         itemEnt.setOwner(userMapper.mapSellerJAXToUserEntity(item.getSeller()));
         return itemEnt;
@@ -117,6 +115,9 @@ public class ItemMapper {
         item.setFinished(itemEntity.getFinished());
         item.setImages(itemEntity.getPictures().stream().map(ItemPicturesEntity::getUuid).collect(Collectors.toList()));
         item.setSellerUsername(itemEntity.getOwner().getUsername());
+        item.setSellerrating(itemEntity.getOwner().getSellerrating());
+        item.setSellerHappy(itemEntity.getSellerHappy());
+        item.setBuyerHappy(itemEntity.getBuyerHappy());
         item.setCategory(categoryMapper.mapCategoryEntityToCategoryResponseDto(itemEntity.getCategory(), true, 0));
 
         List<BidEntity> bids = itemEntity.getBids();
@@ -142,8 +143,6 @@ public class ItemMapper {
         itemEnt.setLat(item.getLat());
         itemEnt.setLon(item.getLon());
         itemEnt.setFinished(false);
-        itemEnt.setRatedByBuyer(false);
-        itemEnt.setRatedBySeller(false);
         itemEnt.setStartDate(item.getStartDate());
         itemEnt.setEndDate(item.getEndDate());
         if (item.getImages() == null) {

@@ -21,7 +21,10 @@ public class ItemResponseDto {
     private Boolean finished;
     private List<String> images;
     private String sellerUsername;
+    private Integer sellerrating;
     private String winnerUsername;
+    private Boolean sellerHappy;
+    private Boolean buyerHappy;
     private CategoryResponseDto category;
 
     public int getId() {
@@ -144,12 +147,36 @@ public class ItemResponseDto {
         this.sellerUsername = sellerUsername;
     }
 
+    public Integer getSellerrating() {
+        return sellerrating;
+    }
+
+    public void setSellerrating(Integer sellerrating) {
+        this.sellerrating = sellerrating;
+    }
+
     public String getWinnerUsername() {
         return winnerUsername;
     }
 
     public void setWinnerUsername(String winnerUsername) {
         this.winnerUsername = winnerUsername;
+    }
+
+    public Boolean getSellerHappy() {
+        return sellerHappy;
+    }
+
+    public void setSellerHappy(Boolean sellerHappy) {
+        this.sellerHappy = sellerHappy;
+    }
+
+    public Boolean getBuyerHappy() {
+        return buyerHappy;
+    }
+
+    public void setBuyerHappy(Boolean buyerHappy) {
+        this.buyerHappy = buyerHappy;
     }
 
     public CategoryResponseDto getCategory() {

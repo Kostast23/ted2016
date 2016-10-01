@@ -30,7 +30,6 @@ app.controller('ProfileAuctionsBoughtController', function ($scope, $http, $inte
     getItems();
     var updateInterval = $interval(getItems, 5000);
 
-
     $scope.needPagination = function() {
         return $scope.totalItems > $scope.itemsPerPage;
     };
@@ -48,4 +47,12 @@ app.controller('ProfileAuctionsBoughtController', function ($scope, $http, $inte
             updateInterval = null;
         }
     });
+
+    $scope.happy = function(itemId) {
+        $http.get('/api/ratings/' + itemId + '/buyer/happy');
+    };
+
+    $scope.unhappy = function(itemId) {
+        $http.get('/api/ratings/' + itemId + '/buyer/unhappy');
+    };
 });

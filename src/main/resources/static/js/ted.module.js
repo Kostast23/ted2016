@@ -22,7 +22,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
             abstract: true,
             templateUrl: 'partials/profile/profile.html',
             controller: 'ProfileController',
-            css: 'css/profile.css'
+            css: 'css/profile.css',
+            resolve: { authenticate: authenticateUser }
         })
         .state('main.profile.active', {
             url: '/profile/auctions/active',
@@ -101,7 +102,7 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.search', {
             url: '/search',
             templateUrl: 'partials/search.html',
-            params: { name: null },
+            params: { name: null, categoryId: null },
             controller: 'SearchController',
             css: 'css/category.css'
         })
