@@ -25,8 +25,8 @@ public class ItemEntity {
     private Date startDate;
     private Date endDate;
     private Boolean finished;
-    private Boolean ratedBySeller;
-    private Boolean ratedByBuyer;
+    private Boolean sellerHappy;
+    private Boolean buyerHappy;
     private List<ItemPicturesEntity> pictures;
     private UserEntity owner;
     private List<BidEntity> bids;
@@ -166,23 +166,23 @@ public class ItemEntity {
     }
 
     @Basic
-    @Column(name = "ratedseller")
-    public Boolean getRatedBySeller() {
-        return ratedBySeller;
+    @Column(name = "sellerhappy")
+    public Boolean getSellerHappy() {
+        return sellerHappy;
     }
 
-    public void setRatedBySeller(Boolean ratedBySeller) {
-        this.ratedBySeller = ratedBySeller;
+    public void setSellerHappy(Boolean sellerHappy) {
+        this.sellerHappy = sellerHappy;
     }
 
     @Basic
-    @Column(name = "ratedbuyer")
-    public Boolean getRatedByBuyer() {
-        return ratedByBuyer;
+    @Column(name = "buyerhappy")
+    public Boolean getBuyerHappy() {
+        return buyerHappy;
     }
 
-    public void setRatedByBuyer(Boolean ratedByBuyer) {
-        this.ratedByBuyer = ratedByBuyer;
+    public void setBuyerHappy(Boolean buyerHappy) {
+        this.buyerHappy = buyerHappy;
     }
     @OneToMany(mappedBy = "item", cascade = CascadeType.ALL)
     public List<ItemPicturesEntity> getPictures() {
@@ -242,9 +242,9 @@ public class ItemEntity {
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
         if (endDate != null ? !endDate.equals(that.endDate) : that.endDate != null) return false;
         if (finished != null ? !finished.equals(that.finished) : that.finished != null) return false;
-        if (ratedBySeller != null ? !ratedBySeller.equals(that.ratedBySeller) : that.ratedBySeller != null)
+        if (sellerHappy != null ? !sellerHappy.equals(that.sellerHappy) : that.sellerHappy != null)
             return false;
-        if (ratedByBuyer != null ? !ratedByBuyer.equals(that.ratedByBuyer) : that.ratedByBuyer != null) return false;
+        if (buyerHappy != null ? !buyerHappy.equals(that.buyerHappy) : that.buyerHappy != null) return false;
         if (pictures != null ? !pictures.equals(that.pictures) : that.pictures != null) return false;
         if (owner != null ? !owner.equals(that.owner) : that.owner != null) return false;
         if (bids != null ? !bids.equals(that.bids) : that.bids != null) return false;
@@ -267,8 +267,8 @@ public class ItemEntity {
         result = 31 * result + (startDate != null ? startDate.hashCode() : 0);
         result = 31 * result + (endDate != null ? endDate.hashCode() : 0);
         result = 31 * result + (finished != null ? finished.hashCode() : 0);
-        result = 31 * result + (ratedBySeller != null ? ratedBySeller.hashCode() : 0);
-        result = 31 * result + (ratedByBuyer != null ? ratedByBuyer.hashCode() : 0);
+        result = 31 * result + (sellerHappy != null ? sellerHappy.hashCode() : 0);
+        result = 31 * result + (buyerHappy != null ? buyerHappy.hashCode() : 0);
         result = 31 * result + (pictures != null ? pictures.hashCode() : 0);
         result = 31 * result + (owner != null ? owner.hashCode() : 0);
         result = 31 * result + (bids != null ? bids.hashCode() : 0);

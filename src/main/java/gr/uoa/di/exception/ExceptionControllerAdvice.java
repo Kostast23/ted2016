@@ -4,10 +4,7 @@ import gr.uoa.di.exception.bid.AuctionFinishedException;
 import gr.uoa.di.exception.bid.AuctionNotStartedException;
 import gr.uoa.di.exception.bid.BidLessThanCurrentException;
 import gr.uoa.di.exception.bid.BidOnOwnItemException;
-import gr.uoa.di.exception.item.ItemBuyingPriceException;
-import gr.uoa.di.exception.item.ItemCannotBeEditedException;
-import gr.uoa.di.exception.item.ItemDateException;
-import gr.uoa.di.exception.item.ItemFieldsException;
+import gr.uoa.di.exception.item.*;
 import gr.uoa.di.exception.message.CannotDeleteMessageException;
 import gr.uoa.di.exception.message.MessageFieldsException;
 import gr.uoa.di.exception.message.MessageNotFoundException;
@@ -43,7 +40,8 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler({ UserAlreadyExistsException.class, UserAlreadyValidatedException.class,
             AuctionFinishedException.class, AuctionNotStartedException.class,
             BidLessThanCurrentException.class, BidOnOwnItemException.class,
-            ItemCannotBeEditedException.class, CannotDeleteMessageException.class})
+            ItemCannotBeEditedException.class, CannotDeleteMessageException.class,
+            ItemRatingException.class})
     public ResponseEntity<ErrorResponse> conflict(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.CONFLICT, ex), HttpStatus.CONFLICT);
