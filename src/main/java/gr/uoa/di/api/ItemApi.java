@@ -13,6 +13,7 @@ import gr.uoa.di.exception.item.ItemFieldsException;
 import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.RecommendationRepository;
+import gr.uoa.di.service.ItemService;
 import gr.uoa.di.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -36,13 +37,15 @@ public class ItemApi {
     @Autowired
     UserService userService;
     @Autowired
+    ItemService itemService;
+    @Autowired
     RecommendationRepository recommendationRepository;
 
     @RequestMapping(value = "/{itemId}")
     public ItemResponseDto getItem(@PathVariable int itemId) {
         ItemEntity item = itemRepository.findOneById(itemId);
         if (!item.getFinished() && item.getEndDate().before(new Date())) {
-            item.setFinished(true);
+            itemService.doFinalize(item);
             itemRepository.save(item);
         }
         return itemMapper.mapItemEntityToItemResponseDto(item);
@@ -111,7 +114,7 @@ public class ItemApi {
         List<ItemEntity> active = new ArrayList<>();
         for (ItemEntity item: items) {
             if (!item.getFinished() && item.getEndDate().before(new Date())) {
-                item.setFinished(true);
+                itemService.doFinalize(item);
                 itemRepository.save(item);
             } else if (!item.getFinished()) {
                 active.add(item);
@@ -127,7 +130,7 @@ public class ItemApi {
         List<ItemEntity> finished = new ArrayList<>();
         for (ItemEntity item: items) {
             if (!item.getFinished() && item.getEndDate().before(new Date())) {
-                item.setFinished(true);
+                itemService.doFinalize(item);
                 itemRepository.save(item);
                 finished.add(item);
             } else if (item.getFinished()) {

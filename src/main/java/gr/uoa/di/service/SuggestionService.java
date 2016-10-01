@@ -4,6 +4,7 @@ import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.RecommendationEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.repo.BidRepository;
+import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.RecommendationRepository;
 import gr.uoa.di.service.helpers.ItemRecommendations;
 import gr.uoa.di.service.helpers.UserSimilarity;
@@ -20,6 +21,8 @@ public class SuggestionService {
     BidRepository bidRepository;
     @Autowired
     RecommendationRepository recommendationRepository;
+    @Autowired
+    ItemRepository itemRepository;
 
     private double cosSimilarity(Set<Integer> s1, Set<Integer> s2) {
         /*
@@ -36,6 +39,11 @@ public class SuggestionService {
         Map<Integer, Set<Integer>> userBidOnItems = new HashMap<>();
         Map<Integer, ItemRecommendations> userItemSuggestions = new HashMap<>();
         Map<Integer, List<UserSimilarity>> userSimilarities = new HashMap<>();
+        Map<Integer, Integer> itemSoldBy = new HashMap<>();
+
+        /* keep track of who sells each item */
+        itemRepository.findAll().stream().forEach(itemEntity ->
+        itemSoldBy.put(itemEntity.getId(), itemEntity.getOwner().getId()));
 
         /* map from user to the set of items they have bids on */
         bidRepository.getUserBidsOnItems().forEach(entry -> {
@@ -76,8 +84,9 @@ public class SuggestionService {
                         /*
                          * for each item of a neighbouring user,
                          * increase its recommendation for the current user
+                         * without suggesting an item the user has already bids on or owns
                          */
-                        if (!currentUserBids.contains(item)) {
+                        if (!currentUserBids.contains(item) && itemSoldBy.get(item) != user) {
                             recommended.addRecommendation(item, userSimilarity.getSimilarity());
                         }
                     }));

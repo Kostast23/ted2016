@@ -12,6 +12,7 @@ import gr.uoa.di.mapper.BidMapper;
 import gr.uoa.di.repo.BidRepository;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.UserRepository;
+import gr.uoa.di.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,9 @@ public class BidApi {
     @Autowired
     BidMapper bidMapper;
 
+    @Autowired
+    ItemService itemService;
+
     @RequestMapping(value = "/{itemId}")
     public List<BidResponseDto> getBids(@PathVariable Integer itemId) {
         ItemEntity item = itemRepository.findOneById(itemId);
@@ -58,7 +62,7 @@ public class BidApi {
                 throw new AuctionNotStartedException();
             }
             if (curDate.after(item.getEndDate())) {
-                item.setFinished(true);
+                itemService.doFinalize(item);
                 itemRepository.save(item);
             }
             if (item.getFinished()) {
@@ -80,7 +84,7 @@ public class BidApi {
             /* create successful bid */
             item.setCurrentbid(bidAmount);
             if (item.getBuyprice() != null && item.getBuyprice() <= bidAmount) {
-                item.setFinished(true);
+                itemService.doFinalize(item);
                 item.setEndDate(new Date());
             }
             itemRepository.save(item);
