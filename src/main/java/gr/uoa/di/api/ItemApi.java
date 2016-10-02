@@ -56,6 +56,7 @@ public class ItemApi {
     public Integer editItem(@PathVariable int itemId, @RequestBody @Valid ItemEditDto item, BindingResult bindingResult) {
         synchronized (BidApi.class) {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
+            Date curDate = new Date();
             if (savedItem == null) {
                 throw new ItemNotFoundException();
             }
@@ -70,11 +71,12 @@ public class ItemApi {
             if (item.getBuyprice() != null && item.getBuyprice() < item.getFirstbid()) {
                 throw new ItemBuyingPriceException();
             }
-            if (item.getEndDate().before(new Date())) {
+            if (item.getEndDate().before(curDate)) {
                 throw new ItemDateException();
             }
             ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
             itemEnt.setId(itemId);
+            itemEnt.setStartDate(curDate);
             itemEnt.setOwner(savedItem.getOwner());
             itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
             return itemRepository.save(itemEnt).getId();
