@@ -25,7 +25,9 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
                 return item2.endDate - item1.endDate;
             });
             $scope.totalItems = response.data.totalElements;
-            $scope.filteredItems = $scope.items.slice(0, $scope.itemsPerPage);
+            var begin = (($scope.currentPage - 1) * $scope.itemsPerPage)
+                , end = begin + $scope.itemsPerPage;
+            $scope.filteredItems = $scope.items.slice(begin, end);
             $scope.resourcesLoaded = true;
         });
     };
