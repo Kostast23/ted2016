@@ -7,6 +7,7 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
         $scope.username = undefined;
         $scope.admin = undefined;
         $scope.newMessageCount = undefined;
+        $scope.hasSuggestions = undefined;
     };
 
     $scope.atIndex = function() {
@@ -26,8 +27,24 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
         }
     };
 
+    var checkSuggestions = function() {
+        if (AuthService.isLoggedIn()) {
+            $http.get('/api/items/suggestions').then(function (response) {
+                $scope.hasSuggestions = !!response.data.length;
+            });
+        }
+    };
+
     var checkNewMessageCountInterval = $interval(getNewMessagesCount, 2000);
     $scope.$on('$destroy', function() {
         $interval.cancel(checkNewMessageCountInterval);
     });
+
+    var checkSuggestionsInterval = $interval(checkSuggestions(), 60000);
+    $scope.$on('$destroy', function() {
+        $interval.cancel(checkSuggestionsInterval);
+    });
+
+    getNewMessagesCount();
+    checkSuggestions();
 });

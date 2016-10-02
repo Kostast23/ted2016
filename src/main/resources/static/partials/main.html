@@ -12,6 +12,12 @@
                     <div class="line-2">Admin Panel</div>
                 </a>
             </li>
+            <li ng-if="hasSuggestions">
+                <a ui-sref="main.suggestions">
+                    <div class="line-1">New feature!</div>
+                    <div class="line-2">Auction suggestions</div>
+                </a>
+            </li>
             <li ng-show="newMessageCount">
                 <a ui-sref="main.profile.messages_received">
                     <div class="line-1">You got &nbsp;<span class="glyphicon glyphicon-envelope"></span></div>

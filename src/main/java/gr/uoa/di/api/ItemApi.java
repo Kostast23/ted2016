@@ -192,6 +192,7 @@ public class ItemApi {
         return suggestions.stream()
                 .sorted((rec1, rec2) -> Double.compare(rec2.getRecValue(), rec1.getRecValue()))
                 .map(RecommendationEntity::getItem)
+                .filter(item -> !item.getFinished())
                 .map(itemMapper::mapItemEntityToItemResponseDto)
                 .collect(Collectors.toList());
     }

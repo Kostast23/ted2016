@@ -1,15 +1,18 @@
-<form ng-submit="doSearch(search)" class="form-inline text-right">
-    <div class="form-group">
-        <label for="search" style="line-height: 36px">Search for items</label>
-        <div class="input-group" style="margin: 0 5px;">
-            <input data-toggle="popover" data-content="Please specify some terms!" id="search" ng-model="search" type="text" class="form-control">
+<div class="col-sm-12" style="margin-bottom: 10px">
+    <a ui-sref="main.new_item" ng-show="username">
+        <button class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>&nbsp;Create new item</button>
+    </a>
+    <form ng-submit="doSearch(search)" class="form-inline pull-right" style="display: inline-block">
+        <div class="form-group">
+            <label for="search" style="line-height: 36px">Search for items</label>
+            <div class="input-group" style="margin: 0 5px;">
+                <input data-toggle="popover" data-content="Please specify some terms!" id="search" ng-model="search" type="text" class="form-control">
+            </div>
+            <button class="btn btn-primary" style="width: 100px">Go!</button>
+            <div class="text-right"><a ui-sref="main.search">Advanced search</a></div>
         </div>
-        <button class="btn btn-primary" style="width: 100px">Go!</button>
-        <div class="text-right"><a ui-sref="main.search">Advanced search</a></div>
-        <div class="text-right" ng-show="hasSuggestions"><a ui-sref="main.suggestions">See item suggestions</a></div>
-    </div>
-</form>
-<br />
+    </form>
+</div>
 <div>
     <ul id="categories">
         <li ng-repeat="category in categories" class="category {{styles[category.name]}}">
