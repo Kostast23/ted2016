@@ -153,8 +153,8 @@ public class ItemApi {
         Set<ItemEntity> participating = new HashSet<>();
         for (BidEntity bid: bids) {
             ItemEntity item = bid.getItem();
-            if (item.getEndDate().before(new Date())) {
-                item.setFinished(true);
+            if (!item.getFinished() && item.getEndDate().before(new Date())) {
+                itemService.doFinalize(item);
                 itemRepository.save(item);
             } else if (!item.getFinished()) {
                 participating.add(bid.getItem());
