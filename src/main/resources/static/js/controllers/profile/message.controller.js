@@ -1,5 +1,5 @@
 app.controller('MessageController', function ($scope, $http, $state, $stateParams, $window) {
-    $http.get('/api/messages/' + $stateParams.messageId).then(function (response) {
+    $http.get('api/messages/' + $stateParams.messageId).then(function (response) {
         $scope.message = response.data;
         $scope.message.date = new Date($scope.message.date);
     }, function(err) {

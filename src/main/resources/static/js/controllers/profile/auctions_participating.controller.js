@@ -10,7 +10,7 @@ app.controller('ProfileAuctionsParticipatingController', function ($scope, $http
     $scope.filteredItems = [];
 
     var getItems = function() {
-        $http.get('/api/items/participating/' + AuthService.user.user, {
+        $http.get('api/items/participating/' + AuthService.user.user, {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage
@@ -62,7 +62,7 @@ app.controller('ProfileAuctionsParticipatingController', function ($scope, $http
     $scope.buyNow = function (item) {
         if (confirmBid(item.name, item.buyprice)) {
             var amount = Math.floor(item.buyprice * 100);
-            $http.post('/api/bids/' + item.id, amount).then(function () {
+            $http.post('api/bids/' + item.id, amount).then(function () {
                 item.bidError = null;
                 getItems();
             }, function(err) {

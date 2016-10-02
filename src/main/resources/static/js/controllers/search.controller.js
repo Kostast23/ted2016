@@ -28,7 +28,7 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         if (httpParams.max) {
             httpParams.max = Math.floor(httpParams.max * 100);
         }
-        $http.post('/api/search/', httpParams).then(function(response) {
+        $http.post('api/search/', httpParams).then(function(response) {
             $scope.totalItems = response.data.totalElements;
             $scope.items = response.data.content.map(function (item) {
                 if (item.currentbid) {
@@ -83,7 +83,7 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
     }
 
     /* make the recursive list of categories with subcategories under their parents */
-    $http.get('/api/categories/all').then(function (response) {
+    $http.get('api/categories/all').then(function (response) {
         $scope.listCategories = response.data;
     });
 });

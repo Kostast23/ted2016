@@ -76,7 +76,7 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
     };
 
     $scope.uploader = new FileUploader({
-        url: '/api/admin/uploadBackup',
+        url: 'api/admin/uploadBackup',
         removeAfterUpload: true,
         headers: { 'Authorization': 'Bearer ' + AuthService.user.jwt }
     });
@@ -91,7 +91,7 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
     };
 
     $scope.downloadDump = function () {
-        $http.get('/api/admin/dumpDatabase', {
+        $http.get('api/admin/dumpDatabase', {
             transformResponse: angular.identity
         }).then(function (response) {
             var text = response.data;
@@ -102,7 +102,7 @@ app.controller('AdminController', function ($scope, $http, $state, $timeout, Adm
     };
 
     $scope.runAutosuggestions = function() {
-        $http.get('/api/admin/runAutosuggestions').then(function() {
+        $http.get('api/admin/runAutosuggestions').then(function() {
             $scope.algorithmRunningMsg = null;
             $scope.algorithmFinishedMsg = 'Algorithm finished successfully!';
         });

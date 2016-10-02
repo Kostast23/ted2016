@@ -8,7 +8,7 @@ app.controller('MessagesController', function ($scope, $http, $state) {
     $scope.messageType = null;
 
     var getMessages = function (messageType, page, size) {
-        $http.get('/api/messages/' + messageType, {
+        $http.get('api/messages/' + messageType, {
             params: {
                 page: page,
                 size: size
@@ -75,7 +75,7 @@ app.controller('MessagesController', function ($scope, $http, $state) {
             angular.forEach($scope.messages, function (message) {
                 if (message.selected) {
                     console.log(message.id);
-                    $http.delete('/api/messages/' + $scope.messageType + '/' + message.id).then(function() {
+                    $http.delete('api/messages/' + $scope.messageType + '/' + message.id).then(function() {
                         $scope.getMessages();
                         $scope.isAll = false;
                     });

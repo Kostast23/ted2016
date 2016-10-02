@@ -21,7 +21,7 @@ function AuthService($http, $window, $q) {
 	return service;
 	
 	function register(registerInfo) {
-		return $http.post('/api/register', registerInfo).then(function success(response) {
+		return $http.post('api/register', registerInfo).then(function success(response) {
             return $q.resolve(response.data);
         }, function error(response) {
             return $q.reject(response.data.message);
@@ -29,7 +29,7 @@ function AuthService($http, $window, $q) {
 	}
 
 	function login(loginInfo) {
-		return $http.post('/api/login', loginInfo).then(function success(response) {
+		return $http.post('api/login', loginInfo).then(function success(response) {
             console.log('Login success!');
 			/* save the returned JWT */
             var jwt = response.data.jwt;

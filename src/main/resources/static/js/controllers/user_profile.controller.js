@@ -10,14 +10,14 @@ app.controller('UserProfileController', function ($scope, $state, $stateParams, 
     $scope.items = [];
     $scope.filteredItems = [];
 
-    $http.get('/api/user/' + $stateParams.username).then(function (response) {
+    $http.get('api/user/' + $stateParams.username).then(function (response) {
         $scope.user = response.data;
     }, function() {
         $state.go('page_not_found');
     });
 
     var getClosedAuctions = function() {
-        $http.get('/api/items/finished/' + $stateParams.username, {
+        $http.get('api/items/finished/' + $stateParams.username, {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage
@@ -37,7 +37,7 @@ app.controller('UserProfileController', function ($scope, $state, $stateParams, 
     };
 
     var getActiveAuctions = function() {
-        $http.get('/api/items/active/' + $stateParams.username, {
+        $http.get('api/items/active/' + $stateParams.username, {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage

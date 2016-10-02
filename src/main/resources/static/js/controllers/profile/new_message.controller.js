@@ -15,7 +15,7 @@ app.controller('NewMessageController', function ($scope, $http, $stateParams, $w
     };
 
     $scope.send = function () {
-        $http.post('/api/messages/', $scope.message).then(function (response) {
+        $http.post('api/messages/', $scope.message).then(function (response) {
             $scope.goBack();
         }, function (err) {
             $scope.formError = err.data.message;

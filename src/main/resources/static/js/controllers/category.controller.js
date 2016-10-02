@@ -9,7 +9,7 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
     $scope.items = [];
     $scope.submenuSize = 5;
 
-    $http.get('/api/categories/' + $stateParams.categoryId).then(function(response) {
+    $http.get('api/categories/' + $stateParams.categoryId).then(function(response) {
         $scope.getItems();
         $scope.category = response.data;
         $scope.breadcrumb = [];
@@ -23,7 +23,7 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
     });
 
     $scope.getItems = function() {
-        $http.get('/api/categories/' + $stateParams.categoryId + '/items', {
+        $http.get('api/categories/' + $stateParams.categoryId + '/items', {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage

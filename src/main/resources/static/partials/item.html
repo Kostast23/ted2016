@@ -8,7 +8,7 @@
     <div class="col-sm-5" id="images">
         <div uib-carousel ng-if="item.images.length" active="active" interval="myInterval" no-wrap="noWrapSlides" id="carousel">
             <div uib-slide ng-repeat="img in item.images track by $index" index="$index">
-                <img ng-src="/api/images/{{img}}">
+                <img ng-src="api/images/{{img}}">
             </div>
         </div>
         <div ng-if="!item.images.length" id="no-image">

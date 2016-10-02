@@ -51,7 +51,7 @@
                 <li ng-repeat="item in filteredItems">
                     <div class="item">
                         <div class="image col-sm-4 col-md-3">
-                            <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                            <img ng-if="item.images.length" ng-src="api/images/{{item.images[0]}}">
                             <span ng-if="!item.images.length" class="no-image">No images available</span>
                         </div>
                         <div class="info col-sm-8 col-md-9">

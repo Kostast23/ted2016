@@ -1,5 +1,5 @@
 app.controller('StoreController', function ($scope, $http, $state, $timeout) {
-    $http.get('/api/categories/').then(function (response) {
+    $http.get('api/categories/').then(function (response) {
         var categories = response.data;
 
         for (var i = 0; i < categories.length; i++) {

@@ -5,7 +5,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     $scope.loggedIn = AuthService.isLoggedIn();
     $scope.currentUser = AuthService.user.user;
 
-    $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
+    $http.get('api/items/' + $stateParams.itemId).then(function (response) {
         var item = response.data;
         if (item.buyprice) {
             item.buyprice = +item.buyprice / 100;
@@ -63,7 +63,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
 
     /* continuously refresh the bids */
     var updateBids = function () {
-        $http.get('/api/bids/' + $stateParams.itemId).then(function (response) {
+        $http.get('api/bids/' + $stateParams.itemId).then(function (response) {
             $scope.bids = response.data.map(function (bid) {
                 bid.amount = (+bid.amount) / 100;
                 bid.date = new Date(bid.time);
@@ -114,7 +114,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     $scope.submitBid = function (amount) {
         if (confirmBid()) {
             var amountStr = Math.floor(amount * 100);
-            $http.post('/api/bids/' + $stateParams.itemId, amountStr).then(function () {
+            $http.post('api/bids/' + $stateParams.itemId, amountStr).then(function () {
                 $scope.bidError = null;
                 $scope.bidAmount = null;
                 updateBids();
@@ -126,7 +126,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
 
     $scope.deleteItem = function (itemId) {
         if (confirm('Are you sure you want to delete this item?')) {
-            $http.delete('/api/items/' + itemId).then(function() {
+            $http.delete('api/items/' + itemId).then(function() {
                 $state.go('main.category', {
                     categoryId: $scope.item.category.id,
                     categoryName: $scope.item.category.name

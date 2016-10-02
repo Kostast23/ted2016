@@ -21,7 +21,7 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
 
     var getNewMessagesCount = function() {
         if (AuthService.isLoggedIn()) {
-            $http.get('/api/messages/new').then(function (response) {
+            $http.get('api/messages/new').then(function (response) {
                 $scope.newMessageCount = parseInt(response.data, 10);
             });
         }
@@ -29,7 +29,7 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
 
     var checkSuggestions = function() {
         if (AuthService.isLoggedIn()) {
-            $http.get('/api/items/suggestions').then(function (response) {
+            $http.get('api/items/suggestions').then(function (response) {
                 $scope.hasSuggestions = !!response.data.length;
             });
         }

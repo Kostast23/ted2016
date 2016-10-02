@@ -28,12 +28,12 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         createTimePicker($scope.item.endDate);
     }
 
-    $http.get('/api/categories/all').then(function (response) {
+    $http.get('api/categories/all').then(function (response) {
         $timeout(function() {$scope.listCategories = response.data;}, 10);
     });
 
     if ($stateParams.itemId) {
-        $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
+        $http.get('api/items/' + $stateParams.itemId).then(function (response) {
             var item = response.data;
             marker = {
                 lat: item.lat,
@@ -61,7 +61,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     }
 
     $scope.uploader = new FileUploader({
-        url: '/api/images/upload',
+        url: 'api/images/upload',
         removeAfterUpload: true,
         headers: { 'Authorization': 'Bearer ' + AuthService.user.jwt }
     });
@@ -78,7 +78,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         if (idx > -1) {
             $scope.item.images.splice(idx, 1);
         }
-        $http.delete('/api/images/' + img);
+        $http.delete('api/images/' + img);
     };
 
     $scope.center = {
@@ -138,9 +138,9 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         item.endDate = $('#endDate').datetimepicker('getValue');
         var httpPromise;
         if ($stateParams.itemId) {
-            httpPromise = $http.put('/api/items/' + $stateParams.itemId, item);
+            httpPromise = $http.put('api/items/' + $stateParams.itemId, item);
         } else {
-            httpPromise = $http.post('/api/items/', item);
+            httpPromise = $http.post('api/items/', item);
         }
         httpPromise.then(function (response) {
             $state.go('main.item', {

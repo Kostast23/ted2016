@@ -10,7 +10,7 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
     $scope.filteredItems = [];
 
     var getItems = function() {
-        $http.get('/api/items/finished/' + AuthService.user.user, {
+        $http.get('api/items/finished/' + AuthService.user.user, {
             params: {
                 page: $scope.currentPage - 1,
                 size: $scope.itemsPerPage
@@ -53,20 +53,20 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
     });
 
     $scope.happy = function(itemId) {
-        $http.get('/api/ratings/' + itemId + '/seller/happy').then(function() {
+        $http.get('api/ratings/' + itemId + '/seller/happy').then(function() {
             getItems();
         });
     };
 
     $scope.unhappy = function(itemId) {
-        $http.get('/api/ratings/' + itemId + '/seller/unhappy').then(function() {
+        $http.get('api/ratings/' + itemId + '/seller/unhappy').then(function() {
             getItems();
         });
     };
 
     $scope.deleteItem = function (itemId) {
         if (confirm('Are you sure you want to delete this item?')) {
-            $http.delete('/api/items/' + itemId).then(function () {
+            $http.delete('api/items/' + itemId).then(function () {
                 getItems();
             })
         }

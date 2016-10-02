@@ -1,7 +1,7 @@
 /* fetch the items and map them to a user-friendly form */
 app.controller('SuggestionsController', function ($scope, $http) {
     $scope.items = null;
-    $http.get('/api/items/suggestions').then(function(response) {
+    $http.get('api/items/suggestions').then(function(response) {
         $scope.items = response.data.map(function (item) {
             if (item.currentbid) {
                 item.currentbid = +item.currentbid / 100;
