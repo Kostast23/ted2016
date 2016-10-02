@@ -40,7 +40,7 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
         $interval.cancel(checkNewMessageCountInterval);
     });
 
-    var checkSuggestionsInterval = $interval(checkSuggestions(), 60000);
+    var checkSuggestionsInterval = $interval(checkSuggestions, 60000);
     $scope.$on('$destroy', function() {
         $interval.cancel(checkSuggestionsInterval);
     });
