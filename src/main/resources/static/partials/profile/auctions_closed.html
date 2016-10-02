@@ -11,6 +11,14 @@
                     <div class="info col-sm-8 col-md-9">
                         <h3 class="item-title">
                             <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                            <span class="pull-right" ng-show="!item.winnerUsername">
+                                <a ui-sref="main.edit_item({itemId: item.id, itemName: item.name})">
+                                    <button class="btn btn-primary btn-sm">Edit</button>
+                                </a>
+                                <a ng-click="deleteItem(item.id)" style="padding-left: 5px;">
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </a>
+                            </span>
                         </h3>
                         <div class="col-sm-12">
                             <p class="auction-ended">

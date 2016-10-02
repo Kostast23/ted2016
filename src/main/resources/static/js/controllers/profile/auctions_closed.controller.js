@@ -63,4 +63,12 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
             getItems();
         });
     };
+
+    $scope.deleteItem = function (itemId) {
+        if (confirm('Are you sure you want to delete this item?')) {
+            $http.delete('/api/items/' + itemId).then(function () {
+                getItems();
+            })
+        }
+    };
 });

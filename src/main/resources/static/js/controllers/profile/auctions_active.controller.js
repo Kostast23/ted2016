@@ -56,7 +56,7 @@ app.controller('ProfileAuctionsActiveController', function ($scope, $http, $inte
     $scope.deleteItem = function (itemId) {
         if (confirm('Are you sure you want to delete this item?')) {
             $http.delete('/api/items/' + itemId).then(function () {
-                $scope.getItems();
+                getItems();
             })
         }
     };
