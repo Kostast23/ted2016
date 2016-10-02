@@ -55,7 +55,7 @@ public class SuggestionService {
         /* cos similarities of any two users */
         userBidOnItems.forEach((user, items) -> {
             userBidOnItems.forEach((user2, items2) -> {
-                if (user != user2) {
+                if (!user.equals(user2)) {
                     double similarity = cosSimilarity(items, items2);
                     if (similarity > 0) {
                         userSimilarities.computeIfAbsent(user, i -> new ArrayList<>())
@@ -86,7 +86,7 @@ public class SuggestionService {
                          * increase its recommendation for the current user
                          * without suggesting an item the user has already bids on or owns
                          */
-                        if (!currentUserBids.contains(item) && itemSoldBy.get(item) != user) {
+                        if (!currentUserBids.contains(item) && !itemSoldBy.get(item).equals(user)) {
                             recommended.addRecommendation(item, userSimilarity.getSimilarity());
                         }
                     }));
