@@ -481,6 +481,13 @@ CREATE UNIQUE INDEX category_id_uindex ON category USING btree (id);
 
 
 --
+-- Name: item_finished_enddate_index; Type: INDEX; Schema: public; Owner: ted; Tablespace: 
+--
+
+CREATE INDEX item_finished_enddate_index ON item USING btree (finished, enddate);
+
+
+--
 -- Name: item_id_uindex; Type: INDEX; Schema: public; Owner: ted; Tablespace: 
 --
 

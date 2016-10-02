@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.QueryDslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, Long>, QueryDslPredicateExecutor<ItemEntity> {
@@ -13,4 +14,6 @@ public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, L
     List<ItemEntity> findAll();
     Page<ItemEntity> findByCategory_IdOrderByFinishedAsc(int id, Pageable pageable);
     List<ItemEntity> findByOwner_Username(String username);
+    List<ItemEntity> findByFinishedIsFalseAndEndDateLessThan(Date endDate);
+    List<ItemEntity> findByFinishedIsTrue();
 }

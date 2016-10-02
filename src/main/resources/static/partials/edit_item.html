@@ -79,7 +79,7 @@
             <label class="col-sm-3 control-label" for="firstbid">Starting price<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="firstbid" name="firstbid" placeholder="Starting price"
-                       ng-model="item.firstbid">
+                       ng-model="item.firstbid" step="1.00">
                 <span style="font-size: 10px; color: red; padding-left: 10px;">
                     Starting price has to be at least 0.01$.
                 </span>
@@ -89,7 +89,7 @@
             <label class="col-sm-3 control-label" for="buyprice">Buying price</label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="buyprice" name="buyprice" placeholder="Buying price"
-                       ng-model="item.buyprice">
+                       ng-model="item.buyprice" step="1.00">
                 <span style="font-size: 10px; color: red; padding-left: 10px;">
                     Buying price can be 0 (no buying price) or >= starting price.
                 </span>

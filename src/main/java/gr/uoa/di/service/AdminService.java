@@ -12,6 +12,7 @@ import gr.uoa.di.repo.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,10 +23,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -43,6 +41,9 @@ public class AdminService {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Value(value = "${replace_year}")
+    private Integer replaceYear;
+
     public void restoreFile(MultipartFile uploadFile) {
         try {
             /* unmarshall the xml file */
@@ -53,6 +54,8 @@ public class AdminService {
 
             Map<String, UserEntity> allUsers = userRepository.findAll().stream().collect(Collectors.toMap(UserEntity::getUsername, Function.identity()));
             Map<Pair<String, CategoryEntity>, CategoryEntity> allCategories = categoryRepository.findAll().stream().collect(Collectors.toMap(o -> new ImmutablePair<>(o.getName(), o.getParentCategory()), Function.identity()));
+
+            Date curDate = new Date();
 
             /* for each item in the file */
             items.getItem().stream().map(itemMapper::mapItemJAXToItemEntity).forEach(item -> {
@@ -96,6 +99,16 @@ public class AdminService {
                         category.setId(existingCategory.getId());
                     }
                 });
+
+                /* replace year if set in application properties */
+                if (replaceYear != null) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(item.getEndDate());
+                    cal.set(Calendar.YEAR, replaceYear);
+                    item.setEndDate(cal.getTime());
+                }
+
+                item.setFinished(item.getEndDate().before(curDate) || (item.getBuyprice() != null && item.getBuyprice() <= item.getCurrentbid()));
 
                 /* map item and save it */
                 ItemEntity savedItem = itemRepository.save(item);

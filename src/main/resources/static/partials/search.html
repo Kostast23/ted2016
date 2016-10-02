@@ -1,3 +1,7 @@
+<ol class="breadcrumb ng-scope">
+    <li class="breadcrumb-item"><a ui-sref="main.store" href="#/store">Store</a></li>
+    <li><span class="breadcrumb-item active">Search</span></li>
+</ol>
 <form ng-submit="searchParams.page = 1; doSearch(searchParams)" class="form-horizontal">
     <div class="form-group">
         <label for="name" class="col-sm-2 control-label">Item name</label>
@@ -14,11 +18,11 @@
     <div class="form-group">
         <label for="min" class="col-sm-2 control-label">Price from</label>
         <div class="col-sm-2">
-            <input id="min" ng-model="searchParams.min" type="number" step="0.01" class="form-control">
+            <input id="min" ng-model="searchParams.min" type="number" step="1.00" class="form-control">
         </div>
         <label for="max" class="col-sm-1 control-label">to</label>
         <div class="col-sm-2">
-            <input id="max" ng-model="searchParams.max" type="number" step="0.01" class="form-control">
+            <input id="max" ng-model="searchParams.max" type="number" step="1.00" class="form-control">
         </div>
     </div>
     <div class="form-group">
@@ -50,10 +54,6 @@
         </div>
     </div>
 </form>
-<ol class="breadcrumb ng-scope">
-    <li class="breadcrumb-item"><a ui-sref="main.store" href="#/store">Store</a></li>
-    <li><span class="breadcrumb-item active">Search</span></li>
-</ol>
 <div id="main" ng-class="{'col-sm-9': category.subcategories.length, 'col-sm-12': !category.subcategories.length}">
     <div class="items" ng-show="items.length">
         <ul>

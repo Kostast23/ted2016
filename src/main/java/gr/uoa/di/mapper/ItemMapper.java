@@ -6,7 +6,6 @@ import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dao.ItemPicturesEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
-import gr.uoa.di.dto.item.PictureDto;
 import gr.uoa.di.jax.BidsJAX;
 import gr.uoa.di.jax.ItemJAX;
 import gr.uoa.di.jax.LocationJAX;
@@ -14,10 +13,12 @@ import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemPicturesRepository;
 import gr.uoa.di.service.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -59,7 +60,6 @@ public class ItemMapper {
         itemEnt.setCountry(item.getCountry());
         itemEnt.setStartDate(Utils.parseXMLDate(item.getStarted()));
         itemEnt.setEndDate(Utils.parseXMLDate(item.getEnds()));
-        itemEnt.setFinished(itemEnt.getEndDate().before(new Date()) || (itemEnt.getBuyprice() != null && itemEnt.getBuyprice() <= itemEnt.getCurrentbid()));
         itemEnt.setDescription(item.getDescription());
         itemEnt.setOwner(userMapper.mapSellerJAXToUserEntity(item.getSeller()));
         return itemEnt;

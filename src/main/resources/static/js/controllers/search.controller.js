@@ -65,10 +65,12 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
 
     $scope.doSearch = doSearch;
 
-    if ($stateParams.name && $stateParams.categoryId) {
+    if ($stateParams.name) {
         $scope.searchParams.name = $stateParams.name;
-        $scope.searchParams.category = $stateParams.categoryId;
         $scope.searchParams.page = 1;
+        if ($stateParams.categoryId) {
+            $scope.searchParams.category = $stateParams.categoryId;
+        }
     }
 
     /* if there already are parameters, start a search */
