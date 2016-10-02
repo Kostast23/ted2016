@@ -1,5 +1,6 @@
 package gr.uoa.di.api;
 
+import gr.uoa.di.dto.user.SellerResponseDto;
 import gr.uoa.di.dto.user.UserLoginDto;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.service.UserService;
@@ -21,9 +22,9 @@ public class UserApi {
     @Value("${secret_key}")
     private String secretKey;
 
-    @RequestMapping(value = "/{username}")
-    public void getUser(@PathVariable String username) {
-        //userService.getUser(username);
+    @RequestMapping(value = "user/{username}")
+    public SellerResponseDto getSeller(@PathVariable String username) {
+        return userService.getSeller(username);
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)

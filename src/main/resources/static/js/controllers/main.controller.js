@@ -6,6 +6,7 @@ app.controller('MainController', function($scope, $state, $http, $interval, Auth
         AuthService.logout();
         $scope.username = undefined;
         $scope.admin = undefined;
+        $scope.newMessageCount = undefined;
     };
 
     $scope.atIndex = function() {
