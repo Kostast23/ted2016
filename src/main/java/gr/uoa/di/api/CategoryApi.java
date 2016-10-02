@@ -73,7 +73,7 @@ public class CategoryApi {
         do {
             /* finalize items that need to be finalized before returning the page if necessary */
             page = itemRepository.findByCategory_IdOrderByFinishedAscStartDateDesc(categoryId, pageable);
-        } while (itemService.finalizeFinishedPageItems(page));
+        } while (!itemService.finalizeFinishedPageItems(page));
         return page.map(itemMapper::mapItemEntityToItemResponseDto);
     }
 }
