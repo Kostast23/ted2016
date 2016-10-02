@@ -7,7 +7,7 @@ app.controller('MessageController', function ($scope, $http, $state, $stateParam
     });
 
     $scope.reply = function() {
-        $state.go("main.profile.new_message", { to: $scope.message.to, subject: $scope.message.subject});
+        $state.go("main.profile.new_message", { to: $scope.message.from, subject: $scope.message.subject});
     };
 
     $scope.goBack = function () {

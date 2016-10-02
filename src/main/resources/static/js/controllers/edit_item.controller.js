@@ -11,8 +11,22 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     $scope.item = {
         new: !$stateParams.itemId,
         name: null,
-        endDate: moment(curDate).add(1, 'months').toDate()
+        endDate: moment(curDate).add(1, 'months').set('second', 0).toDate()
     };
+
+    var createTimePicker = function(date) {
+        $(function () {
+            var picker = $('#endDate');
+            picker.datetimepicker({
+                format: 'd/m/Y H:i',
+                value: date
+            });
+        });
+    };
+
+    if ($scope.item.new) {
+        createTimePicker($scope.item.endDate);
+    }
 
     $http.get('/api/categories/all').then(function (response) {
         var makeRecursiveCategories = function (depth, cat) {
@@ -51,7 +65,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             $scope.item.firstbid = item.currentbid / 100;
             $scope.item.buyprice = item.buyprice / 100;
             $scope.item.startDate = new Date(item.startDate);
-            $scope.item.endDate = new Date(item.endDate);
+            createTimePicker(new Date(item.endDate));
             $scope.item.images = item.images;
             $scope.item.seller = item.sellerUsername;
         });
@@ -134,6 +148,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
         if (item.firstbid) {
             item.firstbid *= 100;
         }
+        item.endDate = $('#endDate').datetimepicker('getValue');
         var httpPromise;
         if ($stateParams.itemId) {
             httpPromise = $http.put('/api/items/' + $stateParams.itemId, item);

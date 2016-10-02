@@ -20,6 +20,7 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
         }
         $scope.end = ($scope.item.finished ? "Auction ended:" : "Auction ends:");
         $scope.endOffset = endMoment.fromNow();
+        $scope.endTime = endMoment.format('DD/MM/YYYY HH:mm');
     };
 
     /* continuously refresh the bids */
