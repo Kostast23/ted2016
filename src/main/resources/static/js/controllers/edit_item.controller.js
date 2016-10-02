@@ -68,6 +68,8 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
             createTimePicker(new Date(item.endDate));
             $scope.item.images = item.images;
             $scope.item.seller = item.sellerUsername;
+        }, function() {
+            $state.go('page_not_found');
         });
     } else if ($stateParams.category) {
         $scope.item.category = $stateParams.category.toString();

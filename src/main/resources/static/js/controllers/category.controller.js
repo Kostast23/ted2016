@@ -10,6 +10,7 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
     $scope.submenuSize = 5;
 
     $http.get('/api/categories/' + $stateParams.categoryId).then(function(response) {
+        $scope.getItems();
         $scope.category = response.data;
         $scope.breadcrumb = [];
         var parent = $scope.category.parent;
@@ -17,6 +18,8 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
             $scope.breadcrumb.unshift(parent);
             parent = parent.parent;
         }
+    }, function() {
+        $state.go('page_not_found');
     });
 
     $scope.getItems = function() {
@@ -58,8 +61,6 @@ app.controller('CategoryController', function ($scope, $http, $stateParams, $sta
             $timeout(function() {$('#search').popover('hide');}, 2000);
         }
     };
-
-    $scope.getItems();
 
     $(function() {
         $('#search').popover({
