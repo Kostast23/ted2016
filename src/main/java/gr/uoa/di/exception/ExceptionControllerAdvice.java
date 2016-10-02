@@ -31,7 +31,7 @@ public class ExceptionControllerAdvice {
                 (createErrorResponse(HttpStatus.BAD_REQUEST, ex), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(UserNotValidatedException.class)
+    @ExceptionHandler({UserNotValidatedException.class, AccessException.class})
     public ResponseEntity<ErrorResponse> forbidden(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.FORBIDDEN, ex), HttpStatus.FORBIDDEN);

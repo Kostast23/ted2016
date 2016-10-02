@@ -6,6 +6,7 @@ import gr.uoa.di.dao.RecommendationEntity;
 import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
+import gr.uoa.di.exception.AccessException;
 import gr.uoa.di.exception.item.ItemBuyingPriceException;
 import gr.uoa.di.exception.item.ItemCannotBeEditedException;
 import gr.uoa.di.exception.item.ItemDateException;
@@ -141,14 +142,18 @@ public class ItemApi {
     @RequestMapping(value = "/participating/{username}")
     public Page<ItemResponseDto> getParticipating(@PathVariable String username, Pageable pageable) {
         if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            throw new ItemBuyingPriceException();
+            throw new AccessException();
         }
 
         UserEntity user = userService.getUserEntity(username);
         List<BidEntity> bids = user.getBids();
         Set<ItemEntity> participating = new HashSet<>();
         for (BidEntity bid: bids) {
-            if (!bid.getItem().getFinished()) {
+            ItemEntity item = bid.getItem();
+            if (item.getEndDate().before(new Date())) {
+                item.setFinished(true);
+                itemRepository.save(item);
+            } else if (!item.getFinished()) {
                 participating.add(bid.getItem());
             }
         }
@@ -159,7 +164,7 @@ public class ItemApi {
     @RequestMapping(value = "/bought/{username}")
     public Page<ItemResponseDto> getBought(@PathVariable String username, Pageable pageable) {
         if (!username.equals(SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            throw new ItemBuyingPriceException();
+            throw new AccessException();
         }
 
         UserEntity user = userService.getUserEntity(username);
