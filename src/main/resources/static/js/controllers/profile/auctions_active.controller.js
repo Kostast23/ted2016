@@ -25,6 +25,9 @@ app.controller('ProfileAuctionsActiveController', function ($scope, $http, $inte
                 item.endOffset = moment(item.endDate).fromNow();
                 return item;
             });
+            $scope.items.sort(function(item1, item2) {
+                return item1.endDate - item2.endDate;
+            });
             $scope.totalItems = response.data.totalElements;
             $scope.filteredItems = $scope.items.slice(0, $scope.itemsPerPage);
             $scope.resourcesLoaded = true;

@@ -21,6 +21,9 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
                 item.endOffset = moment(item.endDate).fromNow();
                 return item;
             });
+            $scope.items.sort(function(item1, item2) {
+                return item2.endDate - item1.endDate;
+            });
             $scope.totalItems = response.data.totalElements;
             $scope.filteredItems = $scope.items.slice(0, $scope.itemsPerPage);
             $scope.resourcesLoaded = true;
@@ -50,10 +53,14 @@ app.controller('ProfileAuctionsClosedController', function ($scope, $http, $inte
     });
 
     $scope.happy = function(itemId) {
-        $http.get('/api/ratings/' + itemId + '/seller/happy');
+        $http.get('/api/ratings/' + itemId + '/seller/happy').then(function() {
+            getItems();
+        });
     };
 
     $scope.unhappy = function(itemId) {
-        $http.get('/api/ratings/' + itemId + '/seller/unhappy');
+        $http.get('/api/ratings/' + itemId + '/seller/unhappy').then(function() {
+            getItems();
+        });
     };
 });
