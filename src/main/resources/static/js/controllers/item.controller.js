@@ -5,6 +5,44 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
     $scope.loggedIn = AuthService.isLoggedIn();
     $scope.currentUser = AuthService.user.user;
 
+    $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
+        var item = response.data;
+        if (item.buyprice) {
+            item.buyprice = +item.buyprice / 100;
+        }
+        item.currentbid = +item.currentbid / 100;
+        $scope.item = item;
+        $scope.breadcrumb = [];
+        var parent = item.category;
+        while (parent != null) {
+            $scope.breadcrumb.unshift(parent);
+            parent = parent.parent;
+        }
+
+        $scope.item.realEndDate = new Date(item.endDate);
+
+        if (item.lat && item.lon) {
+            angular.extend($scope, {
+                markers: {
+                    item: {
+                        lat: item.lat,
+                        lng: item.lon
+                    }
+                }
+            });
+            $scope.$on('leafletDirectiveMap.map.layeradd', function () {
+                leafletData.getMap().then(function (map) {
+                    map.setView([item.lat, item.lon], 5);
+                });
+            });
+        }
+
+        updateBids();
+        bidsInterval = $interval(updateBids, 3000);
+    }, function() {
+        $state.go('page_not_found');
+    });
+
     $scope.$on('$stateChangeStart', function () {
         if (bidsInterval) {
             $interval.cancel(bidsInterval);
@@ -96,40 +134,4 @@ app.controller('ItemController', function ($scope, $http, $state, $stateParams, 
             });
         }
     };
-
-    $http.get('/api/items/' + $stateParams.itemId).then(function (response) {
-        var item = response.data;
-        if (item.buyprice) {
-            item.buyprice = +item.buyprice / 100;
-        }
-        item.currentbid = +item.currentbid / 100;
-        $scope.item = item;
-        $scope.breadcrumb = [];
-        var parent = item.category;
-        while (parent != null) {
-            $scope.breadcrumb.unshift(parent);
-            parent = parent.parent;
-        }
-
-        $scope.item.realEndDate = new Date(item.endDate);
-
-        if (item.lat && item.lon) {
-            angular.extend($scope, {
-                markers: {
-                    item: {
-                        lat: item.lat,
-                        lng: item.lon
-                    }
-                }
-            });
-            $scope.$on('leafletDirectiveMap.map.layeradd', function () {
-                leafletData.getMap().then(function (map) {
-                    map.setView([item.lat, item.lon], 5);
-                });
-            });
-        }
-
-        updateBids();
-        bidsInterval = $interval(updateBids, 3000);
-    });
 });

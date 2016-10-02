@@ -7,10 +7,7 @@ import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.dto.item.ItemEditDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.exception.AccessException;
-import gr.uoa.di.exception.item.ItemBuyingPriceException;
-import gr.uoa.di.exception.item.ItemCannotBeEditedException;
-import gr.uoa.di.exception.item.ItemDateException;
-import gr.uoa.di.exception.item.ItemFieldsException;
+import gr.uoa.di.exception.item.*;
 import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.RecommendationRepository;
@@ -45,6 +42,9 @@ public class ItemApi {
     @RequestMapping(value = "/{itemId}")
     public ItemResponseDto getItem(@PathVariable int itemId) {
         ItemEntity item = itemRepository.findOneById(itemId);
+        if (item == null) {
+            throw new ItemNotFoundException();
+        }
         if (!item.getFinished() && item.getEndDate().before(new Date())) {
             itemService.doFinalize(item);
             itemRepository.save(item);
@@ -56,6 +56,9 @@ public class ItemApi {
     public Integer editItem(@PathVariable int itemId, @RequestBody @Valid ItemEditDto item, BindingResult bindingResult) {
         synchronized (BidApi.class) {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
+            if (savedItem == null) {
+                throw new ItemNotFoundException();
+            }
             if (!savedItem.getOwner().getUsername().equals(
                     SecurityContextHolder.getContext().getAuthentication().getPrincipal()) ||
                     !savedItem.getBids().isEmpty()) {
@@ -82,6 +85,9 @@ public class ItemApi {
     public void deleteItem(@PathVariable int itemId) {
         synchronized (BidApi.class) {
             ItemEntity savedItem = itemRepository.findOneById(itemId);
+            if (savedItem == null) {
+                throw new ItemNotFoundException();
+            }
             if (!savedItem.getOwner().getUsername().equals(
                     SecurityContextHolder.getContext().getAuthentication().getPrincipal()) ||
                     !savedItem.getBids().isEmpty()) {

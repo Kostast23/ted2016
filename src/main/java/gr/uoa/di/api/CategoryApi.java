@@ -4,6 +4,7 @@ import gr.uoa.di.dao.CategoryEntity;
 import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dto.category.CategoryResponseDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
+import gr.uoa.di.exception.category.CategoryNotFoundException;
 import gr.uoa.di.mapper.CategoryMapper;
 import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.CategoryRepository;
@@ -62,18 +63,23 @@ public class CategoryApi {
     @RequestMapping(value = "/{categoryId}")
     public CategoryResponseDto getCategoryAndSubsInDepth2(@PathVariable Integer categoryId) {
         CategoryEntity category = categoryRepository.findOneById(categoryId);
-        if (category == null)
-            return null;
+        if (category == null) {
+            throw new CategoryNotFoundException();
+        }
         return categoryMapper.mapCategoryEntityToCategoryResponseDto(category, true, 2);
     }
 
     @RequestMapping(value = "/{categoryId}/items")
     public Page<ItemResponseDto> getCategoryItems(@PathVariable Integer categoryId, Pageable pageable) {
+        if (categoryRepository.findOneById(categoryId) == null) {
+            throw new CategoryNotFoundException();
+        }
+
         Page<ItemEntity> page;
         do {
             /* finalize items that need to be finalized before returning the page if necessary */
             page = itemRepository.findByCategory_IdOrderByFinishedAscStartDateDesc(categoryId, pageable);
-        } while (itemService.finalizeFinishedPageItems(page));
+        } while (!itemService.finalizeFinishedPageItems(page));
         return page.map(itemMapper::mapItemEntityToItemResponseDto);
     }
 }

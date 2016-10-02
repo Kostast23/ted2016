@@ -4,6 +4,7 @@ import gr.uoa.di.exception.bid.AuctionFinishedException;
 import gr.uoa.di.exception.bid.AuctionNotStartedException;
 import gr.uoa.di.exception.bid.BidLessThanCurrentException;
 import gr.uoa.di.exception.bid.BidOnOwnItemException;
+import gr.uoa.di.exception.category.CategoryNotFoundException;
 import gr.uoa.di.exception.item.*;
 import gr.uoa.di.exception.message.CannotDeleteMessageException;
 import gr.uoa.di.exception.message.MessageFieldsException;
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
-    @ExceptionHandler({UserNotFoundException.class, MessageNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, MessageNotFoundException.class,
+            ItemNotFoundException.class, CategoryNotFoundException.class})
     public ResponseEntity<ErrorResponse> resourceNotFound(Exception ex) {
         return new ResponseEntity<ErrorResponse>
                 (createErrorResponse(HttpStatus.NOT_FOUND, ex), HttpStatus.NOT_FOUND);

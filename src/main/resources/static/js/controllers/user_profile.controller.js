@@ -1,5 +1,4 @@
-app.controller('UserProfileController', function ($scope, $stateParams, $http, $interval) {
-    $scope.user = {};
+app.controller('UserProfileController', function ($scope, $state, $stateParams, $http, $interval) {
     $scope.neutral = 0;
     $scope.happy = 0;
     $scope.unhappy = 0;
@@ -13,6 +12,8 @@ app.controller('UserProfileController', function ($scope, $stateParams, $http, $
 
     $http.get('/api/user/' + $stateParams.username).then(function (response) {
         $scope.user = response.data;
+    }, function() {
+        $state.go('page_not_found');
     });
 
     var getClosedAuctions = function() {
@@ -50,6 +51,9 @@ app.controller('UserProfileController', function ($scope, $stateParams, $http, $
                 item.firstbid = +item.firstbid / 100;
                 item.endOffset = moment(item.endDate).fromNow();
                 return item;
+            });
+            $scope.items.sort(function(item1, item2) {
+                return item1.endDate - item2.endDate;
             });
             $scope.totalItems = response.data.totalElements;
             $scope.filteredItems = $scope.items.slice(0, $scope.itemsPerPage);
