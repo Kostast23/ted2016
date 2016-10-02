@@ -15,4 +15,5 @@ public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, L
     Page<ItemEntity> findByCategory_IdOrderByFinishedAsc(int id, Pageable pageable);
     List<ItemEntity> findByOwner_Username(String username);
     List<ItemEntity> findByFinishedIsFalseAndEndDateLessThan(Date endDate);
+    List<ItemEntity> findByFinishedIsTrue();
 }
