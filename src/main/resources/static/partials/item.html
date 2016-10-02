@@ -60,7 +60,7 @@
         <div class="clearfix" id="bid-panel" ng-show="canBid()">
             <p class="col-sm-3 text-right">Current Bid:</p>
             <p class="col-sm-9">{{ item.currentbid | currency }}</p>
-            <input type="number" ng-model="bidAmount" step="1.00" class="col-sm-offset-3 col-sm-3 bid-input"
+            <input type="number" ng-model="bidAmount" step="0.01" class="col-sm-offset-3 col-sm-3 bid-input"
                    placeholder="Bid amount">
             <button ng-click="submitBid(bidAmount || 0)" class="btn btn-primary bid-button">Place bid</button>
             <div class="alert alert-danger" ng-show="bidError">

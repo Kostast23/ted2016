@@ -12,7 +12,7 @@
     <li class="breadcrumb-item" ng-if="item.name">{{ item.name }}</li>
 </ol>
 
-<div class="alert alert-warning" ng-if="!item.new && item.seller != currentUser">
+<div class="alert alert-warning" ng-if="!item.new && item.seller && currentUser && item.seller != currentUser">
     <ul>
         <li>You are not eligible to edit or delete this item. Please don't try to.</li>
     </ul>
@@ -45,14 +45,9 @@
             <label class="col-sm-3 control-label" for="category">Category<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <select class="form-control" id="category" name="category" ng-model="item.category">
-                    <optgroup ng-repeat="category in listCategories" label="{{ category.name }}">
-                        <option value="{{ category.id }}">
-                            {{ category.name }}
-                        </option>
-                        <option ng-repeat="subcategory in category.subcategories" value="{{ subcategory.id }}">
-                            {{ subcategory.name }}
-                        </option>
-                    </optgroup>
+                    <option ng-repeat="category in listCategories" value="{{ category.id }}">
+                        {{ category.name }}
+                    </option>
                 </select>
             </div>
         </div>
@@ -79,7 +74,7 @@
             <label class="col-sm-3 control-label" for="firstbid">Starting price<span style="color: red">*</span></label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="firstbid" name="firstbid" placeholder="Starting price"
-                       ng-model="item.firstbid" step="1.00">
+                       ng-model="item.firstbid" step="0.01">
                 <span style="font-size: 10px; color: red; padding-left: 10px;">
                     Starting price has to be at least 0.01$.
                 </span>
@@ -89,7 +84,7 @@
             <label class="col-sm-3 control-label" for="buyprice">Buying price</label>
             <div class="col-sm-9">
                 <input type="number" class="form-control" id="buyprice" name="buyprice" placeholder="Buying price"
-                       ng-model="item.buyprice" step="1.00">
+                       ng-model="item.buyprice" step="0.01">
                 <span style="font-size: 10px; color: red; padding-left: 10px;">
                     Buying price can be 0 (no buying price) or >= starting price.
                 </span>

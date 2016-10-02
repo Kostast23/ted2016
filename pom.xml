@@ -5,8 +5,8 @@
 
     <groupId>gr.uoa.di</groupId>
     <artifactId>ted</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <version>1.0.0</version>
+    <packaging>war</packaging>
 
     <name>ted</name>
     <description>Demo project for Spring Boot</description>

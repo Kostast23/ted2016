@@ -1,4 +1,4 @@
-app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window, FileUploader, AuthService) {
+app.controller('EditItemController', function ($scope, $http, $state, $stateParams, $window, $timeout, FileUploader, AuthService) {
     $scope.currentUser = AuthService.user.user;
 
     var marker = null;
@@ -29,22 +29,7 @@ app.controller('EditItemController', function ($scope, $http, $state, $statePara
     }
 
     $http.get('/api/categories/all').then(function (response) {
-        var makeRecursiveCategories = function (depth, cat) {
-            var subcats = cat.subcategories ? [].concat.apply([],
-                cat.subcategories.map(
-                    makeRecursiveCategories.bind(this, depth + 1)
-                )
-            ) : [];
-            return [{
-                name: '-' + '-'.repeat(depth) + ' ' + cat.name,
-                id: cat.id
-            }].concat(subcats);
-        };
-        $scope.listCategories = response.data.map(function (category) {
-            var subcatsNested = category.subcategories.map(makeRecursiveCategories.bind(this, 0));
-            category.subcategories = [].concat.apply([], subcatsNested);
-            return category;
-        });
+        $timeout(function() {$scope.listCategories = response.data;}, 10);
     });
 
     if ($stateParams.itemId) {
