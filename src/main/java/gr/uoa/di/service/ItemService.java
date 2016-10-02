@@ -7,6 +7,7 @@ import gr.uoa.di.dao.UserEntity;
 import gr.uoa.di.repo.ItemRepository;
 import gr.uoa.di.repo.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,20 @@ public class ItemService {
         msg.setSentdate(new Date());
         msg.setDeletedsender(true);
         messageRepository.save(msg);
+    }
+
+    public boolean finalizeFinishedPageItems(Page<ItemEntity> page) {
+        Date curDate = new Date();
+        /* make sure we don't return any finished auctions that aren't marked finished */
+        return page.getContent().stream().allMatch(item-> {
+            if (!item.getFinished() && item.getEndDate().before(curDate)) {
+                doFinalize(item);
+                itemRepository.save(item);
+                return false;
+            } else {
+                return true;
+            }
+        });
     }
 
     public int finalizeAuctions() {

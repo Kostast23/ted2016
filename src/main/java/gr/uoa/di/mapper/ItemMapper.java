@@ -143,7 +143,6 @@ public class ItemMapper {
         itemEnt.setLat(item.getLat());
         itemEnt.setLon(item.getLon());
         itemEnt.setFinished(false);
-        itemEnt.setStartDate(item.getStartDate());
         itemEnt.setEndDate(item.getEndDate());
         if (item.getImages() == null) {
             item.setImages(new ArrayList<>());

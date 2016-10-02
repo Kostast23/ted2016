@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -41,8 +40,6 @@ public class SuggestionService {
         Map<Integer, ItemRecommendations> userItemSuggestions = new HashMap<>();
         Map<Integer, List<UserSimilarity>> userSimilarities = new HashMap<>();
         Map<Integer, Integer> itemSoldBy = new HashMap<>();
-        Set<Integer> finishedItems = itemRepository.findByFinishedIsTrue()
-                .stream().map(ItemEntity::getId).collect(Collectors.toSet());
 
         /* keep track of who sells each item */
         itemRepository.findAll().stream().forEach(itemEntity ->
@@ -88,9 +85,8 @@ public class SuggestionService {
                          * for each item of a neighbouring user,
                          * increase its recommendation for the current user
                          * without suggesting an item the user has already bids on or owns
-                         * or an auction that is finished
                          */
-                        if (!currentUserBids.contains(item) && itemSoldBy.get(item) != user && !finishedItems.contains(item)) {
+                        if (!currentUserBids.contains(item) && itemSoldBy.get(item) != user) {
                             recommended.addRecommendation(item, userSimilarity.getSimilarity());
                         }
                     }));
@@ -101,7 +97,7 @@ public class SuggestionService {
 
         /* find the most recommended items and prepare the entities */
         userItemSuggestions.forEach((user, itemRecommendations) -> {
-            itemRecommendations.getTop(5).forEach(item -> {
+            itemRecommendations.get().forEach(item -> {
                 RecommendationEntity recEnt = new RecommendationEntity();
                 UserEntity userEnt = new UserEntity();
                 ItemEntity itemEnt = new ItemEntity();

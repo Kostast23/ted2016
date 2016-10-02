@@ -12,7 +12,7 @@ import java.util.List;
 public interface ItemRepository extends PagingAndSortingRepository<ItemEntity, Long>, QueryDslPredicateExecutor<ItemEntity> {
     ItemEntity findOneById(int id);
     List<ItemEntity> findAll();
-    Page<ItemEntity> findByCategory_IdOrderByFinishedAsc(int id, Pageable pageable);
+    Page<ItemEntity> findByCategory_IdOrderByFinishedAscStartDateDesc(int id, Pageable pageable);
     List<ItemEntity> findByOwner_Username(String username);
     List<ItemEntity> findByFinishedIsFalseAndEndDateLessThan(Date endDate);
     List<ItemEntity> findByFinishedIsTrue();

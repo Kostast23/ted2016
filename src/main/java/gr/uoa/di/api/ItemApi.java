@@ -67,7 +67,7 @@ public class ItemApi {
             if (item.getBuyprice() != null && item.getBuyprice() < item.getFirstbid()) {
                 throw new ItemBuyingPriceException();
             }
-            if (item.getEndDate().before(item.getStartDate())) {
+            if (item.getEndDate().before(new Date())) {
                 throw new ItemDateException();
             }
             ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
@@ -94,16 +94,18 @@ public class ItemApi {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public Integer newItem(@RequestBody @Valid ItemEditDto item, BindingResult bindingResult) {
+        Date curDate = new Date();
         if (bindingResult.hasErrors()) {
             throw new ItemFieldsException();
         }
         if (item.getBuyprice() != null && item.getBuyprice() < item.getFirstbid()) {
             throw new ItemBuyingPriceException();
         }
-        if (item.getEndDate().before(item.getStartDate())) {
+        if (item.getEndDate().before(curDate)) {
             throw new ItemDateException();
         }
         ItemEntity itemEnt = itemMapper.mapItemEditDtoToItemEntity(item);
+        itemEnt.setStartDate(curDate);
         itemEnt.setOwner(userService.getUserEntity((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal()));
         itemEnt.getPictures().forEach(itemPicturesEntity -> itemPicturesEntity.setItem(itemEnt));
         return itemRepository.save(itemEnt).getId();

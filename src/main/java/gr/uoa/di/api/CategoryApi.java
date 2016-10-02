@@ -1,12 +1,14 @@
 package gr.uoa.di.api;
 
 import gr.uoa.di.dao.CategoryEntity;
+import gr.uoa.di.dao.ItemEntity;
 import gr.uoa.di.dto.category.CategoryResponseDto;
 import gr.uoa.di.dto.item.ItemResponseDto;
 import gr.uoa.di.mapper.CategoryMapper;
 import gr.uoa.di.mapper.ItemMapper;
 import gr.uoa.di.repo.CategoryRepository;
 import gr.uoa.di.repo.ItemRepository;
+import gr.uoa.di.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,6 +35,9 @@ public class CategoryApi {
 
     @Autowired
     ItemMapper itemMapper;
+
+    @Autowired
+    ItemService itemService;
 
     private CategoryResponseDto getCategoriesRecursive(CategoryEntity catEnt) {
         CategoryResponseDto cat = categoryMapper.mapCategoryEntityToCategoryResponseDto(catEnt, false, 0);
@@ -64,6 +69,11 @@ public class CategoryApi {
 
     @RequestMapping(value = "/{categoryId}/items")
     public Page<ItemResponseDto> getCategoryItems(@PathVariable Integer categoryId, Pageable pageable) {
-        return itemRepository.findByCategory_IdOrderByFinishedAsc(categoryId, pageable).map(itemMapper::mapItemEntityToItemResponseDto);
+        Page<ItemEntity> page;
+        do {
+            /* finalize items that need to be finalized before returning the page if necessary */
+            page = itemRepository.findByCategory_IdOrderByFinishedAscStartDateDesc(categoryId, pageable);
+        } while (itemService.finalizeFinishedPageItems(page));
+        return page.map(itemMapper::mapItemEntityToItemResponseDto);
     }
 }

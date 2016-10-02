@@ -19,10 +19,9 @@ public class ItemRecommendations {
     }
 
     /* get the top n matching items */
-    public List<Map.Entry<Integer, Double>> getTop(int n) {
+    public List<Map.Entry<Integer, Double>> get() {
         return recommendations.entrySet().stream()
                 .sorted((o1, o2) -> Double.compare(o2.getValue(), o1.getValue()))
-                .limit(n)
                 .collect(Collectors.toList());
     }
 }
