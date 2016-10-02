@@ -69,7 +69,7 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         $scope.searchParams.name = $stateParams.name;
         $scope.searchParams.page = 1;
         if ($stateParams.categoryId) {
-            $scope.searchParams.category = $stateParams.categoryId;
+            $scope.searchParams.category = String($stateParams.categoryId);
         }
     }
 
@@ -78,22 +78,12 @@ app.controller('SearchController', function($scope, $http, $stateParams, $locati
         doSearch($scope.searchParams);
     }
 
-    $scope.searchParams.category = $stateParams.categoryId || '-1';
+    if (!$scope.searchParams.category) {
+        $scope.searchParams.category = '-1';
+    }
 
     /* make the recursive list of categories with subcategories under their parents */
     $http.get('/api/categories/all').then(function (response) {
-        var makeRecursiveCategories = function (depth, cat) {
-            var subcats = cat.subcategories ? [].concat.apply([],
-                cat.subcategories.map(
-                    makeRecursiveCategories.bind(this, depth + 1)
-                )
-            ) : [];
-            return [{
-                name: '-'.repeat(depth) + ' ' + cat.name,
-                id: cat.id
-            }].concat(subcats);
-        };
-        var listCategories = response.data.map(makeRecursiveCategories.bind(this, 1));
-        $scope.listCategories = [].concat.apply([], listCategories);
+        $scope.listCategories = response.data;
     });
 });
