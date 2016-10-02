@@ -1,2 +1,84 @@
-<h1>user</h1>
-{{ user }}
+<div class="col-sm-offset-1 col-sm-10">
+    <div id="user-profile">
+        <div id="user-image" class="col-sm-3">
+            <img src="images/profile.png">
+        </div>
+        <div id="user-info" class="col-sm-9">
+            <div class="row">
+                <p>
+                    <span id="username">{{ user.username }}</span>
+                    <span class="pull-right">
+                        <a ui-sref="main.profile.new_message({ to: user.username })" style="padding-left: 5px;">
+                        <button class="btn btn-primary btn-sm">Message</button>
+                    </a>
+                    </span>
+                </p>
+            </div>
+            <div class="row">
+                <p ng-if="user.location && user.country">
+                    from {{ user.location }}, {{ user.country }}
+                </p>
+                <p>
+                    <span style="border-right: 1px solid #b9b9b9; padding-right: 5px;">Seller rating: {{ user.sellerrating }}</span>
+                    <span>Buyer rating: {{ user.buyerrating }}</span>
+                </p>
+            </div>
+            <div id="ratings" class="row">
+                <div id="auction-ratings" class="col-sm-offset-2 col-sm-8">
+                    <div class="col-sm-4">
+                        <p class="rating-value"><span class="glyphicon glyphicon-thumbs-up happy"></span>&nbsp; {{ happy || 0 }}</p>
+                        <p class="happy">Happy</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="rating-value"><span class="glyphicon glyphicon-thumbs-down unhappy"></span>&nbsp; {{ unhappy || 0 }}</p>
+                        <p class="unhappy">Unhappy</p>
+                    </div>
+                    <div class="col-sm-4">
+                        <p class="rating-value">{{ neutral || 0 }}</p>
+                        <p class="neutral">Neutral</p>
+                    </div>
+                    <p class="col-sm-offset-1 col-sm-9 small" id="ratings-text">
+                        Buyers' feedback for this seller
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="auctions" ng-show="resourcesLoaded">
+        <h2>Active auctions</h2>
+        <div class="items" ng-show="items.length">
+            <ul>
+                <li ng-repeat="item in filteredItems">
+                    <div class="item">
+                        <div class="image col-sm-4 col-md-3">
+                            <img ng-if="item.images.length" ng-src="/api/images/{{item.images[0]}}">
+                            <span ng-if="!item.images.length" class="no-image">No images available</span>
+                        </div>
+                        <div class="info col-sm-8 col-md-9">
+                            <h3 class="item-title">
+                                <a ui-sref="main.item({ itemId: item.id, itemName: item.name })">{{ item.name }}</a>
+                            </h3>
+                            <div class="col-sm-6">
+                                <p class="auction-live">
+                                    <span>Ends</span>
+                                    <span>{{ item.endOffset }}</span>
+                                </p>
+                                <p>Current Bid <strong class="bid">{{ item.currentbid | currency }}</strong></p>
+                            </div>
+                            <div class="col-sm-6">
+                                <p ng-if="item.buyprice">Buying Price <strong class="bid">{{ item.buyprice | currency }}</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div id="pagination" ng-show="needPagination()">
+                <ul uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="itemsPerPage"
+                    max-size="maxSize" boundary-link-numbers="true" rotate="false"></ul>
+            </div>
+        </div>
+        <div id="no-items" ng-show="items && !items.length">
+            <p>This user has no active auctions at this moment.</p>
+        </div>
+    </div>
+</div>

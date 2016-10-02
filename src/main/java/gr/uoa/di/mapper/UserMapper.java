@@ -1,6 +1,7 @@
 package gr.uoa.di.mapper;
 
 import gr.uoa.di.dao.UserEntity;
+import gr.uoa.di.dto.user.SellerResponseDto;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
 import gr.uoa.di.jax.BidderJAX;
@@ -86,6 +87,17 @@ public class UserMapper {
         dto.setBuyerrating(user.getBuyerrating());
         dto.setSellerrating(user.getSellerrating());
         dto.setValidated(user.getValidated());
+        return dto;
+    }
+
+    public SellerResponseDto mapUserEntityToSellerResponseDto(UserEntity user) {
+        SellerResponseDto dto = new SellerResponseDto();
+        dto.setId(user.getId());
+        dto.setUsername(user.getUsername());
+        dto.setLocation(user.getLocation());
+        dto.setCountry(user.getCountry());
+        dto.setBuyerrating(user.getBuyerrating());
+        dto.setSellerrating(user.getSellerrating());
         return dto;
     }
 

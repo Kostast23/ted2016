@@ -1,0 +1,129 @@
+#user-profile {
+  height: 250px;
+  padding: 15px;
+  background-color: rgba(242, 242, 242, 0.85);
+  box-shadow: 5px 5px 2px #d8d8d8;
+
+  #user-image {
+    height: 220px;
+
+    & > img {
+      height: 220px;
+      max-width: 100%;
+      margin: auto;
+    }
+  }
+
+  #user-info {
+    #username {
+      font-weight: 600;
+    }
+
+    #ratings {
+      margin-top: 30px;
+
+      & > #auction-ratings {
+        .rating-value {
+          font-size: 16px;
+          font-weight: 500;
+          margin-bottom: 5px;
+        }
+      }
+
+      .happy {
+        color: #449d44;
+      }
+
+      .unhappy {
+        color: #c9302c;
+      }
+
+      .neutral {
+        color: #878787;
+      }
+
+      #ratings-text {
+        color: #636363;
+        margin-top: 10px;
+        text-align: center;
+      }
+    }
+  }
+}
+
+#auctions{
+  margin-top: 25px;
+
+  & > h2 {
+    border-bottom: 1px solid #dcdcdc;
+    padding-bottom: 10px;
+    font-size: 20px;
+    margin: 10px 0;
+  }
+
+  & > .items {
+
+    & > ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .item {
+      height: 171px;
+      padding: 10px 0;
+      border-bottom: 1px solid #E6E6E6;
+
+      & > .image {
+        height: 152px;
+        border: 1px solid #E6E6E6;
+        border-radius: 3px;
+        padding: 0;
+        text-align: center;
+
+        & > img {
+          height: 150px;
+          max-width: 100%;
+          margin: auto;
+        }
+
+        & > .no-image {
+          color: #767676;
+          line-height: 150px;
+        }
+      }
+
+      & > .info {
+        & > .item-title {
+          font-size: 22px;
+          margin-top: 10px;
+          margin-bottom: 20px;
+
+          & > a {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+          }
+        }
+
+        & > div {
+          padding-left: 0;
+        }
+      }
+
+      .auction-ended {
+        color: red;
+      }
+
+      .auction-live {
+        color: green;
+      }
+    }
+  }
+
+  & > #no-items {
+    padding-top: 10px;
+  }
+}

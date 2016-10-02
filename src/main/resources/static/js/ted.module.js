@@ -95,9 +95,8 @@ app.config(function($httpProvider, $stateProvider, $urlRouterProvider) {
         .state('main.user', {
             url: '/user/:username',
             templateUrl: 'partials/user_profile.html',
-            controller: function($scope, $http, $stateParams) {
-                $scope.user = $http.get('/api/user/' + $stateParams.username);
-            }
+            controller: 'UserProfileController',
+            css: 'css/user_profile.css'
         })
         .state('main.search', {
             url: '/search',

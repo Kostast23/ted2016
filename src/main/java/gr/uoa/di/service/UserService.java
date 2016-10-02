@@ -1,6 +1,7 @@
 package gr.uoa.di.service;
 
 import gr.uoa.di.dao.UserEntity;
+import gr.uoa.di.dto.user.SellerResponseDto;
 import gr.uoa.di.dto.user.UserLoginDto;
 import gr.uoa.di.dto.user.UserRegisterDto;
 import gr.uoa.di.dto.user.UserResponseDto;
@@ -77,6 +78,10 @@ public class UserService {
 
     public UserResponseDto getUser(int id) {
         return userMapper.mapUserEntityToUserResponseDto(getUserEntity(id));
+    }
+
+    public SellerResponseDto getSeller(String username) {
+        return userMapper.mapUserEntityToSellerResponseDto(getUserEntity(username));
     }
 
     public Page<UserResponseDto> getValidatedUsers(String username, Pageable pageable) {
